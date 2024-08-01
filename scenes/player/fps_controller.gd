@@ -13,23 +13,37 @@ extends CharacterBody3D
 
 @export var walk_speed := 7.0
 @export var sprint_speed := 11.0
-@export var ground_accel := 14.0
+@export var ground_accel := 11.0
 @export var ground_decel := 10.0
 @export var ground_friction := 6.0
 @export var air_cap := 0.85
 #@export var air_accel := 800.0
 @export var air_move_speed := 500.0
 
+@export var max_fall_height_immune := 3.0
+
 const HEADBOB_MOVE_AMOUNT = 0.1
 const HEADBOB_FREQUENCY = 2.4
 var headbob_timer := 0.0
 
+var noclip_speed_mult := 10.0
+
 var input_direction := Vector2.ZERO
 var wish_direction := Vector3.ZERO # input direction but in worldspace
 var last_mouse_move := Vector2.ZERO
-var look_tilt_timer := 0.0
 var is_in_turnaround := false
 var turnaround_timer := 0.0
+var jump_starting_height := -1000.0
+
+var noclip_enabled := false : 
+	set(value):
+		noclip_enabled = value
+		noclip_speed_mult = 10.0
+		$CollisionShape3D.disabled = noclip_enabled
+		# TODO: popup
+
+
+
 
 func _ready():
 	_ready_hide_model_for_camera()
@@ -56,14 +70,28 @@ func _unhandled_input(event):
 	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 		if event is InputEventMouseMotion:
 			last_mouse_move = Vector2(event.relative)
+		
+		# noclip
+		if Input.is_action_just_pressed("noclip"):
+			noclip_enabled = !noclip_enabled
+		if event is InputEventMouseButton and event.is_pressed():
+			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
+				noclip_speed_mult = min(1000.0, noclip_speed_mult * 1.2)
+			if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+				noclip_speed_mult = max(.1, noclip_speed_mult * 1/1.2)
 
 
 
 
-func _physics_process(delta):
+func _physics_process(delta) -> void:
 	input_direction = Input.get_vector("strafe_left", "strafe_right", "move_forward", "move_backward").normalized()
-	wish_direction = self.global_transform.basis * Vector3(input_direction.x, 0, input_direction.y)
+	wish_direction = self.global_basis * Vector3(input_direction.x, 0, input_direction.y)
 	#_handle_ground_physics(delta)
+	
+	if noclip_enabled:
+		_handle_noclip(delta)
+		return
+	
 	if is_on_floor():
 		_handle_turnaround(delta)
 		_handle_ground_physics(delta)
@@ -72,9 +100,22 @@ func _physics_process(delta):
 		_handle_wallclimb(delta)
 	
 	move_and_slide()
+	if is_on_floor():
+		_handle_landing()
 
 
-func _handle_ground_physics(delta):
+func _handle_noclip(delta) -> void:
+	if not noclip_enabled: return
+	
+	var speed : float = noclip_speed_mult
+	if Input.is_action_pressed("sprint"): speed *= 3.0
+	
+	var cam_aligned_wish_dir : Vector3 = %HeadCamera.global_basis * Vector3(input_direction.x, 0, input_direction.y)
+	velocity = speed * cam_aligned_wish_dir
+	move_and_slide()
+
+
+func _handle_ground_physics(delta) -> void:
 	var cur_speed_in_wish_dir = self.velocity.dot(wish_direction)
 	#var capped_speed = min((air_move_speed * wish_direction).length(), air_cap)
 	var add_speed_till_cap = get_move_speed() - cur_speed_in_wish_dir
@@ -92,6 +133,7 @@ func _handle_ground_physics(delta):
 		new_speed /= current_speed
 	velocity *= new_speed
 	
+	jump_starting_height = global_position.y
 	if auto_bhop_enabled and Input.is_action_pressed("jump"):
 		velocity.y += jump_velocity
 	elif Input.is_action_just_pressed("jump"):
@@ -101,6 +143,8 @@ func _handle_ground_physics(delta):
 func _handle_air_physics(delta):
 	velocity.y -= gravity * delta # gravity
 	
+	if velocity.y > 0:
+		jump_starting_height = global_position.y
 	# air braking
 	#var hor_velocity = Vector3(velocity.x, 0, velocity.z)
 	#if Input.is_action_pressed("move_backward"):
@@ -146,13 +190,17 @@ func _handle_wallclimb(delta):
 		velocity.y = 5
 		#velocity += -global_basis.z * walk_speed * delta
 
+
+func _handle_landing():
+	if global_position.y < jump_starting_height - max_fall_height_immune - 0.1:
+		velocity = Vector3(0,4,0)
+		# TODO: damage, rolling
+
+
+
 func _process(delta):
-	
-	
 	_process_look_tilt(delta)
-	if is_on_floor():
-		_process_headbob_effect(delta)
-		
+	_process_headbob_effect(delta)
 
 
 func _process_headbob_effect(delta):
@@ -162,10 +210,10 @@ func _process_headbob_effect(delta):
 	
 	var target_v_offset := 0.0
 	var target_h_offset := 0.0
-	if velocity.length() < 2.0:
-		headbob_timer = 0
-		target_v_offset = 0
-		target_h_offset = 0
+	if not is_on_floor() or velocity.length() < 2.0:
+		headbob_timer = 0.0
+		target_v_offset = 0.0
+		target_h_offset = 0.0
 	else:
 		target_v_offset = HEADBOB_MOVE_AMOUNT * sin(headbob_timer * PI*2 / HEADBOB_FREQUENCY)
 		target_h_offset = HEADBOB_MOVE_AMOUNT * 0.5 * sin(0.5 * headbob_timer * PI*2 / HEADBOB_FREQUENCY)
@@ -182,26 +230,20 @@ func _process_look_tilt(delta):
 	
 	# tilt
 	if tilt_enabled:
-		look_tilt_timer += delta
 		var target_tilt_degrees := 0.0
 		var tilt_speed_degrees := 0.0
 		var should_lerp = false
 		var should_update_tilt = true
-		if !is_on_floor():
-			#should_lerp = true
-			tilt_speed_degrees = 100
-		else:
-			if last_mouse_move.x != 0:
-				look_tilt_timer = 0.0
-				tilt_speed_degrees = clamp(last_mouse_move.x, -50, 50) * 5
-				#print(tilt_speed_degrees)
-				target_tilt_degrees = -sign(last_mouse_move.x)
-				target_tilt_degrees *= 45 if is_sprinting() else 0
-				
-				if sign(last_mouse_move.x) == sign(%Head.rotation_degrees.z):
-					tilt_speed_degrees *= 4
-				if is_in_turnaround:
-					tilt_speed_degrees *= -4
+
+		if last_mouse_move.x != 0:
+			tilt_speed_degrees = clamp(last_mouse_move.x, -50, 50) * 5
+			target_tilt_degrees = -sign(last_mouse_move.x)
+			target_tilt_degrees *= 45 if is_sprinting() else 0
+			
+			if sign(last_mouse_move.x) == sign(%Head.rotation_degrees.z):
+				tilt_speed_degrees *= 4
+			if is_in_turnaround:
+				tilt_speed_degrees *= -4 #immediately reverse
 		
 		if should_update_tilt:
 			if should_lerp:
@@ -210,13 +252,7 @@ func _process_look_tilt(delta):
 				%Head.rotation_degrees.z = move_toward(%Head.rotation_degrees.z, target_tilt_degrees, abs(tilt_speed_degrees)*delta)
 			%Head.rotation_degrees.z = lerp(%Head.rotation_degrees.z, 0.0, delta*2)
 	
-	#if is_sprinting():
-		#last_mouse_move = lerp(last_mouse_move, Vector2.ZERO, delta*10)
-	#else:
 	last_mouse_move = Vector2.ZERO
-	#if abs(last_mouse_move.x) < 0.5 and abs(last_mouse_move.y) < 0.5:
-		#last_mouse_move = Vector2.ZERO
-	print(last_mouse_move)
 
 
 func get_move_speed() -> float:
@@ -224,3 +260,9 @@ func get_move_speed() -> float:
 
 func is_sprinting() -> bool:
 	return  Input.is_action_pressed("sprint")
+
+func get_horizontal_velocity() -> Vector3:
+	return Vector3(velocity.x, 0, velocity.z)
+
+func get_facing_direction() -> Vector3:
+	return -global_basis.z
