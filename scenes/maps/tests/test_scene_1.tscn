@@ -1,6 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://b7gm1sf8tiqir"]
 
+[ext_resource type="Material" uid="uid://brfh3gbut8wdo" path="res://textures/prototype/_mat_black.tres" id="1_art4b"]
 [ext_resource type="PackedScene" uid="uid://c4ix1c7yuyl4f" path="res://scenes/player/fps_controller.tscn" id="1_t2gh3"]
+[ext_resource type="Material" uid="uid://xgvouh8o877h" path="res://textures/prototype/_mat_orange.tres" id="3_skyb5"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_v2880"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -12,18 +14,9 @@ sky_material = SubResource("ProceduralSkyMaterial_v2880")
 [sub_resource type="Environment" id="Environment_st68l"]
 background_mode = 2
 sky = SubResource("Sky_6aq6q")
-tonemap_mode = 2
+tonemap_mode = 3
 
-[sub_resource type="Gradient" id="Gradient_2xp7x"]
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_18n0f"]
-gradient = SubResource("Gradient_2xp7x")
-fill_from = Vector2(0, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o7bh4"]
-albedo_texture = SubResource("GradientTexture2D_18n0f")
-uv1_scale = Vector3(0.1, 0.1, 0.1)
-uv1_triplanar = true
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hny61"]
 
 [node name="TestScene1" type="Node3D"]
 
@@ -36,36 +29,49 @@ shadow_enabled = true
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
-material_override = SubResource("StandardMaterial3D_o7bh4")
+material_override = ExtResource("1_art4b")
 use_collision = true
 size = Vector3(100, 1, 100)
 
 [node name="FpsController" parent="." instance=ExtResource("1_t2gh3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.78139, 1.02304, 0.492347)
 
+[node name="CSGBox3D2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1.5, 0)
+material_override = ExtResource("3_skyb5")
+use_collision = true
+size = Vector3(2, 4, 2)
+material = SubResource("StandardMaterial3D_hny61")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 1.5, 0)
+material_override = ExtResource("3_skyb5")
+use_collision = true
+size = Vector3(2, 4, 2)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 1.5, 4)
+material_override = ExtResource("3_skyb5")
+use_collision = true
+size = Vector3(2, 4, 2)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 1.5, 14.5)
+material_override = ExtResource("1_art4b")
+use_collision = true
+size = Vector3(11, 4, 11)
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 1.5, -6.5)
+material_override = ExtResource("1_art4b")
+use_collision = true
+size = Vector3(11, 4, 11)
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="."]
+transform = Transform3D(0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, 6.27527, -0.591301, -6.5)
+material_override = ExtResource("1_art4b")
+use_collision = true
+size = Vector3(17, 4, 11)
+
 [node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
 use_collision = true
-
-[node name="CSGBox3D2" type="CSGBox3D" parent="CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1.5, 0)
-size = Vector3(2, 4, 2)
-
-[node name="CSGBox3D3" type="CSGBox3D" parent="CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 1.5, 0)
-size = Vector3(2, 4, 2)
-
-[node name="CSGBox3D4" type="CSGBox3D" parent="CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 1.5, 4)
-size = Vector3(2, 4, 2)
-
-[node name="CSGBox3D5" type="CSGBox3D" parent="CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 1.5, 14.5)
-size = Vector3(11, 4, 11)
-
-[node name="CSGBox3D6" type="CSGBox3D" parent="CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 1.5, -6.5)
-size = Vector3(11, 4, 11)
-
-[node name="CSGBox3D7" type="CSGBox3D" parent="CSGCombiner3D"]
-transform = Transform3D(0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, 6.27527, -0.591301, -6.5)
-size = Vector3(17, 4, 11)
