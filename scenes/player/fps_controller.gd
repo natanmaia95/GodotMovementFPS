@@ -3,7 +3,8 @@ extends CharacterBody3D
 
 @export var look_sensitivity : float = 0.006
 @export var jump_velocity := 6.0
-@export var auto_bhop := true
+@export var auto_bhop_enabled := true
+@export var tilt_enabled := true
 
 @export var gravity := 16.0
 
@@ -17,13 +18,13 @@ extends CharacterBody3D
 @export var air_accel := 800.0
 @export var air_move_speed := 500.0
 
-const HEADBOB_MOVE_AMOUNT = 0.06
+const HEADBOB_MOVE_AMOUNT = 0.1
 const HEADBOB_FREQUENCY = 2.4
 var headbob_timer := 0.0
 
 var input_direction := Vector2.ZERO
 var wish_direction := Vector3.ZERO # input direction but in worldspace
-
+var last_mouse_move := Vector2.ZERO
 
 
 func _ready():
@@ -50,9 +51,7 @@ func _unhandled_input(event):
 	
 	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 		if event is InputEventMouseMotion:
-			rotate_y(-event.relative.x * look_sensitivity)
-			%HeadCamera.rotate_x(-event.relative.y * look_sensitivity)
-			%HeadCamera.rotation.x = clamp(%HeadCamera.rotation.x, -PI/2, PI/2)
+			last_mouse_move = Vector2(event.relative)
 
 
 
@@ -89,7 +88,7 @@ func _handle_ground_physics(delta):
 		new_speed /= current_speed
 	velocity *= new_speed
 	
-	if auto_bhop and Input.is_action_pressed("jump"):
+	if auto_bhop_enabled and Input.is_action_pressed("jump"):
 		velocity.y += jump_velocity
 	elif Input.is_action_just_pressed("jump"):
 		velocity.y += jump_velocity
@@ -120,19 +119,75 @@ func _handle_air_physics(delta):
 
 func _process(delta):
 	
+	
+	_process_look_tilt(delta)
 	if is_on_floor():
 		_process_headbob_effect(delta)
+		
 
 
 func _process_headbob_effect(delta):
 	headbob_timer += delta * velocity.length()
 	if headbob_timer > PI*1000:
 		headbob_timer -= PI*1000
-	%HeadCamera.v_offset = HEADBOB_MOVE_AMOUNT * sin(headbob_timer * HEADBOB_FREQUENCY / PI*2)
-	%HeadCamera.h_offset = HEADBOB_MOVE_AMOUNT * sin(0.5 * headbob_timer * HEADBOB_FREQUENCY / PI*2 )
+	
+	var target_v_offset := 0.0
+	var target_h_offset := 0.0
+	if velocity == Vector3.ZERO:
+		target_v_offset = 0
+		target_h_offset = 0
+	else:
+		target_v_offset = HEADBOB_MOVE_AMOUNT * sin(headbob_timer * PI*2 / HEADBOB_FREQUENCY)
+		target_h_offset = HEADBOB_MOVE_AMOUNT * 0.5 * sin(0.5 * headbob_timer * PI*2 / HEADBOB_FREQUENCY)
+	
+	%HeadCamera.v_offset = move_toward(%HeadCamera.v_offset, target_v_offset, delta*10)
+	%HeadCamera.h_offset = move_toward(%HeadCamera.h_offset, target_h_offset, delta*10)
 
 
+func _process_look_tilt(delta):
+	# look
+	rotate_y(-last_mouse_move.x * look_sensitivity)
+	%HeadCamera.rotate_x(-last_mouse_move.y * look_sensitivity)
+	%HeadCamera.rotation.x = clamp(%HeadCamera.rotation.x, -PI*0.3, PI*0.3)
+	
+	# tilt
+	if tilt_enabled:
+		var target_tilt_degrees := 0.0
+		var tilt_speed_degrees := 0.0
+		var should_lerp = false
+		if is_on_floor():
+			if last_mouse_move.x != 0:
+				tilt_speed_degrees = clamp(last_mouse_move.x, -50, 50) * 5
+				#print(tilt_speed_degrees)
+				target_tilt_degrees = -sign(last_mouse_move.x)
+				target_tilt_degrees *= 30 if is_sprinting() else 1
+				
+				if sign(last_mouse_move.x) == sign(%Head.rotation_degrees.z):
+					tilt_speed_degrees *= 4
+				
+			else:
+				should_lerp = true
+				tilt_speed_degrees = 50 if is_sprinting() else 50
+		else:
+			should_lerp = true
+			tilt_speed_degrees = 100
+		
+		if should_lerp:
+			%Head.rotation_degrees.z = lerp(%Head.rotation_degrees.z, target_tilt_degrees, abs(tilt_speed_degrees*delta)/10)
+		else:
+			%Head.rotation_degrees.z = move_toward(%Head.rotation_degrees.z, target_tilt_degrees, abs(tilt_speed_degrees*delta))
+	
+	if is_sprinting():
+		last_mouse_move = lerp(last_mouse_move, Vector2.ZERO, delta*10)
+	else:
+		last_mouse_move = Vector2.ZERO
+	if abs(last_mouse_move.x) < 0.5 and abs(last_mouse_move.y) < 0.5:
+		last_mouse_move = Vector2.ZERO
+	print(last_mouse_move)
 
 
 func get_move_speed() -> float:
-	return sprint_speed if Input.is_action_pressed("sprint") else walk_speed
+	return sprint_speed if is_sprinting() else walk_speed
+
+func is_sprinting() -> bool:
+	return  Input.is_action_pressed("sprint")

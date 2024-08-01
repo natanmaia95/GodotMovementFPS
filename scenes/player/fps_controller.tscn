@@ -30,4 +30,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
 
 [node name="HeadCamera" type="Camera3D" parent="Head"]
 unique_name_in_owner = true
+rotation_edit_mode = 1
 cull_mask = 1048573
