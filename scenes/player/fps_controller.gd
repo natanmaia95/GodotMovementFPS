@@ -53,6 +53,7 @@ var noclip_enabled := false :
 
 func _ready():
 	_ready_hide_model_for_camera()
+	%InteractShapeCast.add_exception(self)
 	pass
 
 
@@ -228,6 +229,10 @@ func _handle_landing():
 func _process(delta):
 	_process_look_tilt(delta)
 	_process_headbob_effect(delta)
+	
+	var possible_interactable : InteractableComponent = get_interactable()
+	if possible_interactable and Input.is_action_just_pressed("interact"):
+		possible_interactable.interact(self)
 
 
 func _process_headbob_effect(delta):
@@ -298,3 +303,10 @@ func get_horizontal_velocity() -> Vector3:
 
 func get_facing_direction() -> Vector3:
 	return -global_basis.z
+
+func get_interactable() -> InteractableComponent:
+	for index in %InteractShapeCast.get_collision_count():
+		var collider = %InteractShapeCast.get_collider(index)
+		if collider is InteractableComponent:
+			return collider
+	return null

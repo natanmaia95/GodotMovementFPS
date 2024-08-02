@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://cxlctaiqvaei1"]
+
+[ext_resource type="Script" path="res://scenes/objects/interactables/interactable_component.gd" id="1_6wd1u"]
+[ext_resource type="Script" path="res://scenes/objects/interactables/debug_button.gd" id="1_61chb"]
+[ext_resource type="Material" uid="uid://dqoa3v5djgqkv" path="res://textures/prototype/_mat_red.tres" id="2_4dml8"]
+[ext_resource type="Material" uid="uid://b2kjidniasa6g" path="res://textures/prototype/_mat_white.tres" id="3_fma66"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2mron"]
+size = Vector3(0.6, 0.4, 0.6)
+
+[node name="DebugButton" type="Node3D"]
+script = ExtResource("1_61chb")
+
+[node name="InteractableComponent" type="Area3D" parent="."]
+script = ExtResource("1_6wd1u")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractableComponent"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+shape = SubResource("BoxShape3D_2mron")
+
+[node name="Model" type="Node3D" parent="."]
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+material_override = ExtResource("2_4dml8")
+radius = 0.2
+height = 0.2
+sides = 16
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+material_override = ExtResource("3_fma66")
+size = Vector3(0.6, 0.2, 0.6)
