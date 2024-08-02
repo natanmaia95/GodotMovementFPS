@@ -2,38 +2,44 @@ extends CharacterBody3D
 
 
 @export var look_sensitivity : float = 0.006
-@export var jump_velocity := 6.0
 @export var auto_bhop_enabled := true
 @export var tilt_enabled := true
+@export var toggle_crouch_enabled := false
 
 @export var gravity := 16.0
-@export var air_accel := 10.0
+
 
 # "tried and tested" values
-
+@export var jump_velocity := 6.0
 @export var walk_speed := 7.0
 @export var sprint_speed := 11.0
 @export var ground_accel := 11.0
 @export var ground_decel := 10.0
 @export var ground_friction := 6.0
-@export var air_cap := 0.85
+@export var air_accel := 8.0
+#@export var air_cap := 0.85
 #@export var air_accel := 800.0
-@export var air_move_speed := 500.0
+#@export var air_move_speed := 500.0
 
 @export var max_fall_height_immune := 3.0
+
+var input_direction := Vector2.ZERO
+var wish_direction := Vector3.ZERO # input direction but in worldspace
+var last_mouse_move := Vector2.ZERO
 
 const HEADBOB_MOVE_AMOUNT = 0.1
 const HEADBOB_FREQUENCY = 2.4
 var headbob_timer := 0.0
 
-var noclip_speed_mult := 10.0
+const CROUCH_TRANSLATE := 0.7
+const CROUCH_JUMP_ADD := 0.6 # jerks the camera up like Source
+var is_crouching := false
 
-var input_direction := Vector2.ZERO
-var wish_direction := Vector3.ZERO # input direction but in worldspace
-var last_mouse_move := Vector2.ZERO
 var is_in_turnaround := false
 var turnaround_timer := 0.0
 var jump_starting_height := -1000.0
+
+var noclip_speed_mult := 10.0
 
 var noclip_enabled := false : 
 	set(value):
@@ -88,6 +94,9 @@ func _physics_process(delta) -> void:
 	wish_direction = self.global_basis * Vector3(input_direction.x, 0, input_direction.y)
 	#_handle_ground_physics(delta)
 	
+	
+	_handle_crouch(delta)
+	
 	if noclip_enabled:
 		_handle_noclip(delta)
 		return
@@ -122,12 +131,15 @@ func _handle_ground_physics(delta) -> void:
 	if add_speed_till_cap > 0:
 		var accel_speed = ground_accel * get_move_speed() * delta
 		accel_speed = min(accel_speed, add_speed_till_cap)
+		#if not is_crouching or (is_crouching and velocity.length() < get_move_speed()):
 		velocity += accel_speed * wish_direction
 	
 	#friction
 	var current_speed = velocity.length()
 	var control = max(current_speed, ground_decel)
 	var drop = control * ground_friction * delta
+	if is_crouching:# and current_speed > get_move_speed():
+		drop *= 0.5
 	var new_speed = max(current_speed - drop, 0)
 	if current_speed > 0:
 		new_speed /= current_speed
@@ -143,29 +155,13 @@ func _handle_ground_physics(delta) -> void:
 func _handle_air_physics(delta):
 	velocity.y -= gravity * delta # gravity
 	
+	if wish_direction != Vector3.ZERO:
+		velocity -= get_horizontal_velocity().normalized() * air_accel * delta
+		velocity += wish_direction * air_accel * delta
+	
+	# fall damage
 	if velocity.y > 0:
 		jump_starting_height = global_position.y
-	# air braking
-	#var hor_velocity = Vector3(velocity.x, 0, velocity.z)
-	#if Input.is_action_pressed("move_backward"):
-		#velocity -= hor_velocity * delta *1
-	
-	# source/quake air movement
-	#var speed_projected_to_wish_direction = velocity.dot(wish_direction)
-	#var capped_speed = min((air_move_speed * wish_direction).length(), air_cap)
-	#var speed_remaining_until_cap = capped_speed - speed_projected_to_wish_direction
-	#if speed_remaining_until_cap > 0:
-		#var accel_speed = air_accel * air_move_speed * delta
-		#accel_speed = min(accel_speed, speed_remaining_until_cap)
-		#velocity += accel_speed * wish_direction
-	
-	#var cur_speed_in_wish_dir = self.velocity.dot(wish_direction)
-	#var capped_speed = min((air_move_speed * wish_direction).length(), air_cap)
-	#var add_speed_till_cap = capped_speed - cur_speed_in_wish_dir
-	#if add_speed_till_cap > 0:
-		#var accel_speed = air_accel * air_move_speed * delta
-		#accel_speed = min(accel_speed, add_speed_till_cap)
-		#velocity += accel_speed * wish_direction
 
 
 func _handle_turnaround(delta):
@@ -183,8 +179,39 @@ func _handle_turnaround(delta):
 		turn_tween.set_parallel(false)
 		turn_tween.tween_property(self, "is_in_turnaround", false, 0.01)
 
+@onready var _original_capsule_height = $CollisionShape3D.shape.height
+func _handle_crouch(delta):
+	var crouching_last_frame = is_crouching
+	if Input.is_action_pressed("crouch"):
+		#if is_sprinting() and is_on_floor():
+			#velocity *= 1.5
+		is_crouching = true
+	else:
+		if not test_move(global_transform, Vector3(0,CROUCH_TRANSLATE,0)):
+			is_crouching = false
+	
+	#offset from jumping and crouching
+	var crouchjump_y_translation := 0.0
+	if crouching_last_frame != is_crouching and not is_on_floor():
+		crouchjump_y_translation = CROUCH_TRANSLATE
+		if not is_crouching:
+			crouchjump_y_translation *= -1
+		# test if can do the crouch jump thing
+		if crouchjump_y_translation != 0.0:
+			var result := KinematicCollision3D.new()
+			test_move(global_transform, Vector3(0, crouchjump_y_translation, 0), result)
+			position.y += result.get_travel().y
+			%Head.position.y += result.get_travel().y * -CROUCH_JUMP_ADD
+			#create_tween().tween_property(self,"position:y", position.y + result.get_travel().y, 0.2)
+	
+	
+	%Head.position = lerp(%Head.position, Vector3(0, -CROUCH_TRANSLATE if is_crouching else 0, 0), delta*10)
+	%CollisionShape3D.shape.height = _original_capsule_height + (-CROUCH_TRANSLATE if is_crouching else 0.0)
+	%CollisionShape3D.position.y = %CollisionShape3D.shape.height / 2
+
 
 func _handle_wallclimb(delta):
+	return
 	if is_on_wall() and not is_on_ceiling():
 		velocity = -global_basis.z * 1
 		velocity.y = 5
@@ -238,7 +265,7 @@ func _process_look_tilt(delta):
 		if last_mouse_move.x != 0:
 			tilt_speed_degrees = clamp(last_mouse_move.x, -50, 50) * 5
 			target_tilt_degrees = -sign(last_mouse_move.x)
-			target_tilt_degrees *= 45 if is_sprinting() else 0
+			target_tilt_degrees *= 45 if (is_sprinting() and is_on_floor() and velocity.length() > 6.0) else 0
 			
 			if sign(last_mouse_move.x) == sign(%Head.rotation_degrees.z):
 				tilt_speed_degrees *= 4
@@ -256,10 +283,15 @@ func _process_look_tilt(delta):
 
 
 func get_move_speed() -> float:
-	return sprint_speed if is_sprinting() else walk_speed
+	if is_sprinting():
+		return sprint_speed
+	elif is_crouching:
+		return walk_speed * 0.7
+	else:
+		return walk_speed
 
 func is_sprinting() -> bool:
-	return  Input.is_action_pressed("sprint")
+	return  Input.is_action_pressed("sprint") and not is_crouching
 
 func get_horizontal_velocity() -> Vector3:
 	return Vector3(velocity.x, 0, velocity.z)
