@@ -5,7 +5,7 @@ extends Node3D
 @export var message_off : String = "Button unpressed."
 
 func _ready():
-	$InteractableComponent.interacted.connect(on_interacted)
+	%InteractableComponent.interacted.connect(on_interacted)
 
 func on_interacted(_source:Node3D):
 	toggled = !toggled
@@ -14,3 +14,6 @@ func on_interacted(_source:Node3D):
 		print_debug(message_on, " ", self)
 	else:
 		print_debug(message_off, " ", self)
+
+func _process(delta):
+	%HighlightMesh.visible = !!%InteractableComponent.get_character_hovering_current_camera()

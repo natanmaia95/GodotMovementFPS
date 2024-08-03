@@ -9,7 +9,7 @@
 [sub_resource type="BoxMesh" id="BoxMesh_a35jc"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_kvdcj"]
-radius = 0.1
+radius = 0.2
 
 [node name="FpsController" type="CharacterBody3D"]
 script = ExtResource("1_fxojq")

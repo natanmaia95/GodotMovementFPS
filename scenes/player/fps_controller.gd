@@ -229,10 +229,7 @@ func _handle_landing():
 func _process(delta):
 	_process_look_tilt(delta)
 	_process_headbob_effect(delta)
-	
-	var possible_interactable : InteractableComponent = get_interactable()
-	if possible_interactable and Input.is_action_just_pressed("interact"):
-		possible_interactable.interact(self)
+	_process_interact_ray(delta)
 
 
 func _process_headbob_effect(delta):
@@ -285,6 +282,15 @@ func _process_look_tilt(delta):
 			%Head.rotation_degrees.z = lerp(%Head.rotation_degrees.z, 0.0, delta*2)
 	
 	last_mouse_move = Vector2.ZERO
+
+
+func _process_interact_ray(delta):
+	var possible_interactable : InteractableComponent = get_interactable()
+	if possible_interactable:
+		possible_interactable.hover_cursor(self)
+		if Input.is_action_just_pressed("interact"):
+			possible_interactable.interact(self)
+
 
 
 func get_move_speed() -> float:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://cxlctaiqvaei1"]
+[gd_scene load_steps=8 format=3 uid="uid://cxlctaiqvaei1"]
 
 [ext_resource type="Script" path="res://scenes/objects/interactables/interactable_component.gd" id="1_6wd1u"]
 [ext_resource type="Script" path="res://scenes/objects/interactables/debug_button.gd" id="1_61chb"]
@@ -8,10 +8,21 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_2mron"]
 size = Vector3(0.6, 0.4, 0.6)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_874ub"]
+transparency = 1
+cull_mode = 1
+no_depth_test = true
+shading_mode = 0
+albedo_color = Color(1, 1, 1, 0.27451)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ypitw"]
+material = SubResource("StandardMaterial3D_874ub")
+
 [node name="DebugButton" type="Node3D"]
 script = ExtResource("1_61chb")
 
 [node name="InteractableComponent" type="Area3D" parent="."]
+unique_name_in_owner = true
 script = ExtResource("1_6wd1u")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="InteractableComponent"]
@@ -31,3 +42,9 @@ sides = 16
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 material_override = ExtResource("3_fma66")
 size = Vector3(0.6, 0.2, 0.6)
+
+[node name="HighlightMesh" type="MeshInstance3D" parent="Model"]
+unique_name_in_owner = true
+transform = Transform3D(0.703181, 0, 0, 0, 0.413933, 0, 0, 0, 0.703181, 0, 0.190632, 0)
+mesh = SubResource("BoxMesh_ypitw")
+skeleton = NodePath("")
