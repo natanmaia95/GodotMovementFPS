@@ -15,6 +15,11 @@ run/main_scene="res://scenes/maps/tests/test_scene_1.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Utils="*res://scripts/autoloads/utils.gd"
+ConfigManager="*res://scripts/configs/config_manager.gd"
+
 [input]
 
 move_forward={
