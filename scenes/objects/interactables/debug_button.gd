@@ -14,6 +14,7 @@ func on_interacted(_source:Node3D):
 		print_debug(message_on, " ", self)
 	else:
 		print_debug(message_off, " ", self)
+	ConfigManager.set_config("is_fullscreen", toggled)
 
-func _process(delta):
+func _process(_delta):
 	%HighlightMesh.visible = !!%InteractableComponent.get_character_hovering_current_camera()

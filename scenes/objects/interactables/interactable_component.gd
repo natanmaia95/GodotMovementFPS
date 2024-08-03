@@ -21,7 +21,7 @@ func get_character_hovering_current_camera() -> Node3D:
 		
 	return null
 
-func _process(delta):
+func _process(_delta):
 	for character in hovering_characters.keys():
 		if Engine.get_process_frames() - hovering_characters[character] > 1:
 			hovering_characters.erase(character)

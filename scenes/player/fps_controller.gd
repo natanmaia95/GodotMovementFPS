@@ -114,7 +114,7 @@ func _physics_process(delta) -> void:
 		_handle_landing()
 
 
-func _handle_noclip(delta) -> void:
+func _handle_noclip(_delta) -> void:
 	if not noclip_enabled: return
 	
 	var speed : float = noclip_speed_mult
@@ -206,16 +206,16 @@ func _handle_crouch(delta):
 			#create_tween().tween_property(self,"position:y", position.y + result.get_travel().y, 0.2)
 	
 	
-	%Head.position = lerp(%Head.position, Vector3(0, -CROUCH_TRANSLATE if is_crouching else 0, 0), delta*10)
+	%Head.position = lerp(%Head.position, Vector3(0, -CROUCH_TRANSLATE if is_crouching else 0.0, 0), delta*10)
 	%CollisionShape3D.shape.height = _original_capsule_height + (-CROUCH_TRANSLATE if is_crouching else 0.0)
 	%CollisionShape3D.position.y = %CollisionShape3D.shape.height / 2
 
 
-func _handle_wallclimb(delta):
+func _handle_wallclimb(_delta):
 	return
-	if is_on_wall() and not is_on_ceiling():
-		velocity = -global_basis.z * 1
-		velocity.y = 5
+	#if is_on_wall() and not is_on_ceiling():
+		#velocity = -global_basis.z * 1
+		#velocity.y = 5
 		#velocity += -global_basis.z * walk_speed * delta
 
 
@@ -284,7 +284,7 @@ func _process_look_tilt(delta):
 	last_mouse_move = Vector2.ZERO
 
 
-func _process_interact_ray(delta):
+func _process_interact_ray(_delta):
 	var possible_interactable : InteractableComponent = get_interactable()
 	if possible_interactable:
 		possible_interactable.hover_cursor(self)
