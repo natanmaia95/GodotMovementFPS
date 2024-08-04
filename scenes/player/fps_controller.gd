@@ -4,6 +4,7 @@ extends CharacterBody3D
 @export var look_sensitivity : float = 0.006
 @export var auto_bhop_enabled := true
 @export var tilt_enabled := true
+@export var headbob_enabled := true
 @export var toggle_crouch_enabled := false
 
 @export var gravity := 16.0
@@ -17,6 +18,8 @@ extends CharacterBody3D
 @export var ground_decel := 10.0
 @export var ground_friction := 6.0
 @export var air_accel := 8.0
+@export var max_controlled_air_speed := 3.0
+
 #@export var air_cap := 0.85
 #@export var air_accel := 800.0
 #@export var air_move_speed := 500.0
@@ -157,7 +160,8 @@ func _handle_air_physics(delta):
 	velocity.y -= gravity * delta # gravity
 	
 	if wish_direction != Vector3.ZERO:
-		velocity -= get_horizontal_velocity().normalized() * air_accel * delta
+		if get_horizontal_velocity().length() > max_controlled_air_speed:
+			velocity -= get_horizontal_velocity().normalized() * air_accel * delta
 		velocity += wish_direction * air_accel * delta
 	
 	# fall damage
@@ -220,9 +224,10 @@ func _handle_wallclimb(_delta):
 
 
 func _handle_landing():
-	if global_position.y < jump_starting_height - max_fall_height_immune - 0.1:
-		velocity = Vector3(0,4,0)
-		# TODO: damage, rolling
+	if not is_crouching:
+		if global_position.y < jump_starting_height - max_fall_height_immune - 0.1:
+			velocity = Vector3(0,4,0)
+			# TODO: damage, rolling
 
 
 
@@ -239,13 +244,14 @@ func _process_headbob_effect(delta):
 	
 	var target_v_offset := 0.0
 	var target_h_offset := 0.0
-	if not is_on_floor() or velocity.length() < 2.0:
-		headbob_timer = 0.0
-		target_v_offset = 0.0
-		target_h_offset = 0.0
-	else:
-		target_v_offset = HEADBOB_MOVE_AMOUNT * sin(headbob_timer * PI*2 / HEADBOB_FREQUENCY)
-		target_h_offset = HEADBOB_MOVE_AMOUNT * 0.5 * sin(0.5 * headbob_timer * PI*2 / HEADBOB_FREQUENCY)
+	if headbob_enabled:
+		if not is_on_floor() or velocity.length() < 2.0:
+			headbob_timer = 0.0
+			target_v_offset = 0.0
+			target_h_offset = 0.0
+		else:
+			target_v_offset = HEADBOB_MOVE_AMOUNT * sin(headbob_timer * PI*2 / HEADBOB_FREQUENCY)
+			target_h_offset = HEADBOB_MOVE_AMOUNT * 0.5 * sin(0.5 * headbob_timer * PI*2 / HEADBOB_FREQUENCY)
 	
 	%HeadCamera.v_offset = move_toward(%HeadCamera.v_offset, target_v_offset, delta*1)
 	%HeadCamera.h_offset = move_toward(%HeadCamera.h_offset, target_h_offset, delta*1)
