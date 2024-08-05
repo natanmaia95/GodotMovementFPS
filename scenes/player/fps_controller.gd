@@ -57,6 +57,7 @@ var noclip_enabled := false :
 func _ready():
 	_ready_hide_model_for_camera()
 	%InteractShapeCast.add_exception(self)
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	pass
 
 
@@ -69,15 +70,8 @@ func _ready_hide_model_for_camera():
 
 
 func _unhandled_input(event):
-	# UI elements capture the mouse themselves to handle their input, which does not trigger this unhandled input call
-	# If there's a click not handled by any UI this controller captures it, and if captured it controls fine
-	# so the camera doesn't jerk while the player uses a menu.
-	if event is InputEventMouseButton:
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	if event.is_action_pressed("ui_cancel"):
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	
 	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
+		# camera
 		if event is InputEventMouseMotion:
 			last_mouse_move = Vector2(event.relative)
 		
@@ -89,6 +83,19 @@ func _unhandled_input(event):
 				noclip_speed_mult = min(1000.0, noclip_speed_mult * 1.2)
 			if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 				noclip_speed_mult = max(.1, noclip_speed_mult * 1/1.2)
+		 
+		# shooting
+		if Input.is_action_just_pressed("shoot"):
+			%HitscanComponent.shoot()
+	
+	# UI elements capture the mouse themselves to handle their input, which does not trigger this unhandled input call
+	# If there's a click not handled by any UI this controller captures it, and if captured it controls fine
+	# so the camera doesn't jerk while the player uses a menu.
+	if event is InputEventMouseButton:
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	if event.is_action_pressed("ui_cancel"):
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
 
 
 

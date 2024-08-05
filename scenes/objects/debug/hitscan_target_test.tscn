@@ -1,0 +1,27 @@
+[gd_scene load_steps=7 format=3 uid="uid://bx2k2bifg0107"]
+
+[ext_resource type="Script" path="res://scenes/objects/debug/hitscan_target_test.gd" id="1_a6rkg"]
+[ext_resource type="Script" path="res://scripts/fps_system/hurtbox_component.gd" id="1_tm0vg"]
+[ext_resource type="Texture2D" uid="uid://ckysrc2sw3n6v" path="res://textures/prototype/purple_texture_2.png" id="2_gwcaq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yhd02"]
+albedo_texture = ExtResource("2_gwcaq")
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_5jdit"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bve4m"]
+
+[node name="HitscanTargetTest" type="Node3D"]
+script = ExtResource("1_a6rkg")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+material_override = SubResource("StandardMaterial3D_yhd02")
+mesh = SubResource("CapsuleMesh_5jdit")
+
+[node name="HurtboxComponent" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("1_tm0vg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HurtboxComponent"]
+shape = SubResource("CapsuleShape3D_bve4m")
