@@ -6,6 +6,7 @@ extends CharacterBody3D
 @export var tilt_enabled := true
 @export var headbob_enabled := true
 @export var toggle_crouch_enabled := false
+@export var toggle_sprint_enabled := false
 
 @export var gravity := 16.0
 
@@ -19,7 +20,10 @@ extends CharacterBody3D
 @export var ground_friction := 6.0
 @export var air_accel := 8.0
 @export var max_controlled_air_speed := 3.0
-
+@export var wallrun_fall_friction := 8.0
+@export var wallrun_jump_velocity := 4.0
+@export var wallrun_sidejump_velocity := 6.0
+@export var wallrun_entryspeed_multiplyer := 1.15
 #@export var air_cap := 0.85
 #@export var air_accel := 800.0
 #@export var air_move_speed := 500.0
@@ -37,6 +41,9 @@ var headbob_timer := 0.0
 const CROUCH_TRANSLATE := 0.7
 const CROUCH_JUMP_ADD := 0.6 # jerks the camera up like Source
 var is_crouching := false
+
+var is_sprinting := false
+var is_wallrunning := false
 
 var is_in_turnaround := false
 var turnaround_timer := 0.0
@@ -112,12 +119,14 @@ func _physics_process(delta) -> void:
 		_handle_noclip(delta)
 		return
 	
+	_handle_turnaround(delta)
 	if is_on_floor():
-		_handle_turnaround(delta)
+		_handle_sprinting(delta)
 		_handle_ground_physics(delta)
 	else:
-		_handle_air_physics(delta)
 		_handle_wallclimb(delta)
+		_handle_wallrun(delta)
+		_handle_air_physics(delta)
 	
 	move_and_slide()
 	if is_on_floor():
@@ -136,6 +145,8 @@ func _handle_noclip(_delta) -> void:
 
 
 func _handle_ground_physics(delta) -> void:
+	is_wallrunning = false
+	
 	var cur_speed_in_wish_dir = self.velocity.dot(wish_direction)
 	#var capped_speed = min((air_move_speed * wish_direction).length(), air_cap)
 	var add_speed_till_cap = get_move_speed() - cur_speed_in_wish_dir
@@ -150,6 +161,8 @@ func _handle_ground_physics(delta) -> void:
 	var control = max(current_speed, ground_decel)
 	var drop = control * ground_friction * delta
 	if is_crouching:# and current_speed > get_move_speed():
+		drop *= 0.2
+	elif is_sprinting:
 		drop *= 0.5
 	var new_speed = max(current_speed - drop, 0)
 	if current_speed > 0:
@@ -165,13 +178,12 @@ func _handle_ground_physics(delta) -> void:
 
 func _handle_air_physics(delta):
 	velocity.y -= gravity * delta # gravity
-	
-	if wish_direction != Vector3.ZERO:
+	# air redirection
+	if wish_direction != Vector3.ZERO and not is_on_wall():
 		if get_horizontal_velocity().length() > max_controlled_air_speed:
 			velocity -= get_horizontal_velocity().normalized() * air_accel * delta
 		velocity += wish_direction * air_accel * delta
-	
-	# fall damage
+	# save for fall damage
 	if velocity.y > 0:
 		jump_starting_height = global_position.y
 
@@ -179,17 +191,24 @@ func _handle_air_physics(delta):
 func _handle_turnaround(delta):
 	turnaround_timer -= delta
 	if turnaround_timer <= 0 and Input.is_action_just_pressed("turnaround"):
-		velocity.x = 0
-		velocity.z = 0
+		#velocity.x = 0
+		#velocity.z = 0
 		turnaround_timer = 0.8
 		var turn_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 		turn_tween.tween_property(self, "is_in_turnaround", true, 0.01)
 		turn_tween.set_parallel(true)
-		turn_tween.tween_property(self, "velocity:x", 0, 0.3)
-		turn_tween.tween_property(self, "velocity:z", 0, 0.3)
-		turn_tween.tween_property(self, "rotation:y", rotation.y + PI, 0.4) 
+		#turn_tween.tween_property(self, "velocity:x", 0, 0.3)
+		#turn_tween.tween_property(self, "velocity:z", 0, 0.3)
+		turn_tween.tween_property(self, "rotation:y", rotation.y + PI, 0.2) 
 		turn_tween.set_parallel(false)
 		turn_tween.tween_property(self, "is_in_turnaround", false, 0.01)
+
+func _handle_sprinting(_delta):
+	if toggle_sprint_enabled:
+		if Input.is_action_just_pressed("sprint"):
+			is_sprinting = not is_sprinting
+	else:
+		is_sprinting = Input.is_action_pressed("sprint") and not is_crouching
 
 @onready var _original_capsule_height = $CollisionShape3D.shape.height
 func _handle_crouch(delta):
@@ -228,6 +247,38 @@ func _handle_wallclimb(_delta):
 		#velocity = -global_basis.z * 1
 		#velocity.y = 5
 		#velocity += -global_basis.z * walk_speed * delta
+
+
+func _handle_wallrun(delta):
+	if is_crouching or is_on_floor() or not is_on_wall_only():
+		is_wallrunning = false
+		return
+	
+	# if is_on_wall_only():
+	var was_wallrunning_last_frame = is_wallrunning
+	var wall_normal = get_wall_normal()
+	# TODO: check if not facing the wall
+	is_wallrunning = true
+	# move player forwards
+	var wall_forwards = Vector3.UP.cross(wall_normal)
+	if not is_wall_to_the_left(): wall_forwards *= -1
+	
+	var speed = get_horizontal_velocity().length()
+	var wall_hor_velocity = wall_forwards * speed
+	# TODO: better friction formula
+	# undo and redo gravity
+	var wall_fall_speed = velocity.y
+	if velocity.y < 0:
+		wall_fall_speed = velocity.y * (1 - wallrun_fall_friction*delta) 
+	if is_wallrunning and not was_wallrunning_last_frame:
+		wall_fall_speed = max(wall_fall_speed + 2.0, 4.0)
+		wall_hor_velocity *= wallrun_entryspeed_multiplyer
+	
+	velocity = Vector3(wall_hor_velocity.x, wall_fall_speed, wall_hor_velocity.z)
+	
+	if Input.is_action_just_pressed("jump"):
+		velocity.y = wallrun_jump_velocity
+		velocity += wall_normal * wallrun_sidejump_velocity
 
 
 func _handle_landing():
@@ -280,12 +331,22 @@ func _process_look_tilt(delta):
 		if last_mouse_move.x != 0:
 			tilt_speed_degrees = clamp(last_mouse_move.x, -50, 50) * 5
 			target_tilt_degrees = -sign(last_mouse_move.x)
-			target_tilt_degrees *= 45 if (is_sprinting() and is_on_floor() and velocity.length() > 6.0) else 0
 			
 			if sign(last_mouse_move.x) == sign(%Head.rotation_degrees.z):
 				tilt_speed_degrees *= 4
 			if is_in_turnaround:
 				tilt_speed_degrees *= -4 #immediately reverse
+			
+			if is_sprinting and is_on_floor() and velocity.length() > 6.0:
+				target_tilt_degrees *= 45
+			else:
+				target_tilt_degrees = 0
+			
+		if is_wallrunning:
+			should_lerp = true
+			target_tilt_degrees = -1 if is_wall_to_the_left() else 1
+			target_tilt_degrees *= 30
+			tilt_speed_degrees = 50
 		
 		if should_update_tilt:
 			if should_lerp:
@@ -307,15 +368,15 @@ func _process_interact_ray(_delta):
 
 
 func get_move_speed() -> float:
-	if is_sprinting():
+	if is_sprinting:
 		return sprint_speed
 	elif is_crouching:
 		return walk_speed * 0.7
 	else:
 		return walk_speed
 
-func is_sprinting() -> bool:
-	return  Input.is_action_pressed("sprint") and not is_crouching
+#func is_sprinting() -> bool:
+	#return  Input.is_action_pressed("sprint") and not is_crouching
 
 func get_horizontal_velocity() -> Vector3:
 	return Vector3(velocity.x, 0, velocity.z)
@@ -329,3 +390,10 @@ func get_interactable() -> InteractableComponent:
 		if collider is InteractableComponent:
 			return collider
 	return null
+
+func is_wall_to_the_left():
+	if not is_on_wall():
+		return false
+	var cross = (-global_basis.z).cross(get_wall_normal())
+	return cross.y < 0.0
+

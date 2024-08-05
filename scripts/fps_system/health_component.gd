@@ -4,9 +4,10 @@ extends Node
 signal health_changed(new_value, delta)
 signal health_depleted()
 
-@export var max_health := 10.0
+@export var max_health := 100.0
 var health := 0.0 :
 	set(value):
+		if health == value: return
 		var old_health = health
 		health = clamp(value, 0, max_health)
 		var delta = health - old_health

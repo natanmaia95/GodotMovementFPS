@@ -5,6 +5,10 @@
 [ext_resource type="Texture2D" uid="uid://ckysrc2sw3n6v" path="res://textures/prototype/purple_texture_2.png" id="2_gwcaq"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yhd02"]
+transparency = 1
+cull_mode = 1
+shading_mode = 0
+albedo_color = Color(1, 1, 1, 0.490196)
 albedo_texture = ExtResource("2_gwcaq")
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_5jdit"]
@@ -17,6 +21,10 @@ script = ExtResource("1_a6rkg")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 material_override = SubResource("StandardMaterial3D_yhd02")
+mesh = SubResource("CapsuleMesh_5jdit")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.799808, 0, 0, 0, 0.977451, 0, 0, 0, 0.799808, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_5jdit")
 
 [node name="HurtboxComponent" type="Area3D" parent="."]

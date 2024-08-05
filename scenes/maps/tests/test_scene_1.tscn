@@ -34,6 +34,7 @@ shadow_enabled = true
 
 [node name="FpsController" parent="." instance=ExtResource("1_t2gh3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.78139, 1.02304, 0.492347)
+toggle_sprint_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(-0.88538, 0.182743, -0.427442, 1.13902e-08, 0.919493, 0.393107, 0.464868, 0.348049, -0.814101, -6.2839, 3.10341, -7.97252)
@@ -96,8 +97,26 @@ material_override = ExtResource("3_skyb5")
 use_collision = true
 size = Vector3(2, 4, 2)
 
+[node name="CSGBox3D11" type="CSGBox3D" parent="CSGs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5143, 4.30154, 4)
+material_override = ExtResource("3_skyb5")
+use_collision = true
+size = Vector3(1, 6, 10)
+
+[node name="CSGBox3D12" type="CSGBox3D" parent="CSGs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5143, 6.80154, 9)
+material_override = ExtResource("3_skyb5")
+use_collision = true
+size = Vector3(1, 5, 10)
+
 [node name="CSGBox3D5" type="CSGBox3D" parent="CSGs"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 2, 14.5)
+material_override = ExtResource("2_2twkk")
+use_collision = true
+size = Vector3(11, 5, 11)
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="CSGs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.5, 2, 14.5)
 material_override = ExtResource("2_2twkk")
 use_collision = true
 size = Vector3(11, 5, 11)
@@ -134,4 +153,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.90637, -0.500001, -10.4525
 [node name="HitscanTargetTest3" parent="Targets" instance=ExtResource("7_30qfy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.1239, -0.5, -5.39038)
 
-[editable path="Targets/HitscanTargetTest"]
+[node name="HitscanTargetTest4" parent="Targets" instance=ExtResource("7_30qfy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.9956, 3.5, 4.06649)
+
+[node name="HitscanTargetTest5" parent="Targets" instance=ExtResource("7_30qfy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.0307, 4.5, 12.696)
+
+[node name="HitscanTargetTest6" parent="Targets" instance=ExtResource("7_30qfy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.0307, 4.5, 15.696)
