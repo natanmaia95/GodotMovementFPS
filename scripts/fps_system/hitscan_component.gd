@@ -42,7 +42,8 @@ func setup_hitscan_raycast():
 	ray.target_position = Vector3.FORWARD * max_range
 	ray.collide_with_areas = true
 	ray.collide_with_bodies = false
-	
+	ray.collision_mask = 0
+	ray.set_collision_mask_value(FPSDefs.PhysicsLayers.HURTBOX, true)
 	ray.debug_shape_thickness = 2
 
 func apply_damage_to_target(collider:Object) -> void:

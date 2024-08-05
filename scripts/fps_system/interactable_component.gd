@@ -5,6 +5,10 @@ signal interacted(source:Node3D)
 
 var hovering_characters : Dictionary = {}
 
+func _ready():
+	if Engine.is_editor_hint():
+		_setup_collisions()
+
 func interact(source:Node3D = null) -> void:
 	interacted.emit(source)
 
@@ -25,3 +29,7 @@ func _process(_delta):
 	for character in hovering_characters.keys():
 		if Engine.get_process_frames() - hovering_characters[character] > 1:
 			hovering_characters.erase(character)
+
+func _setup_collisions():
+	collision_layer = 0 + int(pow(2, FPSDefs.PhysicsLayers.INTERACTABLE-1))
+	collision_mask = 0

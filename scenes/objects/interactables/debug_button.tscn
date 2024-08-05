@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://cxlctaiqvaei1"]
+[gd_scene load_steps=9 format=3 uid="uid://cxlctaiqvaei1"]
 
-[ext_resource type="Script" path="res://scenes/objects/interactables/interactable_component.gd" id="1_6wd1u"]
 [ext_resource type="Script" path="res://scenes/objects/interactables/debug_button.gd" id="1_61chb"]
 [ext_resource type="Material" uid="uid://dqoa3v5djgqkv" path="res://textures/prototype/_mat_red.tres" id="2_4dml8"]
+[ext_resource type="Script" path="res://scripts/fps_system/interactable_component.gd" id="2_wg3xb"]
 [ext_resource type="Material" uid="uid://b2kjidniasa6g" path="res://textures/prototype/_mat_white.tres" id="3_fma66"]
+[ext_resource type="Script" path="res://scripts/fps_system/hurtbox_component.gd" id="3_mka5b"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_2mron"]
 size = Vector3(0.6, 0.4, 0.6)
@@ -23,9 +24,21 @@ script = ExtResource("1_61chb")
 
 [node name="InteractableComponent" type="Area3D" parent="."]
 unique_name_in_owner = true
-script = ExtResource("1_6wd1u")
+collision_layer = 512
+collision_mask = 0
+script = ExtResource("2_wg3xb")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="InteractableComponent"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+shape = SubResource("BoxShape3D_2mron")
+
+[node name="HurtboxComponent" type="Area3D" parent="."]
+unique_name_in_owner = true
+collision_layer = 256
+collision_mask = 0
+script = ExtResource("3_mka5b")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HurtboxComponent"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
 shape = SubResource("BoxShape3D_2mron")
 

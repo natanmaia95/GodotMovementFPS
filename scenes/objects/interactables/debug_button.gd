@@ -6,6 +6,7 @@ extends Node3D
 
 func _ready():
 	%InteractableComponent.interacted.connect(on_interacted)
+	%HurtboxComponent.damage_taken.connect(on_damage_taken)
 
 func on_interacted(_source:Node3D):
 	toggled = !toggled
@@ -15,6 +16,9 @@ func on_interacted(_source:Node3D):
 	else:
 		print_debug(message_off, " ", self)
 	ConfigManager.set_config("is_fullscreen", toggled)
+
+func on_damage_taken(_amount):
+	on_interacted(null)
 
 func _process(_delta):
 	%HighlightMesh.visible = !!%InteractableComponent.get_character_hovering_current_camera()
