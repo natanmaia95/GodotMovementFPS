@@ -20,11 +20,12 @@ extends CharacterBody3D
 @export var ground_friction := 6.0
 @export var air_accel := 8.0
 @export var max_controlled_air_speed := 3.0
+@export var wallrun_minimum_height := 1.0
 @export var wallrun_fall_friction := 8.0
 @export var wallrun_jump_velocity := 4.0
 @export var wallrun_sidejump_velocity := 6.0
 @export var wallrun_entryspeed_multiplyer := 1.15
-@export var vault_max_height := 1.1
+@export var vault_max_height := 1.01
 @export var vault_time := 0.2
 @export var vault_window := 0.4
 #@export var air_cap := 0.85
@@ -225,29 +226,36 @@ func _handle_vaulting(_delta):
 	# first check if there's a wall in the future
 	# then if the player can stand above that wall
 	var prediction_speed = max(get_horizontal_velocity().length(), walk_speed)
-	%VaultRayCast.target_position = Vector3.FORWARD * prediction_speed
+	var movement_forwards = get_horizontal_velocity().normalized() * prediction_speed * 0.2
+	#%VaultRayCast.target_position = Vector3.FORWARD * prediction_speed
+	%VaultRayCast.target_position =  movement_forwards * global_basis
 	%VaultRayCast.force_raycast_update()
 	if not %VaultRayCast.is_colliding(): return
-	var movement_forwards = get_horizontal_velocity().normalized() * prediction_speed * vault_window
-	#var has_wall_in_front := test_move(global_transform, movement_forwards)
-	#if not has_wall_in_front: return
+	var has_wall_in_front := test_move(global_transform, movement_forwards)
+	if not has_wall_in_front: return
 	var movement_climb = Vector3.UP * vault_max_height
 	var can_stand_above := test_move(global_transform, movement_climb + movement_forwards)
 	if not can_stand_above: return
 	# for test reasons lets just teleport the player up
 	#global_position += movement_climb
 	is_vaulting = true
-	movement_climb += get_horizontal_velocity().normalized() * prediction_speed * vault_time
+	movement_climb += get_horizontal_velocity().normalized() * prediction_speed * 0.2
 	#var final_velocity = -global_basis.z * prediction_speed
 	var final_velocity = get_horizontal_velocity().normalized() * prediction_speed
 	final_velocity += Vector3.DOWN * 5.0 #fall faster
-	var vault_tween = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
+	var vault_tween = create_tween().set_ease(Tween.EASE_OUT)#.set_trans(Tween.TRANS_CUBIC)
 	vault_tween.set_parallel(true)
-	vault_tween.tween_property(self, "velocity", final_velocity, vault_time*2)
-	vault_tween.tween_property(self, "global_position", global_position + movement_climb, vault_time*2)
+	vault_tween.tween_property(self, "velocity", final_velocity, vault_time)
+	vault_tween.tween_property(self, "global_position", global_position + movement_climb, vault_time)
 	vault_tween.set_parallel(false)
+	vault_tween.tween_callback(_handle_vaulting_stop)
 	vault_tween.tween_property(self, "is_vaulting", false, 0.01)
 	#pass
+
+func _handle_vaulting_stop():
+	if wish_direction == Vector3.ZERO:
+		velocity.x = 0
+		velocity.z = 0
 
 
 func _handle_sprinting(_delta):
@@ -300,6 +308,10 @@ func _handle_wallrun(delta):
 	if is_vaulting or is_crouching or is_on_floor() or not is_on_wall_only():
 		is_wallrunning = false
 		return
+	# test minimum height for wallrun
+	var is_near_ground = test_move(global_transform, Vector3.DOWN * wallrun_minimum_height)
+	if not is_wallrunning and is_near_ground:
+		return # dont start wallrunning, but end wallrunning fine 
 	
 	# if is_on_wall_only():
 	var was_wallrunning_last_frame = is_wallrunning
@@ -415,10 +427,10 @@ func _process_interact_ray(_delta):
 
 
 func get_move_speed() -> float:
-	if is_sprinting:
-		return sprint_speed
-	elif is_crouching:
+	if is_crouching:
 		return walk_speed * 0.7
+	elif is_sprinting:
+		return sprint_speed
 	else:
 		return walk_speed
 
