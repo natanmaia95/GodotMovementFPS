@@ -62,7 +62,8 @@ func save_config_file() -> Error:
 	if err != OK:
 		push_error("config file could not be saved: ", err)
 	else:
-		print("config file saved!")
+		pass
+		#print("config file saved!")
 	return err
 
 
@@ -71,7 +72,7 @@ func make_new_configs() -> ConfigFile:
 	for entry : ConfigEntry in entries.values():
 		#print_rich(entry)
 		new_configs.set_value(entry.get_section(), entry.get_key(), entry.get_default_value())
-	print("Made new default configs from scratch.")
+	#print("Made new default configs from scratch.")
 	return new_configs
 
 

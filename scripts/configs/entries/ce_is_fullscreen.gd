@@ -10,7 +10,7 @@ func get_possible_values():
 	return [true, false]
 
 func get_default_value():
-	return true
+	return false
 
 func on_changed(new_value):
 	var window = manager.get_window()
