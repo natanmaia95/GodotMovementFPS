@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="FPSGun" load_steps=2 format=3 uid="uid://b8ih8ei4sug34"]
+
+[ext_resource type="Script" path="res://scripts/fps_system/items/guns/fps_gun.gd" id="1_vi63a"]
+
+[resource]
+script = ExtResource("1_vi63a")
+damage = 100.0
+max_range = 32.0
+deviation = Vector2(1, 1)
+shot_cooldown = 0.01
+can_auto_fire = false
+auto_fire_penalty = 0.1
+magazine_size = 6
+item_name = "Revolver"

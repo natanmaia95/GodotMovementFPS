@@ -66,10 +66,11 @@ visible = false
 target_position = Vector3(0, 0, -1)
 collision_mask = 16
 
-[node name="InventoryComponent" type="Node3D" parent="."]
+[node name="InventoryComponent" type="Node3D" parent="." node_paths=PackedStringArray("hitscan_component")]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 script = ExtResource("3_cunqb")
+hitscan_component = NodePath("../HeadRoot/Head/HeadCamera/HitscanComponent")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3

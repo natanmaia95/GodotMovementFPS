@@ -9,7 +9,7 @@ extends CharacterBody3D
 @export var toggle_sprint_enabled := false
 
 @export var gravity := 16.0
-
+@export var mass := 80.0 # for colliions with rbs
 
 # "tried and tested" values
 @export var jump_velocity := 6.0
@@ -96,10 +96,7 @@ func _unhandled_input(event):
 				noclip_speed_mult = min(1000.0, noclip_speed_mult * 1.2)
 			if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 				noclip_speed_mult = max(.1, noclip_speed_mult * 1/1.2)
-		 
-		# shooting
-		if Input.is_action_just_pressed("shoot"):
-			%HitscanComponent.shoot()
+	
 	
 	# UI elements capture the mouse themselves to handle their input, which does not trigger this unhandled input call
 	# If there's a click not handled by any UI this controller captures it, and if captured it controls fine
@@ -136,7 +133,7 @@ func _physics_process(delta) -> void:
 		_handle_air_physics(delta)
 	
 	
-	
+	_push_rigidbodies(delta)
 	move_and_slide()
 	if is_on_floor():
 		_handle_landing()
@@ -346,6 +343,23 @@ func _handle_landing():
 		if global_position.y < jump_starting_height - max_fall_height_immune - 0.1:
 			velocity = Vector3(0,4,0)
 			# TODO: damage, rolling
+
+
+# majikayo games
+func _push_rigidbodies(_delta):
+	for i in get_slide_collision_count():
+		var c := get_slide_collision(i)
+		if c.get_collider() is RigidBody3D:
+			var push_dir = -c.get_normal()
+			var velocity_diff_push_dir = velocity.dot(push_dir) - c.get_collider().linear_velocity.dot(push_dir)
+			velocity_diff_push_dir = max(0, velocity_diff_push_dir)
+			var mass_ratio = min(1, mass / c.get_collider().mass)
+			#dont push object from above or below
+			push_dir.y = 0
+			var push_force = mass_ratio * 5#magic number ooo
+			c.get_collider().apply_impulse(push_dir*velocity_diff_push_dir*push_force, c.get_position - c.get_collider().global_position)
+
+
 
 
 

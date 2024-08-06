@@ -8,7 +8,7 @@
 transparency = 1
 cull_mode = 1
 shading_mode = 0
-albedo_color = Color(1, 1, 1, 0.490196)
+albedo_color = Color(1, 1, 1, 0.227451)
 albedo_texture = ExtResource("2_gwcaq")
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_5jdit"]
@@ -24,7 +24,7 @@ material_override = SubResource("StandardMaterial3D_yhd02")
 mesh = SubResource("CapsuleMesh_5jdit")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.799808, 0, 0, 0, 0.977451, 0, 0, 0, 0.799808, 0, 1, 0)
+transform = Transform3D(0.604194, 0, 0, 0, 0.977451, 0, 0, 0, 0.610753, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_5jdit")
 
 [node name="HurtboxComponent" type="Area3D" parent="."]
