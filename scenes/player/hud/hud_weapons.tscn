@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://rduj8831egfn"]
+
+[ext_resource type="Script" path="res://scenes/player/hud/hud_weapons.gd" id="1_3gn6w"]
+[ext_resource type="FontFile" uid="uid://21lde5vn81nl" path="res://resources/fonts/Rubik-SemiBold.ttf" id="1_tl0j2"]
+
+[node name="Weapons" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+script = ExtResource("1_3gn6w")
+
+[node name="DebugLabel1" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("1_tl0j2")
+text = "dahwdwhdwadwdwdwdwd"

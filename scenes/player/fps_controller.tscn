@@ -1,8 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://c4ix1c7yuyl4f"]
+[gd_scene load_steps=10 format=3 uid="uid://c4ix1c7yuyl4f"]
 
 [ext_resource type="Script" path="res://scenes/player/fps_controller.gd" id="1_fxojq"]
 [ext_resource type="Script" path="res://scripts/fps_system/hitscan_component.gd" id="2_i8bdy"]
+[ext_resource type="Script" path="res://scripts/fps_system/inventory_component.gd" id="3_cunqb"]
 [ext_resource type="Texture2D" uid="uid://ibbvqfl7yvup" path="res://textures/crosshairs/crosshair014.png" id="3_e3axc"]
+[ext_resource type="PackedScene" uid="uid://rduj8831egfn" path="res://scenes/player/hud/hud_weapons.tscn" id="5_c80yy"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s0ugf"]
 
@@ -26,7 +28,6 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Model"]
-visible = false
 mesh = SubResource("CapsuleMesh_r1kcl")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Model"]
@@ -59,6 +60,17 @@ unique_name_in_owner = true
 visible = false
 script = ExtResource("2_i8bdy")
 
+[node name="VaultRayCast" type="RayCast3D" parent="."]
+unique_name_in_owner = true
+visible = false
+target_position = Vector3(0, 0, -1)
+collision_mask = 16
+
+[node name="InventoryComponent" type="Node3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("3_cunqb")
+
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
@@ -69,7 +81,7 @@ grow_vertical = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="CenterContainer" type="CenterContainer" parent="Control"]
+[node name="ReticleCenterContainer" type="CenterContainer" parent="Control"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -77,11 +89,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TextureRect" type="TextureRect" parent="Control/CenterContainer"]
+[node name="ReticleTextureRect" type="TextureRect" parent="Control/ReticleCenterContainer"]
 layout_mode = 2
 texture = ExtResource("3_e3axc")
 
-[node name="VaultRayCast" type="RayCast3D" parent="."]
-unique_name_in_owner = true
-target_position = Vector3(0, 0, -1)
-collision_mask = 16
+[node name="HUDWeapons" parent="Control" node_paths=PackedStringArray("inventory_component") instance=ExtResource("5_c80yy")]
+layout_mode = 1
+inventory_component = NodePath("../../InventoryComponent")

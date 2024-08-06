@@ -69,6 +69,7 @@ var noclip_enabled := false :
 func _ready():
 	_ready_hide_model_for_camera()
 	%InteractShapeCast.add_exception(self)
+	%InventoryComponent.select(0)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	pass
 
