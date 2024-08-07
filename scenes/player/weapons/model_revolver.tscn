@@ -1,0 +1,104 @@
+[gd_scene load_steps=7 format=3 uid="uid://c0ecbb1g6b57k"]
+
+[ext_resource type="Script" path="res://scenes/player/weapons/weapon_model.gd" id="1_ul1d7"]
+[ext_resource type="PackedScene" uid="uid://d2p8rdrawbppw" path="res://models/kenney_blasters/blasterH.glb" id="2_1oljv"]
+
+[sub_resource type="Animation" id="Animation_wlitp"]
+resource_name = "shoot"
+length = 0.3
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("blasterI2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.02, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0.4, -0.3, -0.616592), Vector3(0.4, -0.3, -0.3), Vector3(0.4, -0.3, -0.616592)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("blasterI2:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.01, 0.02, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, -3.14159, 0), Vector3(-0.261799, -3.14159, -4.04592e-08), Vector3(-0.436332, -3.14159, 0), Vector3(0, -3.14159, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_fnw3x"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("blasterI2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.4, -0.3, -0.616592)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("blasterI2:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -3.14159, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_yx6ni"]
+resource_name = "swap"
+length = 0.5
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("blasterI2")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, -4.03841e-08, 0.92388, 0.382683, 1.67276e-08, 0.1, 1, -5.33851e-08, 0.707107, 0.707107, -5.33851e-08, 0.2, 1, -7.45074e-08, 0.065403, 0.997859, -2.49627e-09, 0.3, 1, -7.90326e-08, -0.67559, 0.737277, 2.29864e-08, 0.5, 1, 0, 1, 0, -7.54979e-08)
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("blasterI2:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.175, 0.35, 0.425),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.4, -0.6, -0.617), Vector3(0.4, -0.15, -0.616592), Vector3(0.4, -0.4, -0.616592), Vector3(0.4, -0.3, -0.616592)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3ddop"]
+_data = {
+"RESET": SubResource("Animation_fnw3x"),
+"shoot": SubResource("Animation_wlitp"),
+"swap": SubResource("Animation_yx6ni")
+}
+
+[node name="ModelRevolver" type="Node3D"]
+script = ExtResource("1_ul1d7")
+
+[node name="blasterI2" parent="." instance=ExtResource("2_1oljv")]
+transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0.4, -0.3, -0.616592)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_3ddop")
+}
+
+[node name="TestCamera" type="Camera3D" parent="."]
+unique_name_in_owner = true

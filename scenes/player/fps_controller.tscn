@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scenes/player/fps_controller.gd" id="1_fxojq"]
 [ext_resource type="Script" path="res://scripts/fps_system/hitscan_component.gd" id="2_i8bdy"]
 [ext_resource type="Script" path="res://scripts/fps_system/inventory_component.gd" id="3_cunqb"]
-[ext_resource type="Texture2D" uid="uid://ibbvqfl7yvup" path="res://textures/crosshairs/crosshair014.png" id="3_e3axc"]
+[ext_resource type="Texture2D" uid="uid://7nyawba0wqk7" path="res://textures/crosshairs/crosshair007.png" id="4_045fx"]
 [ext_resource type="PackedScene" uid="uid://rduj8831egfn" path="res://scenes/player/hud/hud_weapons.tscn" id="5_c80yy"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s0ugf"]
@@ -32,6 +32,7 @@ mesh = SubResource("CapsuleMesh_r1kcl")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Model"]
 transform = Transform3D(0.748831, 0, 0, 0, 0.327752, 0, 0, 0, 0.255814, 0, 0.608011, -0.428929)
+visible = false
 mesh = SubResource("BoxMesh_a35jc")
 
 [node name="HeadRoot" type="Node3D" parent="."]
@@ -60,17 +61,20 @@ unique_name_in_owner = true
 visible = false
 script = ExtResource("2_i8bdy")
 
+[node name="WeaponRoot" type="Node3D" parent="HeadRoot/Head/HeadCamera"]
+
 [node name="VaultRayCast" type="RayCast3D" parent="."]
 unique_name_in_owner = true
 visible = false
 target_position = Vector3(0, 0, -1)
 collision_mask = 16
 
-[node name="InventoryComponent" type="Node3D" parent="." node_paths=PackedStringArray("hitscan_component")]
+[node name="InventoryComponent" type="Node3D" parent="." node_paths=PackedStringArray("hitscan_component", "model_root")]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 script = ExtResource("3_cunqb")
 hitscan_component = NodePath("../HeadRoot/Head/HeadCamera/HitscanComponent")
+model_root = NodePath("../HeadRoot/Head/HeadCamera/WeaponRoot")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -90,9 +94,25 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ReticleTextureRect" type="TextureRect" parent="Control/ReticleCenterContainer"]
+[node name="Control" type="Control" parent="Control/ReticleCenterContainer"]
 layout_mode = 2
-texture = ExtResource("3_e3axc")
+
+[node name="ReticleTextureRect" type="TextureRect" parent="Control/ReticleCenterContainer/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 64.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.25, 0.25)
+pivot_offset = Vector2(64, 64)
+texture = ExtResource("4_045fx")
 
 [node name="HUDWeapons" parent="Control" node_paths=PackedStringArray("inventory_component") instance=ExtResource("5_c80yy")]
 layout_mode = 1

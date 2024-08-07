@@ -38,7 +38,7 @@ var input_direction := Vector2.ZERO
 var wish_direction := Vector3.ZERO # input direction but in worldspace
 var last_mouse_move := Vector2.ZERO
 
-const HEADBOB_MOVE_AMOUNT = 0.1
+const HEADBOB_MOVE_AMOUNT = 0.02
 const HEADBOB_FREQUENCY = 2.4
 var headbob_timer := 0.0
 

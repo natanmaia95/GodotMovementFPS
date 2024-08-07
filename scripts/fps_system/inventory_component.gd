@@ -4,6 +4,9 @@ extends Node3D
 signal selected_item_changed
 
 @export var hitscan_component : HitscanComponent
+@export var model_root : Node3D
+var model : Node3D = null
+
 
 #@export var HUD : Control
 var items := []
@@ -79,9 +82,10 @@ func select(index):
 func fire_gun(gun:FPSGun):
 	assert(gun)
 	hitscan_component.shoot(gun)
-	#gun.current_ammo -= 1
-	AudioManager.play_sfx("bullet_laser.wav")
+	model.play("shoot")
+	AudioManager.play_sfx("vkproduktion_toygun.mp3")
 	use_item_cooldown = gun.shot_cooldown
+	#gun.current_ammo -= 1
 
 func alt_fire_gun(gun:FPSGun):
 	assert(gun)
@@ -101,6 +105,12 @@ func _set_selected_index(new_value) -> void:
 		selected_index = -1
 	else:
 		selected_index = wrapi(new_value, 0, items.size())
+	if get_selected_item():
+		if model: model.queue_free()
+		model = get_selected_item().model_scene.instantiate()
+		model_root.add_child(model)
+		model.play("swap")
+	
 	selected_item_changed.emit()
 
 
