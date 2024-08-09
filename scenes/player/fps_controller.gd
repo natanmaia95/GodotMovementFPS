@@ -6,20 +6,25 @@ extends CharacterBody3D
 @export var tilt_enabled := true
 @export var headbob_enabled := true
 @export var toggle_crouch_enabled := false
-@export var toggle_sprint_enabled := false
+#@export var toggle_sprint_enabled := false
 
 @export var gravity := 16.0
 @export var mass := 80.0 # for colliions with rbs
 
 # "tried and tested" values
 @export var jump_velocity := 6.0
-@export var walk_speed := 7.0
-@export var sprint_speed := 11.0
-@export var ground_accel := 11.0
-@export var ground_decel := 10.0
-@export var ground_friction := 6.0
+@export var walk_speed := 10.0
+#@export var sprint_speed := 11.0
+@export var ground_accel := 8.0
+@export var ground_decel := 20.0
+@export var ground_friction := 2.0
 @export var air_accel := 8.0
-@export var max_controlled_air_speed := 3.0
+@export var max_controlled_air_speed := 5.0
+@export var slide_base_speed := 12.0
+@export var slide_minimum_speed := 3.0
+@export var slide_bonus_speed_mult := 0.30
+@export var slide_bonus_jump_speed := 3.0
+@export var slide_speed_duration := 0.7
 @export var wallrun_minimum_height := 1.0
 @export var wallrun_fall_friction := 8.0
 @export var wallrun_jump_velocity := 4.0
@@ -46,8 +51,11 @@ const CROUCH_TRANSLATE := 0.7
 const CROUCH_JUMP_ADD := 0.6 # jerks the camera up like Source
 var is_crouching := false
 
+var was_on_floor_last_frame := false
 var is_sprinting := false
 var is_wallrunning := false
+var is_sliding := false
+var slide_timer := 0.0
 
 var is_in_turnaround := false
 var turnaround_timer := 0.0
@@ -83,7 +91,7 @@ func _ready_hide_model_for_camera():
 
 
 func _unhandled_input(event):
-	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
+	if Utils.is_mouse_captured():
 		# camera
 		if event is InputEventMouseMotion:
 			last_mouse_move = Vector2(event.relative)
@@ -110,8 +118,11 @@ func _unhandled_input(event):
 
 
 
-func _physics_process(delta) -> void:
-	input_direction = Input.get_vector("strafe_left", "strafe_right", "move_forward", "move_backward").normalized()
+func _physics_process(delta) -> void:	
+	if Utils.is_mouse_captured():
+		input_direction = Input.get_vector("strafe_left", "strafe_right", "move_forward", "move_backward").normalized()
+	else:
+		input_direction = Vector2.ZERO
 	wish_direction = self.global_basis * Vector3(input_direction.x, 0, input_direction.y)
 	#_handle_ground_physics(delta)
 	
@@ -132,9 +143,10 @@ func _physics_process(delta) -> void:
 		_handle_wallrun(delta)
 		_handle_air_physics(delta)
 	
-	
+	was_on_floor_last_frame = is_on_floor()
 	_push_rigidbodies(delta)
 	move_and_slide()
+	
 	if is_on_floor():
 		_handle_landing()
 
@@ -152,37 +164,51 @@ func _handle_noclip(_delta) -> void:
 
 func _handle_ground_physics(delta) -> void:
 	is_wallrunning = false
+	jump_starting_height = global_position.y
 	
-	var cur_speed_in_wish_dir = self.velocity.dot(wish_direction)
+	#if not is_sliding:
+	var cur_speed_in_wish_dir = velocity.dot(wish_direction)
+	if is_sliding: cur_speed_in_wish_dir =  velocity.dot(-global_basis.z)
 	#var capped_speed = min((air_move_speed * wish_direction).length(), air_cap)
 	var add_speed_till_cap = get_move_speed() - cur_speed_in_wish_dir
 	if add_speed_till_cap > 0:
 		var accel_speed = ground_accel * get_move_speed() * delta
 		accel_speed = min(accel_speed, add_speed_till_cap)
 		#if not is_crouching or (is_crouching and velocity.length() < get_move_speed()):
-		velocity += accel_speed * wish_direction
+		if is_sliding:
+			velocity += accel_speed * -global_basis.z
+		else:
+			velocity += accel_speed * wish_direction
 	
 	#friction
 	var current_speed = velocity.length()
 	var control = max(current_speed, ground_decel)
 	var drop = control * ground_friction * delta
-	if is_crouching:# and current_speed > get_move_speed():
-		drop *= 0.2
-	elif is_sprinting:
+	if is_sliding and slide_timer > 0.0:# and current_speed > get_move_speed():
+		drop *= 0.1
+	elif is_crouching and current_speed < get_move_speed()*1.1:
+		drop *= 0.5
+	elif is_sprinting and current_speed > get_move_speed()*1.1:
 		drop *= 0.5
 	var new_speed = max(current_speed - drop, 0)
 	if current_speed > 0:
 		new_speed /= current_speed
 	velocity *= new_speed
 	
-	jump_starting_height = global_position.y
+	
+	var final_jump_velocity = jump_velocity
+	if is_sliding: 
+		final_jump_velocity += slide_bonus_jump_speed
 	if auto_bhop_enabled and Input.is_action_pressed("jump"):
-		velocity.y += jump_velocity
+		velocity.y += final_jump_velocity
 	elif Input.is_action_just_pressed("jump"):
-		velocity.y += jump_velocity
+		velocity.y += final_jump_velocity
+
 
 
 func _handle_air_physics(delta):
+	is_sliding = false
+	is_sprinting = false
 	velocity.y -= gravity * delta # gravity
 	# air redirection
 	if wish_direction != Vector3.ZERO and not is_on_wall():
@@ -257,18 +283,15 @@ func _handle_vaulting_stop():
 
 
 func _handle_sprinting(_delta):
-	if toggle_sprint_enabled:
-		if Input.is_action_just_pressed("sprint"):
-			is_sprinting = not is_sprinting
-	else:
-		is_sprinting = Input.is_action_pressed("sprint") and not is_crouching
+	is_sprinting = get_horizontal_velocity().length() >= 0.8 * walk_speed
 
 @onready var _original_capsule_height = $CollisionShape3D.shape.height
 func _handle_crouch(delta):
 	var crouching_last_frame = is_crouching
-	if Input.is_action_pressed("crouch"):
-		#if is_sprinting() and is_on_floor():
-			#velocity *= 1.5
+	
+	if is_sliding:
+		is_crouching = true
+	elif Utils.is_mouse_captured() and Input.is_action_pressed("crouch"):
 		is_crouching = true
 	else:
 		if not test_move(global_transform, Vector3(0,CROUCH_TRANSLATE,0)):
@@ -288,10 +311,31 @@ func _handle_crouch(delta):
 			%Head.position.y += result.get_travel().y * -CROUCH_JUMP_ADD
 			#create_tween().tween_property(self,"position:y", position.y + result.get_travel().y, 0.2)
 	
+	#slide stuff
+	if is_sliding:
+		slide_timer -= delta
+		if slide_timer <= 0: 
+			is_sliding = false
+		if get_horizontal_velocity().length() < slide_minimum_speed: 
+			is_sliding = false
+	
+	var started_sliding := false
+	if is_crouching and not crouching_last_frame and is_sprinting: started_sliding = true
+	if is_crouching and not was_on_floor_last_frame and is_on_floor(): started_sliding = true
+	if started_sliding:
+		is_sliding = true
+		slide_timer = slide_speed_duration
+		var slide_speed = max(get_horizontal_velocity().length(), slide_base_speed)
+		slide_speed *= (1 + slide_bonus_speed_mult)
+		velocity -= get_horizontal_velocity()
+		#velocity += global_basis * Vector3.FORWARD * slide_speed
+		velocity += wish_direction * slide_speed
 	
 	%Head.position = lerp(%Head.position, Vector3(0, -CROUCH_TRANSLATE if is_crouching else 0.0, 0), delta*10)
 	%CollisionShape3D.shape.height = _original_capsule_height + (-CROUCH_TRANSLATE if is_crouching else 0.0)
 	%CollisionShape3D.position.y = %CollisionShape3D.shape.height / 2
+	
+	
 
 
 func _handle_wallclimb(_delta):
@@ -341,6 +385,7 @@ func _handle_wallrun(delta):
 func _handle_landing():
 	if not is_crouching:
 		if global_position.y < jump_starting_height - max_fall_height_immune - 0.1:
+			jump_starting_height = global_position.y
 			velocity = Vector3(0,4,0)
 			# TODO: damage, rolling
 
@@ -377,7 +422,7 @@ func _process_headbob_effect(delta):
 	var target_v_offset := 0.0
 	var target_h_offset := 0.0
 	if headbob_enabled:
-		if not is_on_floor() or velocity.length() < 2.0:
+		if not is_on_floor() or velocity.length() < 2.0 or is_sliding:
 			headbob_timer = 0.0
 			target_v_offset = 0.0
 			target_h_offset = 0.0
@@ -443,9 +488,9 @@ func _process_interact_ray(_delta):
 
 func get_move_speed() -> float:
 	if is_crouching:
-		return walk_speed * 0.7
-	elif is_sprinting:
-		return sprint_speed
+		return walk_speed * 0.5
+	#elif is_sprinting:
+		#return sprint_speed
 	else:
 		return walk_speed
 

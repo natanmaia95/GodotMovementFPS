@@ -2,6 +2,9 @@ extends Node
 ## Utils.gd
 ## Useful functions for all sorts of places.
 
+func is_mouse_captured() -> bool:
+	return Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED
+
 func get_all_file_paths(path: String) -> Array[String]:
 	var file_paths: Array[String] = []
 	var dir = DirAccess.open(path)
