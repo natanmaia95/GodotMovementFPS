@@ -331,7 +331,11 @@ func _handle_crouch(delta):
 		#velocity += global_basis * Vector3.FORWARD * slide_speed
 		velocity += wish_direction * slide_speed
 	
-	%Head.position = lerp(%Head.position, Vector3(0, -CROUCH_TRANSLATE if is_crouching else 0.0, 0), delta*10)
+	var target_head_position = 0.0
+	if is_crouching: target_head_position = -CROUCH_TRANSLATE
+	if is_sliding: target_head_position = -CROUCH_TRANSLATE -0.4
+	
+	%Head.position = lerp(%Head.position, Vector3(0,target_head_position, 0), delta*10)
 	%CollisionShape3D.shape.height = _original_capsule_height + (-CROUCH_TRANSLATE if is_crouching else 0.0)
 	%CollisionShape3D.position.y = %CollisionShape3D.shape.height / 2
 	
@@ -481,8 +485,14 @@ func _process_interact_ray(_delta):
 	var possible_interactable : InteractableComponent = get_interactable()
 	if possible_interactable:
 		possible_interactable.hover_cursor(self)
-		if Input.is_action_just_pressed("interact"):
+		if Utils.is_mouse_captured() and Input.is_action_just_pressed("interact"):
 			possible_interactable.interact(self)
+	
+	var possible_grapplable := get_grapple_point()
+	if possible_grapplable:
+		possible_grapplable.hover_cursor(self)
+		if Utils.is_mouse_captured() and Input.is_action_just_pressed("grapple"):
+			possible_grapplable.interact(self)
 
 
 
@@ -507,6 +517,15 @@ func get_interactable() -> InteractableComponent:
 	for index in %InteractShapeCast.get_collision_count():
 		var collider = %InteractShapeCast.get_collider(index)
 		if collider is InteractableComponent:
+			if not collider.can_hover(self): continue
+			return collider
+	return null
+
+func get_grapple_point() -> InteractableComponent:
+	for index in %GrappleShapeCast.get_collision_count():
+		var collider = %GrappleShapeCast.get_collider(index)
+		if collider is InteractableComponent:
+			if not collider.can_hover(self): continue
 			return collider
 	return null
 

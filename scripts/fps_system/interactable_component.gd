@@ -16,6 +16,9 @@ func interact(source:Node3D = null) -> void:
 func hover_cursor(character:Node3D) -> void:
 	hovering_characters[character] = Engine.get_process_frames()#adds a time count
 
+func can_hover(character:Node3D) -> bool:
+	return true
+
 func get_character_hovering_current_camera() -> Node3D:
 	for character in hovering_characters.keys():
 		var current_camera : Camera3D = null

@@ -56,6 +56,16 @@ max_results = 2
 collision_mask = 512
 collide_with_areas = true
 
+[node name="GrappleShapeCast" type="ShapeCast3D" parent="HeadRoot/Head/HeadCamera"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+visible = false
+shape = SubResource("SphereShape3D_kvdcj")
+target_position = Vector3(0, -10, 0)
+max_results = 1
+collision_mask = 1024
+collide_with_areas = true
+
 [node name="HitscanComponent" type="Node3D" parent="HeadRoot/Head/HeadCamera"]
 unique_name_in_owner = true
 visible = false

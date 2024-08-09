@@ -203,7 +203,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.0307, 4.5, 12.696)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.0307, 4.5, 15.696)
 
 [node name="GrappleSpot" parent="." instance=ExtResource("8_713wj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 4.10422, 18.6395)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9, 4.10422, 18.6395)
 
 [node name="GrappleSpot2" parent="." instance=ExtResource("8_713wj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.9669, 8.68516, 8.27224)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.7669, 8.68516, 8.27224)

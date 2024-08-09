@@ -5,7 +5,8 @@ extends Object
 
 enum PhysicsLayers {
 	HURTBOX = 9,
-	INTERACTABLE = 10
+	INTERACTABLE = 10,
+	GRAPPLE = 11
 }
 
 

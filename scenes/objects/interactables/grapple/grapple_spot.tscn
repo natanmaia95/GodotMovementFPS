@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://c4e6sjaksta2h"]
 
 [ext_resource type="Script" path="res://scenes/objects/interactables/grapple/grapple_spot.gd" id="1_7tjas"]
-[ext_resource type="Script" path="res://scripts/fps_system/interactable_component.gd" id="1_mdhsj"]
+[ext_resource type="Script" path="res://scenes/objects/interactables/grapple/grapple_interact_area.gd" id="2_nyddl"]
 [ext_resource type="Texture2D" uid="uid://25s5jv7d3geb" path="res://textures/prototype/green_texture_0.png" id="3_gi556"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_arsm7"]
@@ -24,9 +24,9 @@ script = ExtResource("1_7tjas")
 
 [node name="InteractableComponent" type="Area3D" parent="."]
 unique_name_in_owner = true
-collision_layer = 512
+collision_layer = 1024
 collision_mask = 0
-script = ExtResource("1_mdhsj")
+script = ExtResource("2_nyddl")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="InteractableComponent"]
 shape = SubResource("SphereShape3D_arsm7")
