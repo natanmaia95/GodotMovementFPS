@@ -1,0 +1,42 @@
+[gd_scene load_steps=8 format=3 uid="uid://c4e6sjaksta2h"]
+
+[ext_resource type="Script" path="res://scenes/objects/interactables/grapple/grapple_spot.gd" id="1_7tjas"]
+[ext_resource type="Script" path="res://scripts/fps_system/interactable_component.gd" id="1_mdhsj"]
+[ext_resource type="Texture2D" uid="uid://25s5jv7d3geb" path="res://textures/prototype/green_texture_0.png" id="3_gi556"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_arsm7"]
+radius = 3.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h8b67"]
+albedo_texture = ExtResource("3_gi556")
+
+[sub_resource type="SphereMesh" id="SphereMesh_abfiv"]
+radius = 0.2
+height = 0.4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vcn2x"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0, 1, 0.333333, 0.2)
+
+[node name="GrappleSpot" type="Node3D"]
+script = ExtResource("1_7tjas")
+
+[node name="InteractableComponent" type="Area3D" parent="."]
+unique_name_in_owner = true
+collision_layer = 512
+collision_mask = 0
+script = ExtResource("1_mdhsj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractableComponent"]
+shape = SubResource("SphereShape3D_arsm7")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_h8b67")
+mesh = SubResource("SphereMesh_abfiv")
+
+[node name="HighlightMesh" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(14.9034, 0, 0, 0, 14.9034, 0, 0, 0, 14.9034, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_vcn2x")
+mesh = SubResource("SphereMesh_abfiv")

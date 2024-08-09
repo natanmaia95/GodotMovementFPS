@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://b7gm1sf8tiqir"]
+[gd_scene load_steps=13 format=3 uid="uid://b7gm1sf8tiqir"]
 
 [ext_resource type="Material" uid="uid://brfh3gbut8wdo" path="res://textures/prototype/_mat_black.tres" id="1_art4b"]
 [ext_resource type="PackedScene" uid="uid://c4ix1c7yuyl4f" path="res://scenes/player/fps_controller.tscn" id="1_t2gh3"]
@@ -7,6 +7,7 @@
 [ext_resource type="Material" uid="uid://dqoa3v5djgqkv" path="res://textures/prototype/_mat_red.tres" id="5_xob7y"]
 [ext_resource type="PackedScene" uid="uid://cxlctaiqvaei1" path="res://scenes/objects/interactables/debug_button.tscn" id="6_r2tqb"]
 [ext_resource type="PackedScene" uid="uid://bx2k2bifg0107" path="res://scenes/objects/debug/hitscan_target_test.tscn" id="7_30qfy"]
+[ext_resource type="PackedScene" uid="uid://c4e6sjaksta2h" path="res://scenes/objects/interactables/grapple/grapple_spot.tscn" id="8_713wj"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_v2880"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -200,3 +201,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.0307, 4.5, 12.696)
 
 [node name="HitscanTargetTest6" parent="Targets" instance=ExtResource("7_30qfy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.0307, 4.5, 15.696)
+
+[node name="GrappleSpot" parent="." instance=ExtResource("8_713wj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 4.10422, 18.6395)
+
+[node name="GrappleSpot2" parent="." instance=ExtResource("8_713wj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.9669, 8.68516, 8.27224)
