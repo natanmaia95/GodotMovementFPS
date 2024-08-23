@@ -1,0 +1,39 @@
+[gd_scene load_steps=2 format=3 uid="uid://t3epxkyt7ld2"]
+
+[ext_resource type="Script" path="res://scenes/screens/pause/level_pause_screen.gd" id="1_4cgfe"]
+
+[node name="LevelPauseScreen" type="CanvasLayer"]
+script = ExtResource("1_4cgfe")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+alignment = 1
+
+[node name="BtnContinue" type="Button" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Continue"
+
+[node name="BtnRestart" type="Button" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Restart"
+
+[connection signal="pressed" from="Control/MarginContainer/VBoxContainer/BtnContinue" to="." method="_on_btn_continue_pressed"]
+[connection signal="pressed" from="Control/MarginContainer/VBoxContainer/BtnRestart" to="." method="_on_btn_restart_pressed"]

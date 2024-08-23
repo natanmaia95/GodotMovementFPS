@@ -1,7 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://b7gm1sf8tiqir"]
+[gd_scene load_steps=14 format=3 uid="uid://b7gm1sf8tiqir"]
 
 [ext_resource type="Material" uid="uid://brfh3gbut8wdo" path="res://textures/prototype/_mat_black.tres" id="1_art4b"]
 [ext_resource type="PackedScene" uid="uid://c4ix1c7yuyl4f" path="res://scenes/player/fps_controller.tscn" id="1_t2gh3"]
+[ext_resource type="PackedScene" uid="uid://t3epxkyt7ld2" path="res://scenes/screens/pause/LevelPauseScreen.tscn" id="1_v5v73"]
 [ext_resource type="Material" uid="uid://b2kjidniasa6g" path="res://textures/prototype/_mat_white.tres" id="2_2twkk"]
 [ext_resource type="Material" uid="uid://xgvouh8o877h" path="res://textures/prototype/_mat_orange.tres" id="3_skyb5"]
 [ext_resource type="Material" uid="uid://dqoa3v5djgqkv" path="res://textures/prototype/_mat_red.tres" id="5_xob7y"]
@@ -25,6 +26,8 @@ tonemap_white = 16.0
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hny61"]
 
 [node name="TestScene1" type="Node3D"]
+
+[node name="LevelPauseScreen" parent="." instance=ExtResource("1_v5v73")]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_st68l")
