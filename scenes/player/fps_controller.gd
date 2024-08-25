@@ -1,3 +1,4 @@
+class_name FPSController
 extends CharacterBody3D
 
 

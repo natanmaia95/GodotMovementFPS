@@ -10,7 +10,6 @@ func _ready():
 
 
 func _input(event:InputEvent):
-	print(event)
 	if not is_busy and event.is_action("pause") and event.is_pressed():
 		if is_open:
 			_close()

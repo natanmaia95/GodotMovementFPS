@@ -1,0 +1,6 @@
+[gd_resource type="Resource" script_class="TimerResource" load_steps=2 format=3 uid="uid://bso5psp0n1f6p"]
+
+[ext_resource type="Script" path="res://scripts/timer/timer.gd" id="1_o2ga0"]
+
+[resource]
+script = ExtResource("1_o2ga0")

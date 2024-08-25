@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://f1lsjnvxfx"]
+
+[ext_resource type="Script" path="res://scenes/objects/stage/finish_stage_area.gd" id="1_y81de"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_lfstp"]
+
+[node name="FinishStageArea" type="Area3D"]
+script = ExtResource("1_y81de")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.0944535, 0, 0, 0, 1, 0, 0, 0, 0.0944535, 0, 1, 0)
+mesh = SubResource("CylinderMesh_lfstp")

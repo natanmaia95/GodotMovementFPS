@@ -1,7 +1,8 @@
-[gd_scene load_steps=14 format=3 uid="uid://b7gm1sf8tiqir"]
+[gd_scene load_steps=17 format=3 uid="uid://b7gm1sf8tiqir"]
 
 [ext_resource type="Material" uid="uid://brfh3gbut8wdo" path="res://textures/prototype/_mat_black.tres" id="1_art4b"]
 [ext_resource type="PackedScene" uid="uid://c4ix1c7yuyl4f" path="res://scenes/player/fps_controller.tscn" id="1_t2gh3"]
+[ext_resource type="Script" path="res://scripts/stage/stage_3d.gd" id="1_taf11"]
 [ext_resource type="PackedScene" uid="uid://t3epxkyt7ld2" path="res://scenes/screens/pause/LevelPauseScreen.tscn" id="1_v5v73"]
 [ext_resource type="Material" uid="uid://b2kjidniasa6g" path="res://textures/prototype/_mat_white.tres" id="2_2twkk"]
 [ext_resource type="Material" uid="uid://xgvouh8o877h" path="res://textures/prototype/_mat_orange.tres" id="3_skyb5"]
@@ -9,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://cxlctaiqvaei1" path="res://scenes/objects/interactables/debug_button.tscn" id="6_r2tqb"]
 [ext_resource type="PackedScene" uid="uid://bx2k2bifg0107" path="res://scenes/objects/debug/hitscan_target_test.tscn" id="7_30qfy"]
 [ext_resource type="PackedScene" uid="uid://c4e6sjaksta2h" path="res://scenes/objects/interactables/grapple/grapple_spot.tscn" id="8_713wj"]
+[ext_resource type="PackedScene" uid="uid://f1lsjnvxfx" path="res://scenes/objects/stage/finish_stage_area.tscn" id="11_1ceoo"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_v2880"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -25,7 +27,11 @@ tonemap_white = 16.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hny61"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_avoo4"]
+size = Vector3(2.92554, 1, 2.98633)
+
 [node name="TestScene1" type="Node3D"]
+script = ExtResource("1_taf11")
 
 [node name="LevelPauseScreen" parent="." instance=ExtResource("1_v5v73")]
 
@@ -210,3 +216,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9, 4.10422, 18.6395)
 
 [node name="GrappleSpot2" parent="." instance=ExtResource("8_713wj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.7669, 8.68516, 8.27224)
+
+[node name="FinishStageArea" parent="." instance=ExtResource("11_1ceoo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.60872, 4.5, 10.6435)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FinishStageArea"]
+shape = SubResource("BoxShape3D_avoo4")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="FinishStageArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.89364, 0, 0)
+shape = SubResource("BoxShape3D_avoo4")

@@ -7,9 +7,9 @@ signal damage_taken(amount)
 @export var disabled := false:
 	set(value):
 		disabled = value
-		monitoring = !value
-		monitorable = !value
-		process_mode = Node.PROCESS_MODE_DISABLED if disabled else PROCESS_MODE_INHERIT
+		set_deferred("monitoring", !value)
+		set_deferred("monitorable", !value)
+		set_deferred("process_mode", Node.PROCESS_MODE_DISABLED if disabled else PROCESS_MODE_INHERIT)
 
 func _ready():
 	if Engine.is_editor_hint():

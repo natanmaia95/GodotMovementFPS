@@ -35,5 +35,6 @@ func _on_btn_restart_pressed():
 	try_restart_level()
 
 func try_restart_level():
+	if not StageManager.has_seen_intro: return
 	get_tree().paused = false
-	get_tree().reload_current_scene()
+	StageManager.reset_stage()

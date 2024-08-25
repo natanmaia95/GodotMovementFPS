@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 Utils="*res://scripts/autoloads/utils.gd"
 AudioManager="*res://scripts/autoloads/audio_manager.gd"
 ConfigManager="*res://scripts/configs/config_manager.gd"
+StageManager="*res://scripts/stage/stage_manager.gd"
 
 [input]
 
