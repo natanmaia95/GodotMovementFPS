@@ -43,7 +43,7 @@ func _ready_setup_hitscan_raycast():
 	ray.collide_with_areas = true
 	ray.collide_with_bodies = false
 	ray.collision_mask = 0
-	ray.set_collision_mask_value(FPSDefs.PhysicsLayers.HURTBOX, true)
+	ray.set_collision_mask_value(FPSDefs.PhysicsLayers.ENEMY_HURTBOX, true)
 	ray.debug_shape_thickness = 2
 
 func setup_hitscan_raycast(gun:FPSGun):

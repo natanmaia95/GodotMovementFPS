@@ -6,7 +6,10 @@ extends Object
 enum PhysicsLayers {
 	HURTBOX = 9,
 	INTERACTABLE = 10,
-	GRAPPLE = 11
+	GRAPPLE = 11,
+	
+	PLAYER_HURTBOX = 13,
+	ENEMY_HURTBOX = 14
 }
 
 

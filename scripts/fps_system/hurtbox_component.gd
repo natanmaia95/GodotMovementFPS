@@ -11,6 +11,12 @@ signal damage_taken(amount)
 		set_deferred("monitorable", !value)
 		set_deferred("process_mode", Node.PROCESS_MODE_DISABLED if disabled else PROCESS_MODE_INHERIT)
 
+@export var is_player_hurtbox := false:
+	set(value):
+		is_player_hurtbox = value
+		set_collision_layer_value(FPSDefs.PhysicsLayers.PLAYER_HURTBOX, value)
+		set_collision_layer_value(FPSDefs.PhysicsLayers.ENEMY_HURTBOX, !value)
+
 func _ready():
 	if Engine.is_editor_hint():
 		_setup_collisions()

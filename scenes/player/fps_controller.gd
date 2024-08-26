@@ -52,6 +52,7 @@ const CROUCH_TRANSLATE := 0.7
 const CROUCH_JUMP_ADD := 0.6 # jerks the camera up like Source
 var is_crouching := false
 
+var velocity_last_frame := Vector3.ZERO
 var was_on_floor_last_frame := false
 var is_sprinting := false
 var is_wallrunning := false
@@ -116,10 +117,7 @@ func _unhandled_input(event):
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 
-
-
-
-func _physics_process(delta) -> void:	
+func _physics_process(delta) -> void:
 	if Utils.is_mouse_captured():
 		input_direction = Input.get_vector("strafe_left", "strafe_right", "move_forward", "move_backward").normalized()
 	else:
@@ -146,6 +144,7 @@ func _physics_process(delta) -> void:
 	
 	was_on_floor_last_frame = is_on_floor()
 	_push_rigidbodies(delta)
+	velocity_last_frame = velocity
 	move_and_slide()
 	
 	if is_on_floor():
@@ -363,14 +362,27 @@ func _handle_wallrun(delta):
 	# if is_on_wall_only():
 	var was_wallrunning_last_frame = is_wallrunning
 	var wall_normal = get_wall_normal()
+	var speed_dot := velocity.normalized().dot(-global_basis.z)
+	var wall_dot := wall_normal.dot(-global_basis.z)
 	# TODO: check if not facing the wall
+	if is_wallrunning:
+		if speed_dot <= 0.0:
+			is_wallrunning = false
+			velocity *= 0.8
+			velocity += wall_normal * 3
+			return
+	elif speed_dot <= 0.1: #facing backwards to the wall
+		return #dont attach to the wall
+	
 	is_wallrunning = true
 	# move player forwards
 	var wall_forwards = Vector3.UP.cross(wall_normal)
 	if not is_wall_to_the_left(): wall_forwards *= -1
 	
-	var speed = get_horizontal_velocity().length()
-	var wall_hor_velocity = wall_forwards * speed
+	#var speed = get_horizontal_velocity().length()
+	var collided_speed := get_horizontal_velocity().length()
+	var last_speed := Vector3(velocity_last_frame.x, 0, velocity_last_frame.z).length()
+	var wall_hor_velocity = wall_forwards * lerpf(last_speed, collided_speed, 0.3)
 	# TODO: better friction formula
 	# undo and redo gravity
 	var wall_fall_speed = velocity.y
@@ -388,12 +400,12 @@ func _handle_wallrun(delta):
 
 
 func _handle_landing():
-	if not is_crouching:
-		if global_position.y < jump_starting_height - max_fall_height_immune - 0.1:
-			jump_starting_height = global_position.y
-			velocity = Vector3(0,4,0)
-			# TODO: damage, rolling
-
+	#if not is_crouching:
+		#if global_position.y < jump_starting_height - max_fall_height_immune - 0.1:
+			#jump_starting_height = global_position.y
+			#velocity = Vector3(0,4,0)
+			## TODO: damage, rolling
+	pass
 
 # majikayo games
 func _push_rigidbodies(_delta):

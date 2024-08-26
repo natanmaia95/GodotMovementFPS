@@ -28,7 +28,7 @@ transform = Transform3D(0.604194, 0, 0, 0, 0.977451, 0, 0, 0, 0.610753, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_5jdit")
 
 [node name="HurtboxComponent" type="Area3D" parent="."]
-collision_layer = 256
+collision_layer = 8448
 collision_mask = 0
 script = ExtResource("1_tm0vg")
 

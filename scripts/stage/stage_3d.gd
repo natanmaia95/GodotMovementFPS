@@ -6,6 +6,9 @@ signal intro_started
 signal started
 
 
+@export var player : FPSController = null
+
+
 func _ready():
 	await ready()
 	if not StageManager.has_seen_intro:
