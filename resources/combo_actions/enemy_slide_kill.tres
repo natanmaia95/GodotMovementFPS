@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ScoreAction" load_steps=2 format=3 uid="uid://l0pd2x05ca7a"]
+
+[ext_resource type="Script" path="res://scripts/combo_system/score_action.gd" id="1_k287p"]
+
+[resource]
+script = ExtResource("1_k287p")
+key = "enemy_slide_kill"
+name = "Slide Kill"
+points = 100

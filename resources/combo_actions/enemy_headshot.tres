@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ScoreAction" load_steps=2 format=3 uid="uid://c2o01mf4coywt"]
+
+[ext_resource type="Script" path="res://scripts/combo_system/score_action.gd" id="1_2i48c"]
+
+[resource]
+script = ExtResource("1_2i48c")
+key = "enemy_headshot"
+name = "Headshot"
+points = 100

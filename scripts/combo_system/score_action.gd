@@ -3,8 +3,8 @@ extends Resource
 
 
 
-# 
-var key : String = ""
-var name : String = ""
 
-var points : int = 100 
+@export var key : String = ""
+@export var name : String = ""
+
+@export var points : int = 100 
