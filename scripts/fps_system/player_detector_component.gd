@@ -22,4 +22,4 @@ func on_body_entered(body) -> void:
 		if disable_on_first_trigger:
 			disabled = true
 
-func on_player_entered(player:CharacterBody3D) -> void: pass
+func on_player_entered(_player:CharacterBody3D) -> void: pass

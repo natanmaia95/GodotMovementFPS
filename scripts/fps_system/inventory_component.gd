@@ -26,14 +26,12 @@ func _unhandled_input(event):
 	#if event.is_action("alt_fire") and event.is_pressed():
 		#alt_fire_item()
 	if event is InputEventMouseButton and event.is_pressed():
-		#print(event)
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
 			selected_index += 1
 		if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			selected_index -= 1
 	if event is InputEventKey and event.is_pressed():
 		if event.keycode in range(49, 58): # 0 to 9 keys
-			#print(event.keycode)
 			select(event.keycode - 49)
 
 

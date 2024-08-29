@@ -35,6 +35,6 @@ func finish_stage() -> bool:
 	
 	has_seen_intro = false
 	is_timer_active = false
-	print("seconds: ", timer.seconds)
-	print("frames in seconds: ", timer.get_frames_in_seconds())
+	print_debug("seconds: ", timer.seconds)
+	print_debug("frames in seconds: ", timer.get_frames_in_seconds())
 	return true

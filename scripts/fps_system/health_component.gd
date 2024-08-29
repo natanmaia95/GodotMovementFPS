@@ -1,5 +1,5 @@
 class_name HealthComponent
-extends Node
+extends Node3D
 
 signal health_changed(new_value, delta)
 signal health_depleted()

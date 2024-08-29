@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://b7gm1sf8tiqir"]
+[gd_scene load_steps=18 format=3 uid="uid://b7gm1sf8tiqir"]
 
 [ext_resource type="Material" uid="uid://brfh3gbut8wdo" path="res://textures/prototype/_mat_black.tres" id="1_art4b"]
 [ext_resource type="PackedScene" uid="uid://c4ix1c7yuyl4f" path="res://scenes/player/fps_controller.tscn" id="1_t2gh3"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://bx2k2bifg0107" path="res://scenes/objects/debug/hitscan_target_test.tscn" id="7_30qfy"]
 [ext_resource type="PackedScene" uid="uid://c4e6sjaksta2h" path="res://scenes/objects/interactables/grapple/grapple_spot.tscn" id="8_713wj"]
 [ext_resource type="PackedScene" uid="uid://f1lsjnvxfx" path="res://scenes/objects/stage/finish_stage_area.tscn" id="11_1ceoo"]
+[ext_resource type="PackedScene" uid="uid://bitq6h8ytmopn" path="res://scenes/enemies/test/test_enemy_1.tscn" id="12_by3aa"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_v2880"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -44,6 +45,7 @@ shadow_enabled = true
 
 [node name="FpsController" parent="." instance=ExtResource("1_t2gh3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.78139, 1.02304, 0.492347)
+look_sensitivity = 0.003
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(-0.88538, 0.182743, -0.427442, 1.13902e-08, 0.919493, 0.393107, 0.464868, 0.348049, -0.814101, -6.2839, 3.10341, -7.97252)
@@ -226,3 +228,6 @@ shape = SubResource("BoxShape3D_avoo4")
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="FinishStageArea"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.89364, 0, 0)
 shape = SubResource("BoxShape3D_avoo4")
+
+[node name="TestEnemy1" parent="." instance=ExtResource("12_by3aa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.65735, -0.5, -16.3861)

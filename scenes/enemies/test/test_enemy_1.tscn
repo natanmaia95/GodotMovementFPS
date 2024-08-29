@@ -1,0 +1,69 @@
+[gd_scene load_steps=12 format=3 uid="uid://bitq6h8ytmopn"]
+
+[ext_resource type="Script" path="res://scenes/enemies/test/test_enemy_1.gd" id="1_64ejp"]
+[ext_resource type="Script" path="res://scenes/enemies/test/test_hfsm_1_root.gd" id="1_78t2l"]
+[ext_resource type="Script" path="res://scripts/fps_system/hurtbox_component.gd" id="1_4185d"]
+[ext_resource type="Script" path="res://scripts/fps_system/health_component.gd" id="3_hlrg6"]
+[ext_resource type="Script" path="res://scenes/enemies/test/test_hfsm_idle.gd" id="5_w2nhl"]
+[ext_resource type="Script" path="res://scripts/hfsm/enemy/alive.gd" id="6_t7gg1"]
+[ext_resource type="Script" path="res://scripts/hfsm/enemy/dead.gd" id="7_o74c3"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_nnrae"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_2rl6c"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_eerrg"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_uxav7"]
+radius = 0.7
+height = 2.2
+
+[node name="TestEnemy1" type="CharacterBody3D" node_paths=PackedStringArray("state_machine")]
+script = ExtResource("1_64ejp")
+state_machine = NodePath("TestHFSM1")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_nnrae")
+
+[node name="MeshInstanceCube" type="MeshInstance3D" parent="MeshInstance3D2"]
+transform = Transform3D(1, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0.4, -0.4)
+mesh = SubResource("BoxMesh_2rl6c")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_eerrg")
+
+[node name="HurtboxComponent" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+collision_layer = 8448
+collision_mask = 0
+script = ExtResource("1_4185d")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HurtboxComponent"]
+shape = SubResource("CapsuleShape3D_uxav7")
+
+[node name="HealthComponent" type="Node3D" parent="."]
+script = ExtResource("3_hlrg6")
+max_health = 200.0
+
+[node name="TestHFSM1" type="Node" parent="." node_paths=PackedStringArray("character")]
+unique_name_in_owner = true
+script = ExtResource("1_78t2l")
+character = NodePath("..")
+move_name = "root"
+
+[node name="Alive" type="Node" parent="TestHFSM1"]
+script = ExtResource("6_t7gg1")
+starting_move_name = "idle"
+move_name = "alive"
+
+[node name="Idle" type="Node" parent="TestHFSM1/Alive"]
+script = ExtResource("5_w2nhl")
+move_name = "idle"
+
+[node name="Dead" type="Node" parent="TestHFSM1"]
+script = ExtResource("7_o74c3")
+
+[connection signal="damage_taken" from="HurtboxComponent" to="HealthComponent" method="damage"]
+[connection signal="health_depleted" from="HealthComponent" to="TestHFSM1/Alive" method="on_health_depleted"]

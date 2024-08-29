@@ -1,7 +1,7 @@
 extends MarginContainer
 
 
-func _process(delta):
+func _process(_delta):
 	if not StageManager.has_seen_intro:
 		%LblTimer.text = "Timer is not active."
 	else:

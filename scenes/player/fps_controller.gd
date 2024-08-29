@@ -81,6 +81,8 @@ func _ready():
 	%InteractShapeCast.add_exception(self)
 	%InventoryComponent.select(0)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	
+	ScoreManager.player = self
 	pass
 
 
@@ -363,7 +365,7 @@ func _handle_wallrun(delta):
 	var was_wallrunning_last_frame = is_wallrunning
 	var wall_normal = get_wall_normal()
 	var speed_dot := velocity.normalized().dot(-global_basis.z)
-	var wall_dot := wall_normal.dot(-global_basis.z)
+	#var wall_dot := wall_normal.dot(-global_basis.z)
 	# TODO: check if not facing the wall
 	if is_wallrunning:
 		if speed_dot <= 0.0:

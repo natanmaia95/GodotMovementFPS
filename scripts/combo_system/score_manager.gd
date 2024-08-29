@@ -40,7 +40,7 @@ func reset():
 	pass
 
 
-func on_enemy_killed(enemy:CharacterBody3D) -> void:
+func on_enemy_defeated(enemy:CharacterBody3D) -> void:
 	# if-else chain is the best situation here
 	# assembly-style programming
 	

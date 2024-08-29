@@ -21,6 +21,11 @@ Utils="*res://scripts/autoloads/utils.gd"
 AudioManager="*res://scripts/autoloads/audio_manager.gd"
 ConfigManager="*res://scripts/configs/config_manager.gd"
 StageManager="*res://scripts/stage/stage_manager.gd"
+ScoreManager="*res://scripts/combo_system/score_manager.gd"
+
+[editor]
+
+script/templates_search_path="res://scripts/templates"
 
 [input]
 
