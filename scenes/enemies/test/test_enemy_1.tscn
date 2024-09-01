@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bitq6h8ytmopn"]
+[gd_scene load_steps=21 format=3 uid="uid://bitq6h8ytmopn"]
 
 [ext_resource type="Script" path="res://scenes/enemies/test/test_enemy_1.gd" id="1_64ejp"]
 [ext_resource type="Script" path="res://scenes/enemies/test/test_hfsm_1_root.gd" id="1_78t2l"]
@@ -6,33 +6,121 @@
 [ext_resource type="Script" path="res://scripts/fps_system/health_component.gd" id="3_hlrg6"]
 [ext_resource type="Script" path="res://scenes/enemies/test/test_hfsm_idle.gd" id="5_w2nhl"]
 [ext_resource type="Script" path="res://scripts/hfsm/enemy/alive.gd" id="6_t7gg1"]
+[ext_resource type="Script" path="res://scripts/hfsm/enemy/player_not_found.gd" id="6_tom76"]
 [ext_resource type="Script" path="res://scripts/hfsm/enemy/dead.gd" id="7_o74c3"]
+[ext_resource type="Script" path="res://scripts/hfsm/enemy/player_found.gd" id="8_85cey"]
+[ext_resource type="Script" path="res://scripts/hfsm/enemy/alerted.gd" id="9_hnyf1"]
+[ext_resource type="Script" path="res://scripts/hfsm/enemy/aiming_at_player.gd" id="10_evald"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_eerrg"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_nnrae"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_2rl6c"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_eerrg"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_efmsh"]
+albedo_color = Color(1, 0.388235, 0.478431, 1)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_uxav7"]
 radius = 0.7
 height = 2.2
 
+[sub_resource type="Animation" id="Animation_b4pni"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Model:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Model:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_8r1hr"]
+resource_name = "alerted"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Model:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.5, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_y2ot5"]
+resource_name = "dead"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Model:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 1.5708)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_iu6wj"]
+_data = {
+"RESET": SubResource("Animation_b4pni"),
+"alerted": SubResource("Animation_8r1hr"),
+"dead": SubResource("Animation_y2ot5")
+}
+
 [node name="TestEnemy1" type="CharacterBody3D" node_paths=PackedStringArray("state_machine")]
 script = ExtResource("1_64ejp")
 state_machine = NodePath("TestHFSM1")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-mesh = SubResource("CapsuleMesh_nnrae")
-
-[node name="MeshInstanceCube" type="MeshInstance3D" parent="MeshInstance3D2"]
-transform = Transform3D(1, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0.4, -0.4)
-mesh = SubResource("BoxMesh_2rl6c")
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_eerrg")
+
+[node name="Model" type="Node3D" parent="."]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_nnrae")
+skeleton = NodePath("../..")
+
+[node name="MeshInstanceCube" type="MeshInstance3D" parent="Model/MeshInstance3D2"]
+transform = Transform3D(1, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0.4, -0.4)
+mesh = SubResource("BoxMesh_2rl6c")
+surface_material_override/0 = SubResource("StandardMaterial3D_efmsh")
+
+[node name="DebugInfo" type="Node3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0)
+
+[node name="DbgLblState" type="Label3D" parent="DebugInfo"]
+unique_name_in_owner = true
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+billboard = 2
+text = "StateName"
+font_size = 64
 
 [node name="HurtboxComponent" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -47,23 +135,45 @@ shape = SubResource("CapsuleShape3D_uxav7")
 script = ExtResource("3_hlrg6")
 max_health = 200.0
 
-[node name="TestHFSM1" type="Node" parent="." node_paths=PackedStringArray("character")]
+[node name="TestHFSM1" type="Node" parent="." node_paths=PackedStringArray("animator", "character")]
 unique_name_in_owner = true
 script = ExtResource("1_78t2l")
+animator = NodePath("../AnimationPlayer")
 character = NodePath("..")
 move_name = "root"
 
 [node name="Alive" type="Node" parent="TestHFSM1"]
 script = ExtResource("6_t7gg1")
-starting_move_name = "idle"
+starting_move_name = "player_not_found"
 move_name = "alive"
 
-[node name="Idle" type="Node" parent="TestHFSM1/Alive"]
+[node name="PlayerNotFound" type="Node" parent="TestHFSM1/Alive"]
+script = ExtResource("6_tom76")
+starting_move_name = "idle"
+
+[node name="Idle" type="Node" parent="TestHFSM1/Alive/PlayerNotFound"]
 script = ExtResource("5_w2nhl")
 move_name = "idle"
 
+[node name="PlayerFound" type="Node" parent="TestHFSM1/Alive"]
+script = ExtResource("8_85cey")
+
+[node name="Alerted" type="Node" parent="TestHFSM1/Alive/PlayerFound"]
+script = ExtResource("9_hnyf1")
+next_move_name = "aiming_at_player"
+animation = "alerted"
+
+[node name="AimingAtPlayer" type="Node" parent="TestHFSM1/Alive/PlayerFound"]
+script = ExtResource("10_evald")
+
 [node name="Dead" type="Node" parent="TestHFSM1"]
 script = ExtResource("7_o74c3")
+animation = "dead"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_iu6wj")
+}
 
 [connection signal="damage_taken" from="HurtboxComponent" to="HealthComponent" method="damage"]
 [connection signal="health_depleted" from="HealthComponent" to="TestHFSM1/Alive" method="on_health_depleted"]

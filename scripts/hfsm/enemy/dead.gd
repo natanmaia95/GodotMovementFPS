@@ -12,4 +12,5 @@ func update(delta):
 		character.queue_free()
 
 func on_enter():
+	#print_debug("deado")
 	ScoreManager.on_enemy_defeated(character)

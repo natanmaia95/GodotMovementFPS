@@ -31,3 +31,4 @@ func damage(amount):
 func _setup_collisions():
 	collision_layer = 0 + int(pow(2, FPSDefs.PhysicsLayers.HURTBOX-1))
 	collision_mask = 0
+	is_player_hurtbox = is_player_hurtbox

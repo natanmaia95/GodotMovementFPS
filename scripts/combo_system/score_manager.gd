@@ -75,8 +75,9 @@ func push_action(action_key:String) -> void:
 	if not action: return
 	
 	# increase multiplier on novel action; don't increase on first action.
-	var old_action = action_history.back()
-	if old_action and old_action != action: increase_multiplier()
+	if action_history != []:
+		var old_action = action_history.back()
+		if old_action and old_action != action: increase_multiplier()
 	
 	action_history.push_back(action)
 	action_added_to_history.emit(action)

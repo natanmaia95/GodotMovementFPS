@@ -15,3 +15,6 @@ func _ready():
 func _physics_process(delta):
 	if state_machine:
 		state_machine._update(delta)
+
+func _process(_delta):
+	%DbgLblState.text = state_machine.get_lowest_active_state().name

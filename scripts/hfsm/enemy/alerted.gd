@@ -1,20 +1,23 @@
 extends EntityHFSM
 
 
-#these are the functions you might to redefine to create a custom logic:
+@export var next_move_name : String
+
 
 # to set up anything inside the state, before it is entered
-func ready() -> void: 
+func ready(): 
 	pass
 
 # choose_internal_move is the function that is being called exactly one time on_enter of HFSM
 # which is also a container. Return the state in which this sub state machine starts
 func choose_internal_move() -> HFSMTransitionData:
-	return HFSMTransitionData.new(true, "where to start")
+	return HFSMTransitionData.empty()
 
 # check_transition is the transition logic for transitioning on the same level as current node
 func check_transition(_delta) -> HFSMTransitionData:
-	return HFSMTransitionData.new(true, "to what")
+	if is_animation_finished():
+		return HFSMTransitionData.new(true, next_move_name)
+	return HFSMTransitionData.empty()
 
 # update(delta) is the function that will be called every _physics_update(), put your logic here
 func update(_delta):
@@ -26,4 +29,5 @@ func on_enter():
 	pass
 
 func on_exit():
-	pass
+	if animator: animator.play("RESET")
+

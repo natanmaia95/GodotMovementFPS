@@ -35,8 +35,10 @@ var is_container : bool = false  # automatically sets to true if we have HFSM ch
 
 
 func _ready():
+	player = get_tree().get_first_node_in_group("PLAYER")
+	
 	if move_name == "": 
-		move_name = name.to_lower()
+		move_name = name.to_snake_case()
 	_accept_substates()
 	ready()
 
@@ -82,7 +84,9 @@ func _switch_to(move):
 	current_move._on_enter()
 	if not current_move.is_container:
 		#print_debug(current_move.animation)
-		if animator: animator.play(current_move.animation)
+		if animator: 
+			if animator.has_animation(current_move.animation):
+				animator.play(current_move.animation)
 
 # this function is internal, it works and don't touch it, use on_enter() for customisation
 func _on_enter():
@@ -178,6 +182,8 @@ func coinflip() -> bool:
 func close_to_end_of_animation() -> bool:
 	return get_progress() / get_animation_length() > 0.98
 
+func is_animation_finished() -> bool:
+	return get_animation_length() < get_progress()
 
 
 

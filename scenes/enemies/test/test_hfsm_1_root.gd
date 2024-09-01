@@ -1,18 +1,14 @@
 extends EntityHFSM
 
 
-#these are the functions you might to redefine to create a custom logic:
 
-# check_transition is the transition logic for transitioning on the same level as current node
 func check_transition(_delta) -> HFSMTransitionData:
 	return HFSMTransitionData.new(false, "as we are top layer single state, we never transition")
-
 
 # choose_internal_move is the function that is being called exactly one time on_enter of HFSM
 # which is also a container. Return the state in which this sub state machine starts
 func choose_internal_move() -> HFSMTransitionData:
 	return HFSMTransitionData.new(true, "alive")
-
 
 # update(delta) is the function that will be called every _physics_update(), put your logic here
 func update(_delta):
