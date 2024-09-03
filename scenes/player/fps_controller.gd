@@ -16,7 +16,7 @@ extends CharacterBody3D
 @export var jump_velocity := 6.0
 @export var walk_speed := 10.0
 #@export var sprint_speed := 11.0
-@export var ground_accel := 8.0
+@export var ground_accel := 6.0
 @export var ground_decel := 20.0
 @export var ground_friction := 2.0
 @export var air_accel := 8.0
@@ -323,7 +323,7 @@ func _handle_crouch(delta):
 	
 	var started_sliding := false
 	if is_crouching and not crouching_last_frame and is_sprinting: started_sliding = true
-	if is_crouching and not was_on_floor_last_frame and is_on_floor(): started_sliding = true
+	if is_crouching and not was_on_floor_last_frame and is_on_floor() and is_sprinting: started_sliding = true
 	if started_sliding:
 		is_sliding = true
 		slide_timer = slide_speed_duration
