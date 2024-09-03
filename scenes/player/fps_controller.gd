@@ -340,6 +340,7 @@ func _handle_crouch(delta):
 	%Head.position = lerp(%Head.position, Vector3(0,target_head_position, 0), delta*10)
 	%CollisionShape3D.shape.height = _original_capsule_height + (-CROUCH_TRANSLATE if is_crouching else 0.0)
 	%CollisionShape3D.position.y = %CollisionShape3D.shape.height / 2
+	%HurtboxColShape3D.position.y = %HurtboxColShape3D.shape.height / 2
 	
 	
 

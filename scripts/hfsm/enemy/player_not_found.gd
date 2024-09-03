@@ -35,7 +35,7 @@ func can_see_player() -> bool:
 	if length <= long_detection_range:
 		var hor_direction = Vector3(enemy_to_player.x, 0, enemy_to_player.z).normalized()
 		var angle_degrees = rad_to_deg(hor_direction.angle_to(-character.global_basis.z))
-		print_debug("angle: ", angle_degrees)
+		#print_debug("angle: ", angle_degrees)
 		if angle_degrees <= sight_cone_angle_degrees*0.5:
 			return true
 	return false

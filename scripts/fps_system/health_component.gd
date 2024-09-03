@@ -24,3 +24,6 @@ func heal(amount:float) -> void:
 
 func damage(amount:float) -> void:
 	health -= amount
+
+func hp_rate() -> float:
+	return health / max_health

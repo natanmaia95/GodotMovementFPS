@@ -1,11 +1,14 @@
-[gd_scene load_steps=11 format=3 uid="uid://c4ix1c7yuyl4f"]
+[gd_scene load_steps=14 format=3 uid="uid://c4ix1c7yuyl4f"]
 
 [ext_resource type="Script" path="res://scenes/player/fps_controller.gd" id="1_fxojq"]
 [ext_resource type="Script" path="res://scripts/fps_system/hitscan_component.gd" id="2_i8bdy"]
 [ext_resource type="Script" path="res://scripts/fps_system/inventory_component.gd" id="3_cunqb"]
 [ext_resource type="Texture2D" uid="uid://7nyawba0wqk7" path="res://textures/crosshairs/crosshair007.png" id="4_045fx"]
+[ext_resource type="Script" path="res://scenes/player/regenerating_health_component.gd" id="4_d61p4"]
+[ext_resource type="Script" path="res://scripts/fps_system/hurtbox_component.gd" id="5_8k43g"]
 [ext_resource type="PackedScene" uid="uid://rduj8831egfn" path="res://scenes/player/hud/hud_weapons.tscn" id="5_c80yy"]
 [ext_resource type="PackedScene" uid="uid://vjmvcpbc8fv8" path="res://scenes/player/hud/hud_timer.tscn" id="6_ge7bl"]
+[ext_resource type="PackedScene" uid="uid://cwnvubwish8ly" path="res://scenes/player/hud/hud_health.tscn" id="9_o567h"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s0ugf"]
 
@@ -87,6 +90,20 @@ script = ExtResource("3_cunqb")
 hitscan_component = NodePath("../HeadRoot/Head/HeadCamera/HitscanComponent")
 model_root = NodePath("../HeadRoot/Head/HeadCamera/WeaponRoot")
 
+[node name="HealthComponent" type="Node3D" parent="."]
+script = ExtResource("4_d61p4")
+
+[node name="HurtboxComponent" type="Area3D" parent="."]
+collision_layer = 4352
+collision_mask = 0
+script = ExtResource("5_8k43g")
+is_player_hurtbox = true
+
+[node name="HurtboxColShape3D" type="CollisionShape3D" parent="HurtboxComponent"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_s0ugf")
+
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
@@ -136,3 +153,9 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 grow_horizontal = 1
 grow_vertical = 1
+
+[node name="HudHealth" parent="Control" node_paths=PackedStringArray("health_component") instance=ExtResource("9_o567h")]
+layout_mode = 1
+health_component = NodePath("../../HealthComponent")
+
+[connection signal="damage_taken" from="HurtboxComponent" to="HealthComponent" method="damage"]

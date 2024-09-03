@@ -24,6 +24,8 @@ func _ready():
 func damage(amount):
 	damage_taken.emit(amount)
 
+#TODO: add knockback signals, add stun signals
+
 #func _process(delta):
 	#if Input.is_action_just_pressed("jump"):
 		#damage(0)
