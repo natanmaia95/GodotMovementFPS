@@ -23,3 +23,5 @@ func on_score_action_added(_score_action:ScoreAction):
 	%ActionsListLbl.text = ""
 	for action:ScoreAction in slice:
 		%ActionsListLbl.text += action.name + "\n"
+	
+	%ScoreLbl.text = "SCORE: %9d" % ScoreManager.total_score
