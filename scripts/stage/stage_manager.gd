@@ -27,6 +27,7 @@ func reset_stage() -> void:
 	has_seen_intro = true
 	is_timer_active = false
 	timer.reset()
+	ScoreManager.reset()
 	get_tree().reload_current_scene()
 
 

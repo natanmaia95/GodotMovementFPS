@@ -7,3 +7,4 @@ script = ExtResource("1_8aci0")
 key = "enemy_turnaround_kill"
 name = "180° Kill"
 points = 100
+can_combo_into_itself = true

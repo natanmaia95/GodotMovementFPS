@@ -7,3 +7,4 @@ script = ExtResource("1_k287p")
 key = "enemy_slide_kill"
 name = "Slide Kill"
 points = 100
+can_combo_into_itself = false

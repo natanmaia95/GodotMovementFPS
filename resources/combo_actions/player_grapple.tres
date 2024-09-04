@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ScoreAction" load_steps=2 format=3 uid="uid://8oowjiu8nj77"]
+
+[ext_resource type="Script" path="res://scripts/combo_system/score_action.gd" id="1_f5v0h"]
+
+[resource]
+script = ExtResource("1_f5v0h")
+key = "player_grapple"
+name = "Grapple"
+points = 100

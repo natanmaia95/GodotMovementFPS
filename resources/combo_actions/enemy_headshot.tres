@@ -7,3 +7,4 @@ script = ExtResource("1_2i48c")
 key = "enemy_headshot"
 name = "Headshot"
 points = 100
+can_combo_into_itself = true

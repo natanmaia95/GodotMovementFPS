@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ScoreAction" load_steps=2 format=3 uid="uid://dyow513xtml41"]
+
+[ext_resource type="Script" path="res://scripts/combo_system/score_action.gd" id="1_4jdyf"]
+
+[resource]
+script = ExtResource("1_4jdyf")
+key = "enemy_vault_kill"
+name = "Vault Kill"
+points = 100
+can_combo_into_itself = false

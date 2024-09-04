@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://c4ix1c7yuyl4f"]
+[gd_scene load_steps=15 format=3 uid="uid://c4ix1c7yuyl4f"]
 
 [ext_resource type="Script" path="res://scenes/player/fps_controller.gd" id="1_fxojq"]
 [ext_resource type="Script" path="res://scripts/fps_system/hitscan_component.gd" id="2_i8bdy"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://rduj8831egfn" path="res://scenes/player/hud/hud_weapons.tscn" id="5_c80yy"]
 [ext_resource type="PackedScene" uid="uid://vjmvcpbc8fv8" path="res://scenes/player/hud/hud_timer.tscn" id="6_ge7bl"]
 [ext_resource type="PackedScene" uid="uid://cwnvubwish8ly" path="res://scenes/player/hud/hud_health.tscn" id="9_o567h"]
+[ext_resource type="PackedScene" uid="uid://dc2rvkgxsj2nx" path="res://scenes/player/hud/hud_score_system.tscn" id="10_6dnyk"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s0ugf"]
 
@@ -157,5 +158,8 @@ grow_vertical = 1
 [node name="HudHealth" parent="Control" node_paths=PackedStringArray("health_component") instance=ExtResource("9_o567h")]
 layout_mode = 1
 health_component = NodePath("../../HealthComponent")
+
+[node name="HudScoreSystem" parent="Control" instance=ExtResource("10_6dnyk")]
+layout_mode = 1
 
 [connection signal="damage_taken" from="HurtboxComponent" to="HealthComponent" method="damage"]

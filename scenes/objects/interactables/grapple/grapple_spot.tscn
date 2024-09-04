@@ -31,7 +31,8 @@ script = ExtResource("2_nyddl")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="InteractableComponent"]
 shape = SubResource("SphereShape3D_arsm7")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="BaseMesh" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
 material_override = SubResource("StandardMaterial3D_h8b67")
 mesh = SubResource("SphereMesh_abfiv")
 

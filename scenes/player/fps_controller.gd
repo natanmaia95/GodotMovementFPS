@@ -233,7 +233,7 @@ func _handle_turnaround(delta):
 		turn_tween.set_parallel(true)
 		#turn_tween.tween_property(self, "velocity:x", 0, 0.3)
 		#turn_tween.tween_property(self, "velocity:z", 0, 0.3)
-		turn_tween.tween_property(self, "rotation:y", rotation.y + PI, 0.2) 
+		turn_tween.tween_property(self, "rotation:y", rotation.y + PI, 0.5) 
 		turn_tween.set_parallel(false)
 		turn_tween.tween_property(self, "is_in_turnaround", false, 0.01)
 
@@ -265,6 +265,7 @@ func _handle_vaulting(_delta):
 	# for test reasons lets just teleport the player up
 	#global_position += movement_climb
 	is_vaulting = true
+	ScoreManager.push_action("player_vault")
 	movement_climb += get_horizontal_velocity().normalized() * prediction_speed * 0.2
 	#var final_velocity = -global_basis.z * prediction_speed
 	var final_velocity = get_horizontal_velocity().normalized() * prediction_speed
@@ -332,6 +333,7 @@ func _handle_crouch(delta):
 		velocity -= get_horizontal_velocity()
 		#velocity += global_basis * Vector3.FORWARD * slide_speed
 		velocity += wish_direction * slide_speed
+		ScoreManager.push_action("player_slide")
 	
 	var target_head_position = 0.0
 	if is_crouching: target_head_position = -CROUCH_TRANSLATE
@@ -378,6 +380,8 @@ func _handle_wallrun(delta):
 		return #dont attach to the wall
 	
 	is_wallrunning = true
+	if not was_wallrunning_last_frame:
+		ScoreManager.push_action("player_wallrun")
 	# move player forwards
 	var wall_forwards = Vector3.UP.cross(wall_normal)
 	if not is_wall_to_the_left(): wall_forwards *= -1

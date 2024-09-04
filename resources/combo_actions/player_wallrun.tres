@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ScoreAction" load_steps=2 format=3 uid="uid://dt34vl48rpmye"]
+
+[ext_resource type="Script" path="res://scripts/combo_system/score_action.gd" id="1_mjkbi"]
+
+[resource]
+script = ExtResource("1_mjkbi")
+key = "player_wallrun"
+name = "Wallrun"
+points = 100
+can_combo_into_itself = true

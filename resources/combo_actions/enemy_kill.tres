@@ -7,3 +7,4 @@ script = ExtResource("1_miu0c")
 key = "enemy_kill"
 name = "Kill"
 points = 100
+can_combo_into_itself = false

@@ -2,7 +2,7 @@ extends Node
 
 
 signal action_added_to_history(score_action:ScoreAction)
-
+signal multiplier_changed
 
 const MAX_COMBO_MULTIPLIER : float = 100.0
 
@@ -31,6 +31,26 @@ func _load_actions() -> void:
 		action_dict[key] = resource
 
 
+func push_action(action_key:String) -> void:
+	var action : ScoreAction = action_dict[action_key.to_lower()]
+	assert(action is ScoreAction)
+	if not action: return
+	# increase multiplier on novel action; don't increase on first action.
+	if action_history != []:
+		if action.can_combo_into_itself:
+			increase_multiplier()
+		else:
+			var old_action = action_history.back()
+			if old_action and old_action != action: 
+				increase_multiplier()
+	else:
+		increase_multiplier()
+	
+	action_history.push_back(action)
+	award_points(action)
+	action_added_to_history.emit(action)
+
+
 func reset():
 	action_history.clear()
 	total_score = 0
@@ -38,6 +58,47 @@ func reset():
 	combo_timer = 0.0
 	player = null
 	pass
+
+func award_points(action:ScoreAction) -> void:
+	total_score += combo_multiplier * action.points
+
+func increase_multiplier() -> bool:
+	# if multiplier >= 10.0: return false # no increase
+	
+	if combo_timer <= 0.0:
+		extend_combo_timer() # how long before the chain breaks
+		combo_multiplier = 1.0
+		multiplier_changed.emit()
+		return false
+	
+	extend_combo_timer()
+	combo_multiplier += 0.1
+	combo_multiplier = round(combo_multiplier * 10) / 10.0 # fix rounding errors?
+	multiplier_changed.emit()
+	return true
+
+func decrease_multiplier() -> bool:
+	if combo_multiplier <= 1.0: 
+		combo_multiplier = 1.0
+		return false
+	# if multiplier >= 10.0: return false # no increase
+	combo_timer = 0.5
+	combo_multiplier -= 0.1
+	combo_multiplier = round(combo_multiplier * 10) / 10.0 # fix rounding errors?
+	combo_multiplier = max(combo_multiplier, 1.0)
+	multiplier_changed.emit()
+	return true
+
+func extend_combo_timer() -> void:
+	combo_timer = 2.0
+
+func _physics_process(delta):
+	if combo_timer > 0:
+		combo_timer -= delta
+		if combo_timer <= 0:
+			decrease_multiplier()
+
+
 
 
 func on_enemy_defeated(enemy:CharacterBody3D) -> void:
@@ -48,10 +109,12 @@ func on_enemy_defeated(enemy:CharacterBody3D) -> void:
 		pass
 	
 	# parkour eliminations
-	elif player.is_in_turnaround:
+	elif player.is_in_turnaround or player.turnaround_timer > 0.01:
 		push_action("enemy_turnaround_kill")
 	elif player.is_wallrunning:
 		push_action("enemy_wallrun_kill")
+	elif player.is_vaulting:
+		push_action("enemy_vault_kill")
 	elif player.is_sliding:
 		push_action("enemy_slide_kill")
 	elif false:
@@ -69,22 +132,3 @@ func on_enemy_defeated(enemy:CharacterBody3D) -> void:
 
 
 
-func push_action(action_key:String) -> void:
-	var action = action_dict[action_key.to_lower()]
-	assert(action is ScoreAction)
-	if not action: return
-	
-	# increase multiplier on novel action; don't increase on first action.
-	if action_history != []:
-		var old_action = action_history.back()
-		if old_action and old_action != action: increase_multiplier()
-	
-	action_history.push_back(action)
-	action_added_to_history.emit(action)
-
-
-func increase_multiplier() -> bool:
-	# if multiplier >= 10.0: return false # no increase
-	combo_multiplier += 0.1
-	combo_multiplier = round(combo_multiplier * 10) / 10.0 # fix rounding errors?
-	return true

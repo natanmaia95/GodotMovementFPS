@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ScoreAction" load_steps=2 format=3 uid="uid://jun1eoqeipd4"]
+
+[ext_resource type="Script" path="res://scripts/combo_system/score_action.gd" id="1_n665p"]
+
+[resource]
+script = ExtResource("1_n665p")
+key = "player_slide"
+name = "Slide"
+points = 100
