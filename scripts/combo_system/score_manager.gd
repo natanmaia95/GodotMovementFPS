@@ -5,6 +5,7 @@ signal action_added_to_history(score_action:ScoreAction)
 signal multiplier_changed
 
 const MAX_COMBO_MULTIPLIER : float = 100.0
+const COMBO_TIMER_REFRESH_AMOUNT = 4.0
 
 var action_dict : Dictionary = {}
 
@@ -37,7 +38,9 @@ func push_action(action_key:String) -> void:
 	if not action: return
 	# increase multiplier on novel action; don't increase on first action.
 	if action_history != []:
-		if action.can_combo_into_itself:
+		if combo_timer <= 0.0 and combo_multiplier == 1.0:
+			increase_multiplier()
+		elif action.can_combo_into_itself:
 			increase_multiplier()
 		else:
 			var old_action = action_history.back()
@@ -72,7 +75,7 @@ func increase_multiplier() -> bool:
 		return false
 	
 	extend_combo_timer()
-	combo_multiplier += 0.1
+	combo_multiplier += 1.0
 	combo_multiplier = round(combo_multiplier * 10) / 10.0 # fix rounding errors?
 	multiplier_changed.emit()
 	return true
@@ -83,18 +86,19 @@ func decrease_multiplier() -> bool:
 		return false
 	# if multiplier >= 10.0: return false # no increase
 	combo_timer = 0.5
-	combo_multiplier -= 0.1
+	combo_multiplier -= 1.0
 	combo_multiplier = round(combo_multiplier * 10) / 10.0 # fix rounding errors?
 	combo_multiplier = max(combo_multiplier, 1.0)
 	multiplier_changed.emit()
 	return true
 
 func extend_combo_timer() -> void:
-	combo_timer = 2.0
+	combo_timer = COMBO_TIMER_REFRESH_AMOUNT
 
 func _physics_process(delta):
 	if combo_timer > 0:
-		combo_timer -= delta
+		#combo_timer -= delta
+		combo_timer -= delta * (1 + combo_multiplier*0.1) # lose combo faster with higher mult
 		if combo_timer <= 0:
 			decrease_multiplier()
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://b7gm1sf8tiqir"]
+[gd_scene load_steps=22 format=3 uid="uid://b7gm1sf8tiqir"]
 
 [ext_resource type="Material" uid="uid://brfh3gbut8wdo" path="res://textures/prototype/_mat_black.tres" id="1_art4b"]
 [ext_resource type="PackedScene" uid="uid://c4ix1c7yuyl4f" path="res://scenes/player/fps_controller.tscn" id="1_t2gh3"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://c4e6sjaksta2h" path="res://scenes/objects/interactables/grapple/grapple_spot.tscn" id="8_713wj"]
 [ext_resource type="PackedScene" uid="uid://f1lsjnvxfx" path="res://scenes/objects/stage/finish_stage_area.tscn" id="11_1ceoo"]
 [ext_resource type="PackedScene" uid="uid://bitq6h8ytmopn" path="res://scenes/enemies/test/test_enemy_1.tscn" id="12_by3aa"]
+[ext_resource type="Script" path="res://scenes/objects/stage/reset_stage_area.gd" id="13_orl03"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_v2880"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -30,6 +31,17 @@ tonemap_white = 16.0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_avoo4"]
 size = Vector3(2.92554, 1, 2.98633)
+
+[sub_resource type="BoxMesh" id="BoxMesh_xa0et"]
+size = Vector3(20, 1, 20)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a2agc"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 0, 0, 0.196078)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xi2l0"]
+size = Vector3(20, 1, 20)
 
 [node name="TestScene1" type="Node3D"]
 script = ExtResource("1_taf11")
@@ -231,3 +243,14 @@ shape = SubResource("BoxShape3D_avoo4")
 
 [node name="TestEnemy1" parent="." instance=ExtResource("12_by3aa")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.49966, -0.499999, -33.3004)
+
+[node name="ResetStageArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.1807, -0.188356, -20.176)
+script = ExtResource("13_orl03")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ResetStageArea"]
+mesh = SubResource("BoxMesh_xa0et")
+surface_material_override/0 = SubResource("StandardMaterial3D_a2agc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ResetStageArea"]
+shape = SubResource("BoxShape3D_xi2l0")

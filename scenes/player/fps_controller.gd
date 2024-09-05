@@ -17,7 +17,7 @@ extends CharacterBody3D
 @export var walk_speed := 10.0
 #@export var sprint_speed := 11.0
 @export var ground_accel := 6.0
-@export var ground_decel := 20.0
+@export var ground_decel := 10.0
 @export var ground_friction := 2.0
 @export var air_accel := 8.0
 @export var max_controlled_air_speed := 5.0

@@ -1,5 +1,5 @@
-class_name FinishStageArea
+class_name ResetStageArea
 extends PlayerDetectorComponent
 
 func on_player_entered(_player:CharacterBody3D) -> void:
-	if StageManager.finish_stage(): disabled = true
+	StageManager.reset_stage.call_deferred()

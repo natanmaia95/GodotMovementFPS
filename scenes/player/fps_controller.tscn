@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://c4ix1c7yuyl4f"]
+[gd_scene load_steps=16 format=3 uid="uid://c4ix1c7yuyl4f"]
 
 [ext_resource type="Script" path="res://scenes/player/fps_controller.gd" id="1_fxojq"]
 [ext_resource type="Script" path="res://scripts/fps_system/hitscan_component.gd" id="2_i8bdy"]
@@ -19,6 +19,16 @@
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_kvdcj"]
 radius = 0.2
+
+[sub_resource type="Theme" id="Theme_p811b"]
+Label/colors/font_shadow_color = Color(0, 0, 0, 0.196078)
+Label/constants/shadow_offset_x = 0
+Label/constants/shadow_offset_y = 0
+Label/constants/shadow_outline_size = 8
+RichTextLabel/colors/font_shadow_color = Color(0, 0, 0, 0.196078)
+RichTextLabel/constants/shadow_offset_x = 0
+RichTextLabel/constants/shadow_offset_y = 0
+RichTextLabel/constants/shadow_outline_size = 8
 
 [node name="FpsController" type="CharacterBody3D" groups=["PLAYER"]]
 script = ExtResource("1_fxojq")
@@ -114,6 +124,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 3
 mouse_filter = 2
+theme = SubResource("Theme_p811b")
 
 [node name="ReticleCenterContainer" type="CenterContainer" parent="Control"]
 layout_mode = 1
