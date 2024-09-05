@@ -20,5 +20,5 @@ func can_see_player() -> bool:
 	if not player: return false
 	return (player.global_position - character.global_position).length() > detection_loss_range
 
-func update(delta) -> void:
+func update(_delta) -> void:
 	pass

@@ -11,7 +11,7 @@ func get_last_x_actions(amount:int) -> Array[ScoreAction]:
 	var slice := ScoreManager.action_history.slice(-amount, length)
 	return slice
 
-func _process(delta):
+func _process(_delta):
 	%ComboTimerBar.value = 100.0 * ScoreManager.combo_timer / ScoreManager.COMBO_TIMER_REFRESH_AMOUNT
 
 func on_multiplier_changed():

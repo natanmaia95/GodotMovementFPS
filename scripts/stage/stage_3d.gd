@@ -8,7 +8,7 @@ signal started
 
 @export var player : FPSController = null
 
-
+@warning_ignore("redundant_await")
 func _ready():
 	await ready()
 	if not StageManager.has_seen_intro:
@@ -16,12 +16,14 @@ func _ready():
 	await _start()
 	StageManager.start_stage()
 
+@warning_ignore("redundant_await")
 func _intro() -> void:
 	intro_started.emit()
 	await intro()
 	StageManager.has_seen_intro = true
 	return
 
+@warning_ignore("redundant_await")
 func _start() -> void:
 	await before_start()
 	started.emit()

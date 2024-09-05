@@ -81,7 +81,7 @@ func hit_hurtbox(hurtbox : HurtboxComponent) -> void:
 	# TODO: add stun, add knockback
 
 
-func update(delta) -> void: pass
+func update(_delta) -> void: pass
 
-func on_after_hurtbox_hit(hurtbox : HurtboxComponent) -> void:
+func on_after_hurtbox_hit(_hurtbox : HurtboxComponent) -> void:
 	pass

@@ -7,7 +7,7 @@ func choose_internal_move() -> HFSMTransitionData:
 	return HFSMTransitionData.empty()
 
 # update(delta) is the function that will be called every _physics_update(), put your logic here
-func update(delta):
+func update(_delta):
 	if close_to_end_of_animation():
 		character.queue_free()
 

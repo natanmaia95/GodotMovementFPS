@@ -32,4 +32,4 @@ func set_direction(direction:Vector3) -> void:
 func get_direction() -> Vector3:
 	return -global_basis.z
 
-func update(delta:float) -> void: pass
+func update(_delta:float) -> void: pass

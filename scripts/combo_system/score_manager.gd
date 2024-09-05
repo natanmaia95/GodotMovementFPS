@@ -63,7 +63,7 @@ func reset():
 	pass
 
 func award_points(action:ScoreAction) -> void:
-	total_score += combo_multiplier * action.points
+	total_score += floor(combo_multiplier) * action.points
 
 func increase_multiplier() -> bool:
 	# if multiplier >= 10.0: return false # no increase
@@ -105,7 +105,7 @@ func _physics_process(delta):
 
 
 
-func on_enemy_defeated(enemy:CharacterBody3D) -> void:
+func on_enemy_defeated(_enemy:CharacterBody3D) -> void:
 	# if-else chain is the best situation here
 	# assembly-style programming
 	
