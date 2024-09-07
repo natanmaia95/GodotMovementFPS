@@ -18,12 +18,12 @@
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
 ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
 
-[sub_resource type="Sky" id="Sky_ggt2f"]
+[sub_resource type="Sky" id="Sky_a6lto"]
 sky_material = SubResource("ProceduralSkyMaterial_v2880")
 
 [sub_resource type="Environment" id="Environment_st68l"]
 background_mode = 2
-sky = SubResource("Sky_ggt2f")
+sky = SubResource("Sky_a6lto")
 tonemap_mode = 2
 tonemap_white = 16.0
 

@@ -13,4 +13,6 @@ func update(_delta):
 
 func on_enter():
 	#print_debug("deado")
+	character.collision_layer = 0
+	character.collision_mask = 0
 	ScoreManager.on_enemy_defeated(character)

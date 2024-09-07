@@ -34,7 +34,7 @@ var areas_to_ignore : Array[Area3D] = []
 
 
 func _ready():
-	if Engine.is_editor_hint():
+	if Engine.is_editor_hint() and collision_layer == 1:
 		collision_layer = 0
 		collision_mask = 0
 		target_types = target_types
@@ -47,6 +47,7 @@ func should_ignore_area(area : Area3D) -> bool:
 
 
 func _physics_process(delta:float) -> void:
+	if Engine.is_editor_hint(): return
 	if not _update_lifetime(delta):
 		return
 	update(delta)

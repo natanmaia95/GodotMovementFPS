@@ -13,10 +13,14 @@ var speed := 0.0
 var last_frame_speed := 0.0
 
 func _ready():
-	motion_mode = CharacterBody3D.MOTION_MODE_FLOATING
+	if Engine.is_editor_hint(): 
+		motion_mode = CharacterBody3D.MOTION_MODE_FLOATING
+		return
 	speed = INITIAL_SPEED
 
 func _physics_process(delta):
+	if Engine.is_editor_hint(): return
+	
 	speed += ACCELERATION * delta
 	speed *= DRAG
 	if speed < 0.0 and not can_have_negative_speed: speed = 0.0

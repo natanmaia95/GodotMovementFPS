@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bitq6h8ytmopn"]
+[gd_scene load_steps=23 format=3 uid="uid://bitq6h8ytmopn"]
 
 [ext_resource type="Script" path="res://scenes/enemies/test/test_enemy_1.gd" id="1_64ejp"]
 [ext_resource type="Script" path="res://scenes/enemies/test/test_hfsm_1_root.gd" id="1_78t2l"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://scripts/hfsm/enemy/alerted.gd" id="9_hnyf1"]
 [ext_resource type="Script" path="res://scripts/hfsm/enemy/aiming_at_player.gd" id="10_evald"]
 [ext_resource type="Script" path="res://scenes/enemies/test/test_state_shoot.gd" id="11_2ctnp"]
+[ext_resource type="PackedScene" uid="uid://dgrbv53ylmw4g" path="res://scenes/enemies/test/test_bullet.tscn" id="12_gtijk"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_eerrg"]
 
@@ -173,6 +174,7 @@ wait_before_shooting = 0.9
 
 [node name="Shoot" type="Node" parent="TestHFSM1/Alive/PlayerFound"]
 script = ExtResource("11_2ctnp")
+packed_bullet = ExtResource("12_gtijk")
 move_name = "shoot"
 
 [node name="Dead" type="Node" parent="TestHFSM1"]

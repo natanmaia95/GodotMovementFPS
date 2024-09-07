@@ -7,6 +7,7 @@ func can_hover(character:Node3D) -> bool:
 	
 	var origin = self.global_position
 	var end = character.global_position # feet
+	if end.y > origin.y: return false #below
 	var query = PhysicsRayQueryParameters3D.create(origin, end)
 	query.exclude = [character]
 	var result = space_state.intersect_ray(query)

@@ -1,6 +1,7 @@
 extends EntityHFSM
 
-var packed_bullet = preload("res://scenes/enemies/test/test_enemy_1_bullet.tscn")
+#var packed_bullet = preload("res://scenes/enemies/test/test_enemy_1_bullet.tscn")
+@export var packed_bullet : PackedScene = null
 
 @export var shoot_delay := 0.1
 @export var shoot_total_duration := 0.5
