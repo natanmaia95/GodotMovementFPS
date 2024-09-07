@@ -15,6 +15,8 @@
 [ext_resource type="PackedScene" uid="uid://dgrbv53ylmw4g" path="res://scenes/enemies/test/test_bullet.tscn" id="12_gtijk"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_eerrg"]
+radius = 0.7
+height = 2.2
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_nnrae"]
 
@@ -135,7 +137,6 @@ shape = SubResource("CapsuleShape3D_uxav7")
 
 [node name="HealthComponent" type="Node3D" parent="."]
 script = ExtResource("3_hlrg6")
-max_health = 200.0
 
 [node name="TestHFSM1" type="Node" parent="." node_paths=PackedStringArray("animator", "character")]
 unique_name_in_owner = true
