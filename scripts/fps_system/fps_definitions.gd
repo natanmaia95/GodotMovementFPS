@@ -4,6 +4,10 @@ extends Object
 
 
 enum PhysicsLayers {
+	GROUND = 2,
+	
+	SCORE_AREA = 8,
+	
 	HURTBOX = 9,
 	INTERACTABLE = 10,
 	GRAPPLE = 11,

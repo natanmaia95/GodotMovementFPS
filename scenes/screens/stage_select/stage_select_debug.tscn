@@ -13,5 +13,6 @@ offset_right = 282.0
 offset_bottom = 586.0
 
 [node name="Button" type="Button" parent="StageListContainer"]
+visible = false
 layout_mode = 2
 text = "aaaa"

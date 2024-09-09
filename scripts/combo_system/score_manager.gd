@@ -16,6 +16,7 @@ var combo_multiplier : float = 1.0
 var combo_timer : float = 0.0
 
 var player : FPSController = null
+var score_area_detector : ScoreAreaDetectorComponent = null
 
 
 func _ready() -> void:
@@ -37,7 +38,10 @@ func push_action(action_key:String) -> void:
 	assert(action is ScoreAction)
 	if not action: return
 	# increase multiplier on novel action; don't increase on first action.
-	if action_history != []:
+	
+	if action_history == []:
+		extend_combo_timer()
+	else:
 		if combo_timer <= 0.0 and combo_multiplier == 1.0:
 			increase_multiplier()
 		elif action.can_combo_into_itself:
@@ -46,11 +50,10 @@ func push_action(action_key:String) -> void:
 			var old_action = action_history.back()
 			if old_action and old_action != action: 
 				increase_multiplier()
-	else:
-		increase_multiplier()
 	
 	action_history.push_back(action)
 	award_points(action)
+	score_area_detector.increase_trick_count()
 	action_added_to_history.emit(action)
 
 
@@ -63,7 +66,8 @@ func reset():
 	pass
 
 func award_points(action:ScoreAction) -> void:
-	total_score += floor(combo_multiplier) * action.points
+	var score_area_mult = get_score_area_multiplier()
+	total_score += floor(combo_multiplier * score_area_mult * action.points) 
 
 func increase_multiplier() -> bool:
 	# if multiplier >= 10.0: return false # no increase
@@ -75,6 +79,8 @@ func increase_multiplier() -> bool:
 		return false
 	
 	extend_combo_timer()
+	if get_score_area_multiplier() == 0.0: return false
+	
 	combo_multiplier += 1.0
 	combo_multiplier = round(combo_multiplier * 10) / 10.0 # fix rounding errors?
 	multiplier_changed.emit()
@@ -94,6 +100,12 @@ func decrease_multiplier() -> bool:
 
 func extend_combo_timer() -> void:
 	combo_timer = COMBO_TIMER_REFRESH_AMOUNT
+
+func get_score_area_multiplier() -> float:
+	if not score_area_detector: return 1.0
+	var area = score_area_detector.get_best_area()
+	if area == null: return 0.0
+	return area.multiplier
 
 func _physics_process(delta):
 	if combo_timer > 0:

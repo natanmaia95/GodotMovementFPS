@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dyagtaud1n1fa"]
+[gd_scene load_steps=22 format=3 uid="uid://dyagtaud1n1fa"]
 
 [ext_resource type="Script" path="res://scripts/stage/stage_3d.gd" id="1_hpqit"]
 [ext_resource type="PackedScene" uid="uid://t3epxkyt7ld2" path="res://scenes/screens/pause/LevelPauseScreen.tscn" id="2_clvhg"]
@@ -8,6 +8,8 @@
 [ext_resource type="PackedScene" uid="uid://c4e6sjaksta2h" path="res://scenes/objects/interactables/grapple/grapple_spot.tscn" id="5_t32gq"]
 [ext_resource type="PackedScene" uid="uid://bitq6h8ytmopn" path="res://scenes/enemies/test/test_enemy_1.tscn" id="7_ntwh2"]
 [ext_resource type="PackedScene" uid="uid://f1lsjnvxfx" path="res://scenes/objects/stage/finish_stage_area.tscn" id="7_ofbyg"]
+[ext_resource type="Script" path="res://scenes/objects/stage/reset_stage_area.gd" id="8_qjih6"]
+[ext_resource type="Script" path="res://scripts/combo_system/score_area_3d.gd" id="10_ju2ut"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_gsjpm"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -31,6 +33,24 @@ grow_amount = 3.733
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bdrof"]
 size = Vector3(11.9395, 1, 2.97913)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7bnfa"]
+size = Vector3(367.079, 1.45215, 307.201)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i51g2"]
+size = Vector3(45.3025, 31.2598, 33.9434)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7smng"]
+size = Vector3(35.0361, 31.2598, 56.3817)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_x4k5b"]
+size = Vector3(56.0862, 37.8237, 54.9736)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_o21fv"]
+size = Vector3(56.0862, 37.8237, 52.8134)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7ve17"]
+size = Vector3(68.3537, 47.739, 41.2153)
 
 [node name="StageNat" type="Node3D"]
 script = ExtResource("1_hpqit")
@@ -373,13 +393,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 152.13, 27.2772, 47.7041)
 [node name="GrappleSpot10" parent="objects" instance=ExtResource("5_t32gq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 152.13, 34.2772, 39.7041)
 
-[node name="FinishStageArea" parent="objects" instance=ExtResource("7_ofbyg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 158.245, 34.9993, 30.1536)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="objects/FinishStageArea"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.143555, 0, 0.124367)
-shape = SubResource("BoxShape3D_bdrof")
-
 [node name="OmniLight3D" type="OmniLight3D" parent="objects"]
 transform = Transform3D(-0.981952, -0.189132, -0.000150601, 0, 0.000796274, -1, 0.189132, -0.981951, -0.000781903, 112.348, 17.7448, 81.0151)
 light_color = Color(1, 0, 0, 1)
@@ -387,6 +400,20 @@ light_energy = 7.71
 light_bake_mode = 1
 distance_fade_enabled = true
 omni_range = 31.419
+
+[node name="FinishStageArea" parent="objects" instance=ExtResource("7_ofbyg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 158.245, 34.9993, 30.1536)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="objects/FinishStageArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.143555, 0, 0.124367)
+shape = SubResource("BoxShape3D_bdrof")
+
+[node name="ResetStageArea" type="Area3D" parent="objects"]
+script = ExtResource("8_qjih6")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="objects/ResetStageArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 53.3206, -3.7163, 13.916)
+shape = SubResource("BoxShape3D_7bnfa")
 
 [node name="enemies" type="Node3D" parent="."]
 
@@ -416,3 +443,48 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 121.908, 11.7573, 79.7943)
 
 [node name="TestEnemy6" parent="enemies" instance=ExtResource("7_ntwh2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 109.082, 11.722, 91.4019)
+
+[node name="score_areas" type="Node3D" parent="."]
+
+[node name="ScoreArea3D" type="Area3D" parent="score_areas"]
+script = ExtResource("10_ju2ut")
+max_tricks = 5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="score_areas/ScoreArea3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.06117, 0, 0)
+shape = SubResource("BoxShape3D_i51g2")
+
+[node name="ScoreArea3D2" type="Area3D" parent="score_areas"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48.5293, -3.8147e-06, 5.4793)
+script = ExtResource("10_ju2ut")
+max_tricks = 20
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="score_areas/ScoreArea3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.34554, 0, 11.2192)
+shape = SubResource("BoxShape3D_7smng")
+
+[node name="ScoreArea3D3" type="Area3D" parent="score_areas"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 72.3123, -3.8147e-06, 76.4793)
+script = ExtResource("10_ju2ut")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="score_areas/ScoreArea3D3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.01384, 3.28198, -4.46249)
+shape = SubResource("BoxShape3D_x4k5b")
+
+[node name="ScoreArea3D4" type="Area3D" parent="score_areas"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 128.237, 11.6948, 94.127)
+script = ExtResource("10_ju2ut")
+max_tricks = 50
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="score_areas/ScoreArea3D4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.01384, 3.28198, -3.38239)
+shape = SubResource("BoxShape3D_o21fv")
+
+[node name="ScoreArea3D5" type="Area3D" parent="score_areas"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 128.237, 14.6948, 41.6784)
+script = ExtResource("10_ju2ut")
+max_tricks = 20
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="score_areas/ScoreArea3D5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.11987, 8.23962, 2.41667)
+shape = SubResource("BoxShape3D_7ve17")

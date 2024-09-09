@@ -25,6 +25,8 @@ func on_score_action_added(_score_action:ScoreAction):
 	var slice := get_last_x_actions(4)
 	slice.reverse()
 	%ActionsListLbl.text = "[center]"
+	if ScoreManager.get_score_area_multiplier() == 0.0:
+		%ActionsListLbl.text += "[color=red]"
 	var count := 0
 	for action:ScoreAction in slice:
 		%ActionsListLbl.text += "[font_size={%d}]" % (30 - count*4)
