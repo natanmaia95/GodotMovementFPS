@@ -8,3 +8,4 @@ key = "player_wallrun"
 name = "Wallrun"
 points = 100
 can_combo_into_itself = true
+is_parkour = true

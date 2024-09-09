@@ -1,9 +1,12 @@
 class_name FPSController
 extends CharacterBody3D
 
+signal jumped
+signal detached_from_wall
+signal died
 
 @export var look_sensitivity : float = 0.006
-@export var auto_bhop_enabled := true
+@export var auto_bhop_enabled := false
 @export var tilt_enabled := true
 @export var headbob_enabled := true
 @export var toggle_crouch_enabled := false
@@ -201,10 +204,8 @@ func _handle_ground_physics(delta) -> void:
 	var final_jump_velocity = jump_velocity
 	if is_sliding: 
 		final_jump_velocity += slide_bonus_jump_speed
-	if auto_bhop_enabled and Input.is_action_pressed("jump"):
-		velocity.y += final_jump_velocity
-	elif Input.is_action_just_pressed("jump"):
-		velocity.y += final_jump_velocity
+	if Input.is_action_just_pressed("jump"):
+		do_jump(final_jump_velocity)
 
 
 
@@ -254,19 +255,19 @@ func _handle_vaulting(_delta):
 	var prediction_speed = max(get_horizontal_velocity().length(), walk_speed)
 	var movement_forwards = get_horizontal_velocity().normalized() * prediction_speed * 0.2
 	#%VaultRayCast.target_position = Vector3.FORWARD * prediction_speed
-	%VaultRayCast.target_position =  movement_forwards * global_basis
+	#%VaultRayCast.target_position =  movement_forwards * global_basis
 	%VaultRayCast.force_raycast_update()
 	if not %VaultRayCast.is_colliding(): return
-	var has_wall_in_front := test_move(global_transform, movement_forwards)
+	var has_wall_in_front := test_move(global_transform, movement_forwards, null, 0.3, true)
 	if not has_wall_in_front: return
 	var movement_climb = Vector3.UP * vault_max_height
-	var can_stand_above := test_move(global_transform, movement_climb + movement_forwards)
+	var can_stand_above := test_move(global_transform, movement_climb + movement_forwards, null, 0.3, true)
 	if not can_stand_above: return
 	# for test reasons lets just teleport the player up
 	#global_position += movement_climb
 	is_vaulting = true
 	ScoreManager.push_action("player_vault")
-	movement_climb += get_horizontal_velocity().normalized() * prediction_speed * 0.2
+	movement_climb += movement_forwards
 	#var final_velocity = -global_basis.z * prediction_speed
 	var final_velocity = get_horizontal_velocity().normalized() * prediction_speed
 	final_velocity += Vector3.DOWN * 5.0 #fall faster
@@ -356,9 +357,15 @@ func _handle_wallclimb(_delta):
 
 
 func _handle_wallrun(delta):
-	if is_vaulting or is_crouching or is_on_floor() or not is_on_wall_only():
+	if is_wallrunning and is_crouching:
+		is_wallrunning = false
+		do_wall_detach()
+		return
+	
+	if is_vaulting or is_on_floor() or not is_on_wall_only():
 		is_wallrunning = false
 		return
+	
 	# test minimum height for wallrun
 	var is_near_ground = test_move(global_transform, Vector3.DOWN * wallrun_minimum_height)
 	if not is_wallrunning and is_near_ground:
@@ -368,16 +375,22 @@ func _handle_wallrun(delta):
 	var was_wallrunning_last_frame = is_wallrunning
 	var wall_normal = get_wall_normal()
 	var speed_dot := velocity.normalized().dot(-global_basis.z)
-	#var wall_dot := wall_normal.dot(-global_basis.z)
+	var wall_dot := wall_normal.dot(-global_basis.z)
 	# TODO: check if not facing the wall
+	if wall_dot < -0.7:
+		if is_wallrunning:
+			is_wallrunning = false
+			do_wall_detach()
+		return
 	if is_wallrunning:
 		if speed_dot <= 0.0:
 			is_wallrunning = false
-			velocity *= 0.8
-			velocity += wall_normal * 3
+			do_wall_detach()
 			return
 	elif speed_dot <= 0.1: #facing backwards to the wall
+		do_wall_detach()
 		return #dont attach to the wall
+
 	
 	is_wallrunning = true
 	if not was_wallrunning_last_frame:
@@ -402,8 +415,8 @@ func _handle_wallrun(delta):
 	velocity = Vector3(wall_hor_velocity.x, wall_fall_speed, wall_hor_velocity.z)
 	
 	if Input.is_action_just_pressed("jump"):
-		velocity.y = wallrun_jump_velocity
-		velocity += wall_normal * wallrun_sidejump_velocity
+		do_jump(wallrun_jump_velocity)
+		do_wall_detach(true)
 
 
 func _handle_landing():
@@ -514,7 +527,18 @@ func _process_interact_ray(_delta):
 		if Utils.is_mouse_captured() and Input.is_action_just_pressed("grapple"):
 			possible_grapplable.interact(self)
 
+func do_jump(desired_jump_velocity : float = jump_velocity) -> void:
+	velocity.y += desired_jump_velocity
+	jumped.emit()
 
+func do_wall_detach(stronger=false) -> void:
+	if not is_on_wall(): return
+	if stronger:
+		velocity += get_wall_normal() * wallrun_sidejump_velocity
+	else:
+		velocity *= 0.8
+		velocity += get_wall_normal() * 3
+	detached_from_wall.emit()
 
 func get_move_speed() -> float:
 	if is_crouching:

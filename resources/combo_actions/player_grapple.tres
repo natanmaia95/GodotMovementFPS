@@ -7,3 +7,5 @@ script = ExtResource("1_f5v0h")
 key = "player_grapple"
 name = "Grapple"
 points = 100
+can_combo_into_itself = false
+is_parkour = true

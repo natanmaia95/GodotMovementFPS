@@ -7,3 +7,5 @@ script = ExtResource("1_n665p")
 key = "player_slide"
 name = "Slide"
 points = 100
+can_combo_into_itself = false
+is_parkour = true

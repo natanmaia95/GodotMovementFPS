@@ -110,6 +110,7 @@ restart={
 
 3d_render/layer_2="PLAYER_MODEL"
 3d_physics/layer_2="GROUND"
+3d_physics/layer_3="SOLID_GEOMETRY"
 3d_physics/layer_13="PLAYER HURTBOX"
 3d_physics/layer_14="ENEMY HURTBOX"
 

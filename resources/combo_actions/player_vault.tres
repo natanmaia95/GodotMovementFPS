@@ -7,3 +7,5 @@ script = ExtResource("1_2qq6p")
 key = "player_vault"
 name = "Vault"
 points = 100
+can_combo_into_itself = false
+is_parkour = true

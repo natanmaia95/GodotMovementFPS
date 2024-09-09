@@ -43,6 +43,7 @@ func goto_stage(stage_key:String) -> void:
 		return
 	
 	_reset_stage_components()
+	has_seen_intro = false
 	get_tree().change_scene_to_packed(stage_info.stage_packed_scene)
 
 
@@ -57,7 +58,7 @@ func reset_stage() -> void:
 
 
 func _reset_stage_components() -> void:
-	has_seen_intro = true
+	#has_seen_intro = true
 	is_timer_active = false
 	is_stage_finished = false
 	timer.reset()
