@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://bpwk5ww1dmgk6"]
+
+[ext_resource type="Script" path="res://scenes/screens/stage_select/stage_select_debug.gd" id="1_5buxs"]
+
+[node name="StageSelectDebug" type="Node"]
+script = ExtResource("1_5buxs")
+
+[node name="StageListContainer" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+offset_left = 75.0
+offset_top = 68.0
+offset_right = 282.0
+offset_bottom = 586.0
+
+[node name="Button" type="Button" parent="StageListContainer"]
+layout_mode = 2
+text = "aaaa"

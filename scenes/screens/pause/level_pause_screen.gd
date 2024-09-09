@@ -7,7 +7,10 @@ func _ready():
 	visible = false
 
 func _open():
-	if Utils.is_mouse_captured(): super._open()
+	if not Utils.is_mouse_captured(): return
+	if StageManager.is_stage_finished: return
+	
+	super._open()
 
 
 func _input(event:InputEvent):
@@ -33,6 +36,10 @@ func _on_btn_continue_pressed():
 
 func _on_btn_restart_pressed():
 	try_restart_level()
+
+func _on_btn_quit_pressed():
+	get_tree().paused = false
+	StageManager.exit_stage()
 
 func try_restart_level():
 	if not StageManager.has_seen_intro: return

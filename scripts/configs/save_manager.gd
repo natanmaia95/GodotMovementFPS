@@ -27,7 +27,6 @@ func get_data(key:String):
 
 func _set_data(key:String, value, dict=data) -> void:
 	var split_key = key.split("/", false, 1)
-	print_debug(split_key)
 	if split_key.size() == 1:
 		dict[key] = value
 		return
@@ -38,7 +37,6 @@ func _set_data(key:String, value, dict=data) -> void:
 
 func _get_data(key:String, dict=data):
 	var split_key = key.split("/", false, 1)
-	print_debug(split_key)
 	if not dict.has(split_key[0]): 
 		return null
 	elif split_key.size() == 1:
