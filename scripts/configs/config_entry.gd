@@ -6,14 +6,26 @@ extends Resource
 ## Let's use the existing ConfigManager 
 var manager : Node = null
 
+enum OptionType {
+	NONE=0,
+	TOGGLE,
+	LIST,
+	SLIDER,
+}
+
 func get_key() -> String:
 	printerr("Entry with default function, override this function!",self)
 	return ""
+
+func get_option_type() -> OptionType:
+	printerr("Entry with default function, override this function!",self)
+	return OptionType.NONE
 
 func get_section() -> String:
 	printerr("Entry with default function, override this function!",self)
 	return ""
 
+# use the empty string "" as a separator
 func get_possible_values():
 	printerr("Entry with default function, override this function!",self)
 

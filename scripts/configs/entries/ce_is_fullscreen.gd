@@ -3,6 +3,9 @@ extends ConfigEntry
 func get_key() -> String:
 	return "is_fullscreen"
 
+func get_option_type() -> OptionType:
+	return OptionType.TOGGLE
+
 func get_section() -> String:
 	return "GRAPHICS"
 

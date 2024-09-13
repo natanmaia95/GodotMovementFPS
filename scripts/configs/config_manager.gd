@@ -26,6 +26,16 @@ func set_config(config_key:String, new_value) -> void:
 	save_config_file()
 
 
+func get_config(config_key:String):
+	var entry : ConfigEntry = entries[config_key] 
+	if not entry: 
+		printerr("Couldn't find ConfigEntry of key \"%s\"" % config_key)
+		return null
+	else:
+		return config_file.get_value(entry.get_section(), entry.get_key(), entry.get_default_value())
+	
+
+
 func _on_config_changed(entry:ConfigEntry, new_value) -> void:
 	entry.on_changed(new_value)
 

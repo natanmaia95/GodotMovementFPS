@@ -3,11 +3,18 @@ extends ConfigEntry
 func get_key() -> String:
 	return "volume_master"
 
+func get_option_type() -> OptionType:
+	return OptionType.SLIDER
+
 func get_section() -> String:
 	return "AUDIO"
 
 func get_possible_values():
-	return range(0,101,1)
+	var range := Range.new()
+	range.min_value = 0
+	range.max_value = 100
+	range.step = 5
+	return range
 
 func get_default_value():
 	return 50
