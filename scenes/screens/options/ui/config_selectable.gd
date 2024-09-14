@@ -17,7 +17,7 @@ func build(entry_in:ConfigEntry) -> bool:
 	if entry_in.get_option_type() == 0: return false
 	entry = entry_in
 	
-	%OptionName.text = entry.get_key()
+	%OptionName.text = entry.get_option_name()
 	match entry.get_option_type():
 		ConfigEntry.OptionType.TOGGLE:
 			build_toggle()
@@ -36,13 +36,13 @@ func build_toggle() -> void:
 func build_slider() -> void:
 	slider.visible = true
 	var range = entry.get_possible_values()
-	print_debug(range)
+	#print_debug(range)
 	if range is Array:
 		slider.min_value = range[0]
 		slider.max_value = range[1]
 		slider.step = range[2]
 	elif range is Range:
-		print_debug("%f, %f, %f" % [range.min_value, range.max_value, range.step])
+		#print_debug("%f, %f, %f" % [range.min_value, range.max_value, range.step])
 		slider.min_value = range.min_value
 		slider.max_value = range.max_value
 		slider.step = range.step
@@ -61,7 +61,7 @@ func build_list() -> void:
 			list.add_separator()
 		else:
 			list.add_item(str(value))
-		if value == current_value:
+		if typeof(value) == typeof(current_value) and value == current_value:
 			list.select(list.item_count-1)
 	list.item_selected.connect(on_list_item_selected)
 	

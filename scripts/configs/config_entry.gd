@@ -17,6 +17,10 @@ func get_key() -> String:
 	printerr("Entry with default function, override this function!",self)
 	return ""
 
+func get_option_name() -> String:
+	printerr("Entry with default function, override this function!",self)
+	return "OPTION_NAME"
+
 func get_option_type() -> OptionType:
 	printerr("Entry with default function, override this function!",self)
 	return OptionType.NONE

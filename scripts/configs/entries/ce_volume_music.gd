@@ -3,6 +3,9 @@ extends ConfigEntry
 func get_key() -> String:
 	return "volume_music"
 
+func get_option_name() -> String:
+	return "Music Volume"
+
 func get_option_type() -> OptionType:
 	return OptionType.SLIDER
 
