@@ -13,11 +13,11 @@ func get_section() -> String:
 	return "AUDIO"
 
 func get_possible_values():
-	var range := Range.new()
-	range.min_value = 0
-	range.max_value = 100
-	range.step = 5
-	return range
+	var r := Range.new()
+	r.min_value = 0
+	r.max_value = 100
+	r.step = 5
+	return r
 
 func get_default_value():
 	return 50

@@ -4,7 +4,7 @@ var data = {}
 
 func _ready():
 	setup_default_data()
-	var err = load_data()
+	var _err = load_data()
 	set_data("records/total_score", 2300)
 	save_data()
 

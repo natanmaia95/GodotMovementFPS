@@ -26,7 +26,7 @@ func get_possible_values():
 func get_default_value():
 	var lang = OS.get_locale_language()
 	if lang not in supported_locales:
-		lang == lang.get_slice("_", 0)
+		lang = lang.get_slice("_", 0)
 	if lang in supported_countries:
 		lang = supported_locales[supported_countries.find(lang)]
 	else:
