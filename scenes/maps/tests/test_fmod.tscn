@@ -1,0 +1,43 @@
+[gd_scene load_steps=5 format=3 uid="uid://4fulib3xvfo1"]
+
+[ext_resource type="Script" path="res://scenes/maps/tests/test_fmod.gd" id="1_ma3gv"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_u647y"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_4x5mk"]
+sky_material = SubResource("ProceduralSkyMaterial_u647y")
+
+[sub_resource type="Environment" id="Environment_28sg6"]
+background_mode = 2
+sky = SubResource("Sky_4x5mk")
+tonemap_mode = 2
+
+[node name="TestFmod" type="Node3D"]
+script = ExtResource("1_ma3gv")
+
+[node name="FmodBankLoader" type="FmodBankLoader" parent="."]
+bank_paths = ["res://fmod/banks/Master.strings.bank", "res://fmod/banks/Master.bank"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_28sg6")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.877583, -0.229849, 0.420735, 0, 0.877583, 0.479426, -0.479426, -0.420736, 0.770151, 1.23528, 1.4076, 2.26117)
+
+[node name="FmodEventEmitter3D" type="FmodEventEmitter3D" parent="."]
+event_name = "event:/music_on_fire"
+event_guid = "{21dba66d-820f-4a63-8a92-3fc2e5518492}"
+event_parameter/on_fire/id = -6618983996447113652
+event_parameter/on_fire/value = 0.0
+event_parameter/on_fire/min_value = 0.0
+event_parameter/on_fire/max_value = 1.0
+event_parameter/on_fire/default_value = 0.0
+event_parameter/on_fire/variant_type = 3
