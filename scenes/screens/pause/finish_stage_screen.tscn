@@ -41,7 +41,7 @@ text = "STAGE FINISHED!"
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
 offset_left = 163.0
 offset_top = 267.0
-offset_right = 369.0
+offset_right = 640.0
 offset_bottom = 536.0
 text = "Score: 000000
 Time: 000:000:00"
