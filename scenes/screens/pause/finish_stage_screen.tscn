@@ -1,0 +1,51 @@
+[gd_scene load_steps=3 format=3 uid="uid://d0uuodhexq1sx"]
+
+[ext_resource type="Script" path="res://scenes/screens/pause/finish_stage_screen.gd" id="1_iyv7h"]
+[ext_resource type="FontFile" uid="uid://d10mtdh2rphki" path="res://resources/fonts/Rubik-MediumItalic.ttf" id="2_8y64c"]
+
+[node name="FinishStageScreen" type="CanvasLayer"]
+script = ExtResource("1_iyv7h")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.141176)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_left = 827.0
+offset_top = 321.0
+offset_right = 989.0
+offset_bottom = 387.0
+
+[node name="BtnRestart" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Restart"
+
+[node name="BtnExit" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Back to Stage Select"
+
+[node name="Label" type="Label" parent="."]
+offset_left = 115.0
+offset_top = 106.0
+offset_right = 527.0
+offset_bottom = 166.0
+theme_override_fonts/font = ExtResource("2_8y64c")
+theme_override_font_sizes/font_size = 50
+text = "STAGE FINISHED!"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = 163.0
+offset_top = 267.0
+offset_right = 369.0
+offset_bottom = 536.0
+text = "Score: 000000
+Time: 000:000:00"
+fit_content = true
+
+[connection signal="pressed" from="VBoxContainer/BtnRestart" to="." method="_on_btn_restart_pressed"]
+[connection signal="pressed" from="VBoxContainer/BtnExit" to="." method="_on_btn_exit_pressed"]

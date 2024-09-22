@@ -2,10 +2,17 @@ extends Node
 
 
 signal stage_info_loaded()
-
+signal stage_finished()
 
 ## String -> StageInfo
 var stages_list : Dictionary = {}
+
+## Use this to get the stage key for whatever purpose
+## Also useful to select which stage comes next!
+var current_stage_info : StageInfo = null
+
+## Dict generated from StageRecord.make_best_of(new, old)
+var current_stage_results = null
 
 var timer : TimerResource = load("res://scripts/timer/level_timer.tres")
 
@@ -43,6 +50,7 @@ func goto_stage(stage_key:String) -> void:
 		return
 	
 	_reset_stage_components()
+	current_stage_info = stage_info
 	has_seen_intro = false
 	get_tree().change_scene_to_packed(stage_info.stage_packed_scene)
 
@@ -59,6 +67,7 @@ func reset_stage() -> void:
 
 func _reset_stage_components() -> void:
 	#has_seen_intro = true
+	current_stage_results = null
 	is_timer_active = false
 	is_stage_finished = false
 	timer.reset()
@@ -74,16 +83,39 @@ func finish_stage() -> bool:
 	
 	is_stage_finished = true
 	is_timer_active = false
-	print_debug("seconds: ", timer.seconds)
-	print_debug("frames in seconds: ", timer.get_frames_in_seconds())
+	
+	_save_records()
+	
+	stage_finished.emit()
 	return true
 
 
 func exit_stage(target_scene:PackedScene = null) -> void:
 	_reset_stage_components()
+	current_stage_info = null
 	if target_scene == null: #default
 		target_scene = load("res://scenes/screens/stage_select/stage_select_debug.tscn")
 	get_tree().change_scene_to_packed(target_scene)
+
+
+func _save_records() -> void:
+	if not current_stage_info: return
+	# compute results
+	var new_record := StageRecord.from_dict({
+		"time": timer.ticks,
+		"score": ScoreManager.total_score
+	})
+	var old_record_data = SaveManager.get_data("stage_records/" + current_stage_info.key)
+	if old_record_data == null: old_record_data = {}
+	var old_record := StageRecord.from_dict(old_record_data)
+	
+	current_stage_results = StageRecord.make_best_of(new_record, old_record)
+	# save best
+	SaveManager.set_data(
+		"stage_records/" + current_stage_info.key, 
+		current_stage_results["best_record"].to_dict()
+	)
+	SaveManager.save_to_json()
 
 
 func _load_all_stage_info() -> void:

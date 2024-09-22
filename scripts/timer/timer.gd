@@ -13,6 +13,28 @@ var ticks : int = 0
 var seconds : float = 0.0
 
 
+
+
+
+
+static func seconds_from_ticks(ticks_in:int) -> float:
+	return float(ticks_in) / float(Engine.physics_ticks_per_second)
+
+static func string_from_ticks(ticks_in:int) -> String:
+	return string_from_seconds(seconds_from_ticks(ticks_in))
+
+static func string_from_seconds(seconds_in:float) -> String:
+	
+	var int_seconds : int = int(seconds_in)
+	var int_minutes : int = int(int_seconds / 60)
+	var int_millis : int = int((seconds_in - int_seconds)*1000)
+	int_seconds = int_seconds % 60
+	
+	var time_string = "%02d:%02d.%03d" % [int_minutes, int_seconds, int_millis]
+	return time_string
+
+
+
 func reset() -> void:
 	ticks = 0
 	seconds = 0.0
@@ -27,3 +49,9 @@ func update(delta:float) -> void:
 ## Useful shorthand for records.
 func get_frames_in_seconds() -> float:
 	return float(ticks) / float(Engine.physics_ticks_per_second)
+
+func as_string() -> String:
+	return string_from_ticks(ticks)
+
+
+

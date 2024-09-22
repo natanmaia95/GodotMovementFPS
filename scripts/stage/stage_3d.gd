@@ -1,6 +1,8 @@
 class_name Stage3D
 extends Node3D
 
+var packed_finish_screen = preload("res://scenes/screens/pause/finish_stage_screen.tscn")
+var packed_pause_screen = preload("res://scenes/screens/pause/level_pause_screen.tscn")
 
 signal intro_started
 signal started
@@ -10,6 +12,9 @@ signal started
 
 @warning_ignore("redundant_await")
 func _ready():
+	add_child(packed_finish_screen.instantiate())
+	add_child(packed_pause_screen.instantiate())
+	
 	await ready()
 	if not StageManager.has_seen_intro:
 		await _intro()

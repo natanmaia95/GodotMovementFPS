@@ -86,6 +86,7 @@ func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
 	ScoreManager.player = self
+	StageManager.stage_finished.connect(_on_stage_finished)
 	pass
 
 
@@ -579,3 +580,8 @@ func is_wall_to_the_left():
 	var cross = (-global_basis.z).cross(get_wall_normal())
 	return cross.y < 0.0
 
+
+
+
+func _on_stage_finished() -> void:
+	%HUD.visible = false

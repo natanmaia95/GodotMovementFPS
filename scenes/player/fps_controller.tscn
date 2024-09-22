@@ -127,7 +127,8 @@ metadata/_edit_group_ = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("SphereShape3D_gcfir")
 
-[node name="Control" type="Control" parent="."]
+[node name="HUD" type="Control" parent="."]
+unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -138,7 +139,7 @@ size_flags_vertical = 3
 mouse_filter = 2
 theme = SubResource("Theme_p811b")
 
-[node name="ReticleCenterContainer" type="CenterContainer" parent="Control"]
+[node name="ReticleCenterContainer" type="CenterContainer" parent="HUD"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -146,10 +147,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Control" type="Control" parent="Control/ReticleCenterContainer"]
+[node name="Control" type="Control" parent="HUD/ReticleCenterContainer"]
 layout_mode = 2
 
-[node name="ReticleTextureRect" type="TextureRect" parent="Control/ReticleCenterContainer/Control"]
+[node name="ReticleTextureRect" type="TextureRect" parent="HUD/ReticleCenterContainer/Control"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -166,11 +167,11 @@ scale = Vector2(0.25, 0.25)
 pivot_offset = Vector2(64, 64)
 texture = ExtResource("4_045fx")
 
-[node name="HudWeapons" parent="Control" node_paths=PackedStringArray("inventory_component") instance=ExtResource("5_c80yy")]
+[node name="HudWeapons" parent="HUD" node_paths=PackedStringArray("inventory_component") instance=ExtResource("5_c80yy")]
 layout_mode = 1
 inventory_component = NodePath("../../InventoryComponent")
 
-[node name="HudTimer" parent="Control" instance=ExtResource("6_ge7bl")]
+[node name="HudTimer" parent="HUD" instance=ExtResource("6_ge7bl")]
 layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
@@ -178,11 +179,11 @@ anchor_bottom = 0.0
 grow_horizontal = 1
 grow_vertical = 1
 
-[node name="HudHealth" parent="Control" node_paths=PackedStringArray("health_component") instance=ExtResource("9_o567h")]
+[node name="HudHealth" parent="HUD" node_paths=PackedStringArray("health_component") instance=ExtResource("9_o567h")]
 layout_mode = 1
 health_component = NodePath("../../HealthComponent")
 
-[node name="HudScoreSystem" parent="Control" instance=ExtResource("10_6dnyk")]
+[node name="HudScoreSystem" parent="HUD" instance=ExtResource("10_6dnyk")]
 layout_mode = 1
 
 [connection signal="damage_taken" from="HurtboxComponent" to="HealthComponent" method="damage"]
