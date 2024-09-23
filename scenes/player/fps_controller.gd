@@ -59,6 +59,7 @@ var velocity_last_frame := Vector3.ZERO
 var was_on_floor_last_frame := false
 var is_sprinting := false
 var is_wallrunning := false
+var wallrun_attach_delay := 0.0
 var is_sliding := false
 var slide_timer := 0.0
 
@@ -195,7 +196,7 @@ func _handle_ground_physics(delta) -> void:
 	elif is_crouching and current_speed < get_move_speed()*1.1:
 		drop *= 0.5
 	elif is_sprinting and current_speed > get_move_speed()*1.1:
-		drop *= 0.5
+		drop *= 0.2
 	var new_speed = max(current_speed - drop, 0)
 	if current_speed > 0:
 		new_speed /= current_speed
@@ -358,12 +359,19 @@ func _handle_wallclimb(_delta):
 
 
 func _handle_wallrun(delta):
+	wallrun_attach_delay -= delta
+	
 	if is_wallrunning and is_crouching:
+		print_debug("wall exit due to crouch")
 		is_wallrunning = false
 		do_wall_detach()
 		return
 	
+	#not is_on_wall()
 	if is_vaulting or is_on_floor() or not is_on_wall_only():
+		if is_wallrunning:
+			do_wall_detach()
+			print_debug("wall exit due to not touching wall? ", not is_on_wall())
 		is_wallrunning = false
 		return
 	
@@ -371,10 +379,14 @@ func _handle_wallrun(delta):
 	var is_near_ground = test_move(global_transform, Vector3.DOWN * wallrun_minimum_height)
 	if not is_wallrunning and is_near_ground:
 		return # dont start wallrunning, but end wallrunning fine 
+	if not is_wallrunning and wallrun_attach_delay >= 0.0: 
+		return
+	
 	
 	# if is_on_wall_only():
 	var was_wallrunning_last_frame = is_wallrunning
 	var wall_normal = get_wall_normal()
+	print(get_wall_normal())
 	var speed_dot := velocity.normalized().dot(-global_basis.z)
 	var wall_dot := wall_normal.dot(-global_basis.z)
 	# TODO: check if not facing the wall
@@ -399,6 +411,8 @@ func _handle_wallrun(delta):
 	# move player forwards
 	var wall_forwards = Vector3.UP.cross(wall_normal)
 	if not is_wall_to_the_left(): wall_forwards *= -1
+	#point to wall a bit
+	wall_forwards = (wall_forwards - wall_normal*0.05).normalized()
 	
 	#var speed = get_horizontal_velocity().length()
 	var collided_speed := get_horizontal_velocity().length()
@@ -533,6 +547,7 @@ func do_jump(desired_jump_velocity : float = jump_velocity) -> void:
 	jumped.emit()
 
 func do_wall_detach(stronger=false) -> void:
+	wallrun_attach_delay = 0.2
 	if not is_on_wall(): return
 	if stronger:
 		velocity += get_wall_normal() * wallrun_sidejump_velocity
