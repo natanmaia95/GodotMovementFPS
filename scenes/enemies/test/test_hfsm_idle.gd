@@ -29,6 +29,7 @@ func on_enter():
 	pass
 
 func on_exit():
-	rotate_tween.stop()
+	if rotate_tween:
+		rotate_tween.stop()
 	pass
 

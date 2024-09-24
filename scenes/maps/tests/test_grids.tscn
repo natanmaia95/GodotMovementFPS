@@ -1,0 +1,156 @@
+[gd_scene load_steps=12 format=3 uid="uid://dhgsbasoy1lnf"]
+
+[ext_resource type="Script" path="res://scripts/stage/stage_3d.gd" id="1_rfmj4"]
+[ext_resource type="PackedScene" uid="uid://c4ix1c7yuyl4f" path="res://scenes/player/fps_controller.tscn" id="2_caqq3"]
+[ext_resource type="Material" uid="uid://xgvouh8o877h" path="res://textures/prototype/_mat_orange.tres" id="3_gfxb3"]
+[ext_resource type="Material" uid="uid://b2kjidniasa6g" path="res://textures/prototype/_mat_white.tres" id="4_xx0sb"]
+[ext_resource type="Material" uid="uid://brfh3gbut8wdo" path="res://textures/prototype/_mat_black.tres" id="5_ct5nh"]
+[ext_resource type="Material" uid="uid://b2uakdyvqwjh3" path="res://textures/prototype/_mat_red_shining.tres" id="6_kqcvh"]
+[ext_resource type="Material" uid="uid://dqoa3v5djgqkv" path="res://textures/prototype/_mat_red.tres" id="7_pu83e"]
+[ext_resource type="VoxelGIData" uid="uid://pmsxvavxj6rs" path="res://scenes/maps/tests/test_grids.VoxelGI_data.res" id="8_c0esl"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_nhwis"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_i6g12"]
+sky_material = SubResource("ProceduralSkyMaterial_nhwis")
+
+[sub_resource type="Environment" id="Environment_jb8ic"]
+background_mode = 2
+sky = SubResource("Sky_i6g12")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="TestGrids" type="Node3D"]
+script = ExtResource("1_rfmj4")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_jb8ic")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+light_energy = 0.2
+shadow_enabled = true
+
+[node name="FpsController" parent="." instance=ExtResource("2_caqq3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.78139, 1.02304, 0.492347)
+floor_constant_speed = true
+floor_max_angle = 0.872665
+floor_snap_length = 0.3
+look_sensitivity = 0.003
+
+[node name="CSGs" type="Node3D" parent="."]
+
+[node name="section1" type="Node3D" parent="CSGs"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGs/section1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, -0.5, 0)
+material_override = ExtResource("3_gfxb3")
+gi_mode = 2
+use_collision = true
+size = Vector3(20, 1, 4)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="CSGs/section1"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -18, -0.5, 8)
+material_override = ExtResource("3_gfxb3")
+gi_mode = 2
+use_collision = true
+size = Vector3(20, 1, 4)
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="CSGs/section1"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -20.05, 0, 8)
+material_override = ExtResource("4_xx0sb")
+gi_mode = 2
+use_collision = true
+size = Vector3(20, 2, 0.1)
+
+[node name="wall9" type="CSGBox3D" parent="CSGs/section1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 2, 2.5)
+material_override = ExtResource("5_ct5nh")
+gi_mode = 2
+use_collision = true
+size = Vector3(19, 6, 1)
+
+[node name="wall8" type="CSGBox3D" parent="CSGs/section1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.5, -1.5, 10)
+material_override = ExtResource("5_ct5nh")
+gi_mode = 2
+use_collision = true
+size = Vector3(1, 13, 16)
+
+[node name="wall" type="CSGBox3D" parent="CSGs/section1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.5, -1.5, -3)
+material_override = ExtResource("5_ct5nh")
+gi_mode = 2
+use_collision = true
+size = Vector3(1, 13, 42)
+
+[node name="wall7" type="CSGBox3D" parent="CSGs/section1"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -24, -1.5, -24.5)
+material_override = ExtResource("5_ct5nh")
+gi_mode = 2
+use_collision = true
+size = Vector3(1, 13, 30)
+
+[node name="wall6" type="CSGBox3D" parent="CSGs/section1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.5, -1.5, -4.5)
+material_override = ExtResource("5_ct5nh")
+gi_mode = 2
+use_collision = true
+size = Vector3(1, 13, 5)
+
+[node name="wall5" type="CSGBox3D" parent="CSGs/section1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.5, -4.5, 0)
+material_override = ExtResource("5_ct5nh")
+gi_mode = 2
+use_collision = true
+size = Vector3(1, 7, 4)
+
+[node name="wall4" type="CSGBox3D" parent="CSGs/section1"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -12.5, -1.5, -6.5)
+material_override = ExtResource("5_ct5nh")
+gi_mode = 2
+use_collision = true
+size = Vector3(1, 13, 5)
+
+[node name="wall3" type="CSGBox3D" parent="CSGs/section1"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -9.5, -1.5, -15)
+material_override = ExtResource("5_ct5nh")
+gi_mode = 2
+use_collision = true
+size = Vector3(18, 13, 1)
+
+[node name="wall2" type="CSGBox3D" parent="CSGs/section1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 2, -2.5)
+material_override = ExtResource("5_ct5nh")
+gi_mode = 2
+use_collision = true
+size = Vector3(19, 6, 1)
+
+[node name="lava" type="CSGBox3D" parent="CSGs/section1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.5, -8, 17.5)
+material_override = ExtResource("6_kqcvh")
+gi_mode = 2
+size = Vector3(29, 1, 84)
+material = ExtResource("7_pu83e")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 18, 0)
+gi_mode = 2
+size = Vector3(1000, 1, 1000)
+
+[node name="lights" type="Node3D" parent="."]
+
+[node name="OmniLight1" type="OmniLight3D" parent="lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 5, 0)
+light_color = Color(1, 0.22, 0.22, 1)
+light_energy = 2.0
+light_bake_mode = 1
+shadow_enabled = true
+omni_range = 20.0
+
+[node name="VoxelGI" type="VoxelGI" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43, 0, 56)
+size = Vector3(136, 20, 174)
+data = ExtResource("8_c0esl")

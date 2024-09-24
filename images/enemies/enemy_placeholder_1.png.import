@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ds0oyk7obha2o"
-path.s3tc="res://.godot/imported/red_texture_2.png-eb11f95229eacab3512e0197a3cfa4f7.s3tc.ctex"
+uid="uid://btvvba2wg8j5n"
+path.s3tc="res://.godot/imported/enemy_placeholder_1.png-f6d2ecc719669bdf71cca5cf0be6257c.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://textures/prototype/red_texture_2.png"
-dest_files=["res://.godot/imported/red_texture_2.png-eb11f95229eacab3512e0197a3cfa4f7.s3tc.ctex"]
+source_file="res://images/enemies/enemy_placeholder_1.png"
+dest_files=["res://.godot/imported/enemy_placeholder_1.png-f6d2ecc719669bdf71cca5cf0be6257c.s3tc.ctex"]
 
 [params]
 

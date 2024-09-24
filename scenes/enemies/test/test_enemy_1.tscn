@@ -1,8 +1,9 @@
-[gd_scene load_steps=23 format=3 uid="uid://bitq6h8ytmopn"]
+[gd_scene load_steps=24 format=3 uid="uid://bitq6h8ytmopn"]
 
 [ext_resource type="Script" path="res://scenes/enemies/test/test_enemy_1.gd" id="1_64ejp"]
 [ext_resource type="Script" path="res://scenes/enemies/test/test_hfsm_1_root.gd" id="1_78t2l"]
 [ext_resource type="Script" path="res://scripts/fps_system/hurtbox_component.gd" id="1_4185d"]
+[ext_resource type="Texture2D" uid="uid://btvvba2wg8j5n" path="res://images/enemies/enemy_placeholder_1.png" id="2_f4bqo"]
 [ext_resource type="Script" path="res://scripts/fps_system/health_component.gd" id="3_hlrg6"]
 [ext_resource type="Script" path="res://scenes/enemies/test/test_hfsm_idle.gd" id="5_w2nhl"]
 [ext_resource type="Script" path="res://scripts/hfsm/enemy/alive.gd" id="6_t7gg1"]
@@ -107,6 +108,7 @@ shape = SubResource("CapsuleShape3D_eerrg")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Model"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+visible = false
 mesh = SubResource("CapsuleMesh_nnrae")
 skeleton = NodePath("../..")
 
@@ -114,6 +116,14 @@ skeleton = NodePath("../..")
 transform = Transform3D(1, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0.4, -0.4)
 mesh = SubResource("BoxMesh_2rl6c")
 surface_material_override/0 = SubResource("StandardMaterial3D_efmsh")
+
+[node name="Sprite3D" type="Sprite3D" parent="Model"]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
+offset = Vector2(0, 512)
+billboard = 2
+shaded = true
+double_sided = false
+texture = ExtResource("2_f4bqo")
 
 [node name="DebugInfo" type="Node3D" parent="."]
 unique_name_in_owner = true
