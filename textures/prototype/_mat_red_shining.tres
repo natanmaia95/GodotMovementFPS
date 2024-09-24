@@ -6,5 +6,4 @@
 albedo_texture = ExtResource("1_m2jgx")
 emission_enabled = true
 emission = Color(1, 0.287307, 0.225237, 1)
-emission_energy_multiplier = 5.0
 uv1_triplanar = true
