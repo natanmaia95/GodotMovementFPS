@@ -52,6 +52,3 @@ func get_frames_in_seconds() -> float:
 
 func as_string() -> String:
 	return string_from_ticks(ticks)
-
-
-

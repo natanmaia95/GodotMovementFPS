@@ -32,4 +32,3 @@ func on_exit():
 	if rotate_tween:
 		rotate_tween.stop()
 	pass
-

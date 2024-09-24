@@ -143,8 +143,3 @@ func on_enemy_defeated(_enemy:CharacterBody3D) -> void:
 	# headshots always increase score so we add them here in a different chain
 	var was_headshot = false # not implemented
 	if was_headshot: push_action("enemy_headshot")
-
-
-
-
-

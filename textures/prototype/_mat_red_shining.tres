@@ -3,6 +3,8 @@
 [ext_resource type="Texture2D" uid="uid://d0r1mp21oxqe0" path="res://textures/prototype/red_texture_1.png" id="1_m2jgx"]
 
 [resource]
-shading_mode = 0
 albedo_texture = ExtResource("1_m2jgx")
+emission_enabled = true
+emission = Color(1, 0.287307, 0.225237, 1)
+emission_energy_multiplier = 5.0
 uv1_triplanar = true

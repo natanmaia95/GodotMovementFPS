@@ -11,4 +11,3 @@ func _process(_delta):
 	#var milliseconds : int = floor((seconds - floor(seconds))*1000)
 	#seconds = float(seconds)
 	%LblTimer.text = StageManager.timer.as_string()
-
