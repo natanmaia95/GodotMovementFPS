@@ -106,7 +106,9 @@ func _save_records() -> void:
 		"score": ScoreManager.total_score
 	})
 	var old_record_data = SaveManager.get_data("stage_records/" + current_stage_info.key)
-	if old_record_data == null: old_record_data = {}
+	if old_record_data == null: 
+		print_debug("Records data for '%s' not found, making new data." % current_stage_info.key)
+		old_record_data = {}
 	var old_record := StageRecord.from_dict(old_record_data)
 	
 	current_stage_results = StageRecord.make_best_of(new_record, old_record)
@@ -115,7 +117,7 @@ func _save_records() -> void:
 		"stage_records/" + current_stage_info.key, 
 		current_stage_results["best_record"].to_dict()
 	)
-	SaveManager.save_to_json()
+	SaveManager.save_data()
 
 
 func _load_all_stage_info() -> void:
