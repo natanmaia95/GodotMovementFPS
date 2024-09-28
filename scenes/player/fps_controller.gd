@@ -20,13 +20,13 @@ signal died
 @export var walk_speed := 10.0
 #@export var sprint_speed := 11.0
 @export var ground_accel := 20.0 #AAAAA
-@export var ground_decel := 10.0
+#@export var ground_decel := 10.0
 @export var ground_friction := 2.0
 @export var air_accel := 8.0
 @export var max_controlled_air_speed := 5.0
 @export var slide_base_speed := 12.0
 @export var slide_minimum_speed := 3.0
-@export var slide_bonus_speed_mult := 0.30
+@export var slide_bonus_speed_mult := 0.20
 @export var slide_bonus_jump_speed := 3.0
 @export var slide_speed_duration := 0.7
 @export var wallrun_minimum_height := 1.0
@@ -40,8 +40,9 @@ signal died
 #@export var air_cap := 0.85
 #@export var air_accel := 800.0
 #@export var air_move_speed := 500.0
+@export var max_fall_height_immune := 5.0
 
-@export var max_fall_height_immune := 3.0
+@onready var _original_capsule_height = $CollisionShape3D.shape.height
 
 var input_direction := Vector2.ZERO
 var wish_direction := Vector3.ZERO # input direction but in worldspace
@@ -243,28 +244,35 @@ func _handle_ground_physics(delta) -> void:
 			#velocity += accel_speed * wish_direction
 	
 	var current_speed = get_horizontal_velocity().length()
-	var final_ground_accel = ground_accel
-	var vel_dot = wish_direction.dot(get_horizontal_velocity().normalized())
-	if wish_direction != Vector3.ZERO:
-		if current_speed < 4.0:
-			final_ground_accel *= 4.0
-		if vel_dot > 0.6:
-			if current_speed < get_move_speed()*1.1:
-				velocity += wish_direction * final_ground_accel * delta
-		else:
-			if -current_speed*wish_direction.dot(get_facing_direction()) < walk_speed/2.0:
-				velocity += wish_direction * final_ground_accel * delta
-		
+	var speed_direction = get_horizontal_velocity().normalized()
+	var vel_dot = wish_direction.dot(speed_direction)
+	var facing_dot = wish_direction.dot(get_facing_direction())
+	var vel_facing_dot = get_facing_direction().dot(speed_direction)
+	var forwardsy_coeff = max(0, vel_facing_dot)
 	
-	var final_ground_decel = ground_decel
-	if wish_direction.dot(get_horizontal_velocity().normalized()) > 0.6:
-		if get_horizontal_velocity().length() > get_move_speed():
-			final_ground_decel *= 0.2
-	else:
-		final_ground_decel *= 2.0
+	var drag = ground_friction
 	if is_sliding and slide_timer > 0.0:
-		final_ground_decel *= 0.2
-	velocity -= get_horizontal_velocity().normalized() * final_ground_decel * delta
+		drag *= 0.5
+	if wish_direction == Vector3.ZERO:
+		drag *= 2
+	if current_speed < get_move_speed()*1.1:
+		velocity -= get_horizontal_velocity() * drag * delta
+	else: #behavior on top speed
+		var new_speed = current_speed * (1 - 0.1 * drag * delta)
+		var new_dir = speed_direction.lerp(wish_direction, 10.0*delta)
+		if is_sliding: new_dir = speed_direction
+		velocity = new_dir*new_speed + Vector3(0,velocity.y,0)
+	
+	
+	var final_ground_accel = ground_accel*1.5
+	if wish_direction != Vector3.ZERO and not is_sliding:
+		#if current_speed < 4.0:
+			#final_ground_accel *= 4.0
+		if current_speed < get_move_speed()*1.1:
+			velocity += wish_direction * final_ground_accel * delta
+	
+	
+	
 	
 	var final_jump_velocity = jump_velocity
 	if is_sliding: 
@@ -355,7 +363,7 @@ func _handle_vaulting_stop():
 func _handle_sprinting(_delta):
 	is_sprinting = get_horizontal_velocity().length() >= 0.8 * walk_speed
 
-@onready var _original_capsule_height = $CollisionShape3D.shape.height
+
 func _handle_crouch(delta):
 	var crouching_last_frame = is_crouching
 	
