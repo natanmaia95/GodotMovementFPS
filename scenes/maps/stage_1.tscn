@@ -54,7 +54,6 @@ shadow_enabled = true
 
 [node name="FpsController" parent="." instance=ExtResource("1_1ps57")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.29029, 0.284369, 84.5799)
-wallrun_sidejump_velocity = 3.0
 
 [node name="CGS" type="Node3D" parent="."]
 
