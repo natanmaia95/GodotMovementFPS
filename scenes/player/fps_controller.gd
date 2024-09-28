@@ -19,7 +19,7 @@ signal died
 @export var jump_velocity := 6.0
 @export var walk_speed := 10.0
 #@export var sprint_speed := 11.0
-@export var ground_accel := 6.0
+@export var ground_accel := 20.0 #AAAAA
 @export var ground_decel := 10.0
 @export var ground_friction := 2.0
 @export var air_accel := 8.0
@@ -173,40 +173,104 @@ func _handle_ground_physics(delta) -> void:
 	is_wallrunning = false
 	jump_starting_height = global_position.y
 	
+	##if not is_sliding:
+	#var cur_speed_in_wish_dir = velocity.dot(wish_direction)
+	#if is_sliding: cur_speed_in_wish_dir =  velocity.dot(-global_basis.z)
+	##var capped_speed = min((air_move_speed * wish_direction).length(), air_cap)
+	#var add_speed_till_cap = get_move_speed() - cur_speed_in_wish_dir
+	#if add_speed_till_cap > 0:
+		#var accel_speed = ground_accel * get_move_speed() * delta
+		#accel_speed = min(accel_speed, add_speed_till_cap)
+		##if not is_crouching or (is_crouching and velocity.length() < get_move_speed()):
+		#if is_sliding:
+			#velocity += accel_speed * -global_basis.z
+		#else:
+			#velocity += accel_speed * wish_direction
+	
+	##friction
+	#var current_speed = velocity.length()
+	#var control = max(current_speed, ground_decel)
+	#var drop = control * ground_friction * delta
+	#if is_sliding and slide_timer > 0.0:# and current_speed > get_move_speed():
+		#drop *= 0.1
+	#elif is_crouching and current_speed < get_move_speed()*1.1:
+		#drop *= 0.5
+	#elif is_sprinting and current_speed > get_move_speed()*1.1:
+		#drop *= 0.2
+	#var new_speed = max(current_speed - drop, 0)
+	#if current_speed > 0:
+		#new_speed /= current_speed
+	#velocity *= new_speed
+	
+	##apply friction and drag
+	#var current_speed = velocity.length()
+	#var drop = ground_decel * delta
+	#if is_sliding and slide_timer > 0.0:
+		#drop *= 0.1
+	##elif is_crouching and current_speed < get_move_speed()*1.1:
+		##drop *= 0.5 # crouching needs help with going faster lol
+	##elif is_sprinting and current_speed > get_move_speed()*1.1:
+		##drop *= 0.2 # don't lose speed as fast if already has speed;
+	#
 	#if not is_sliding:
-	var cur_speed_in_wish_dir = velocity.dot(wish_direction)
-	if is_sliding: cur_speed_in_wish_dir =  velocity.dot(-global_basis.z)
-	#var capped_speed = min((air_move_speed * wish_direction).length(), air_cap)
-	var add_speed_till_cap = get_move_speed() - cur_speed_in_wish_dir
-	if add_speed_till_cap > 0:
-		var accel_speed = ground_accel * get_move_speed() * delta
-		accel_speed = min(accel_speed, add_speed_till_cap)
-		#if not is_crouching or (is_crouching and velocity.length() < get_move_speed()):
-		if is_sliding:
-			velocity += accel_speed * -global_basis.z
+		#if wish_direction == Vector3.ZERO:
+			#drop *= 2.0
+		#elif wish_direction.dot(get_facing_direction()) < 0.6:
+			#drop *= 4.0
+	##if wish_direction.dot(get_facing_direction()) > 0.6 and current_speed > get_move_speed()*1.1:
+		##drop *= 0.2
+	#
+	#
+	#var new_speed = max(current_speed - drop, 0)
+	#if current_speed > 0:
+		#new_speed /= current_speed
+	#velocity *= new_speed
+	#
+	## then apply accel forces
+	#current_speed = velocity.length()
+	##var move_direction = wish_direction
+	##if is_sliding: move_direction = -global_basis.z
+	##var cur_speed_in_wish_dir = velocity.dot(wish_direction)
+	##if is_sliding: cur_speed_in_wish_dir =  velocity.dot(-global_basis.z)
+	##if not is_sliding and wish_direction.dot(get_facing_direction()) < 0.5:
+		##var accel_speed = ground_decel * delta
+		##velocity += accel_speed * wish_direction
+	#if current_speed < get_move_speed():
+		#var accel_speed = ground_accel * delta
+		#if is_sliding:
+			#velocity += accel_speed * get_facing_direction()
+		#else:
+			#velocity += accel_speed * wish_direction
+	
+	var current_speed = get_horizontal_velocity().length()
+	var final_ground_accel = ground_accel
+	var vel_dot = wish_direction.dot(get_horizontal_velocity().normalized())
+	if wish_direction != Vector3.ZERO:
+		if current_speed < 4.0:
+			final_ground_accel *= 4.0
+		if vel_dot > 0.6:
+			if current_speed < get_move_speed()*1.1:
+				velocity += wish_direction * final_ground_accel * delta
 		else:
-			velocity += accel_speed * wish_direction
+			if -current_speed*wish_direction.dot(get_facing_direction()) < walk_speed/2.0:
+				velocity += wish_direction * final_ground_accel * delta
+		
 	
-	#friction
-	var current_speed = velocity.length()
-	var control = max(current_speed, ground_decel)
-	var drop = control * ground_friction * delta
-	if is_sliding and slide_timer > 0.0:# and current_speed > get_move_speed():
-		drop *= 0.1
-	elif is_crouching and current_speed < get_move_speed()*1.1:
-		drop *= 0.5
-	elif is_sprinting and current_speed > get_move_speed()*1.1:
-		drop *= 0.2
-	var new_speed = max(current_speed - drop, 0)
-	if current_speed > 0:
-		new_speed /= current_speed
-	velocity *= new_speed
-	
+	var final_ground_decel = ground_decel
+	if wish_direction.dot(get_horizontal_velocity().normalized()) > 0.6:
+		if get_horizontal_velocity().length() > get_move_speed():
+			final_ground_decel *= 0.2
+	else:
+		final_ground_decel *= 2.0
+	if is_sliding and slide_timer > 0.0:
+		final_ground_decel *= 0.2
+	velocity -= get_horizontal_velocity().normalized() * final_ground_decel * delta
 	
 	var final_jump_velocity = jump_velocity
 	if is_sliding: 
 		final_jump_velocity += slide_bonus_jump_speed
 	if Input.is_action_just_pressed("jump"):
+		#print(final_jump_velocity)
 		do_jump(final_jump_velocity)
 
 
@@ -386,7 +450,7 @@ func _handle_wallrun(delta):
 	# if is_on_wall_only():
 	var was_wallrunning_last_frame = is_wallrunning
 	var wall_normal = get_wall_normal()
-	print(get_wall_normal())
+	#print(get_wall_normal())
 	var speed_dot := velocity.normalized().dot(-global_basis.z)
 	var wall_dot := wall_normal.dot(-global_basis.z)
 	# TODO: check if not facing the wall
