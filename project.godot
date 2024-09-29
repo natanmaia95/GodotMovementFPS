@@ -31,6 +31,7 @@ DSP/dsp_buffer_count=4
 config/name="MovementFPS"
 run/main_scene="res://scenes/screens/stage_select/stage_select_debug.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
+run/max_fps=60
 config/icon="res://icon.svg"
 
 [autoload]

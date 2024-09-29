@@ -26,14 +26,20 @@ func close():
 
 func build_components() -> void:
 	#results label
-	$RichTextLabel.text = "Time: %s %s" % [
-		StageManager.timer.as_string(),
-		"(NEW RECORD)" if StageManager.current_stage_results["improved_time"] else ""
-	]
-	$RichTextLabel.text += "\nScore: %d %s" % [
-		StageManager.current_stage_results["new_record"]["score"],
-		"(NEW RECORD)" if StageManager.current_stage_results["improved_score"] else ""
-	]
+	if StageManager.current_stage_results:
+		$RichTextLabel.text = "Time: %s %s" % [
+			StageManager.timer.timer_as_string(),
+			"(NEW RECORD)" if StageManager.current_stage_results["improved_time"] else ""
+		]
+		$RichTextLabel.text += "\nScore: %d %s" % [
+			StageManager.current_stage_results["new_record"]["score"],
+			"(NEW RECORD)" if StageManager.current_stage_results["improved_score"] else ""
+		]
+	else: #debug
+		print_debug("SHOWING DEBUG RESULTS MENU")
+		$RichTextLabel.text = "Time: %s" % StageManager.timer.timer_as_string()
+		$RichTextLabel.text += "\nScore: %d" % ScoreManager.total_score
+	
 
 
 

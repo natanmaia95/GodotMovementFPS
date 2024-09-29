@@ -1,0 +1,94 @@
+[gd_scene load_steps=12 format=3 uid="uid://dhgsbasoy1lnf"]
+
+[ext_resource type="Script" path="res://scripts/stage/stage_3d.gd" id="1_rfmj4"]
+[ext_resource type="PackedScene" uid="uid://c4ix1c7yuyl4f" path="res://scenes/player/fps_controller.tscn" id="2_caqq3"]
+[ext_resource type="VoxelGIData" uid="uid://6mm4clxiv1hp" path="res://scenes/maps/stage_grids/stage_grids.VoxelGI_data.res" id="2_jitx1"]
+[ext_resource type="PackedScene" uid="uid://dw2owbcxjm5ew" path="res://models/maps/test_grids/scenario.tscn" id="5_nuw3w"]
+[ext_resource type="PackedScene" uid="uid://c4e6sjaksta2h" path="res://scenes/objects/interactables/grapple/grapple_spot.tscn" id="6_ynkgb"]
+[ext_resource type="PackedScene" uid="uid://f1lsjnvxfx" path="res://scenes/objects/stage/finish_stage_area.tscn" id="7_go8i4"]
+[ext_resource type="PackedScene" uid="uid://bitq6h8ytmopn" path="res://scenes/enemies/test/test_enemy_1.tscn" id="7_ogwxe"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_nhwis"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_i6g12"]
+sky_material = SubResource("ProceduralSkyMaterial_nhwis")
+
+[sub_resource type="Environment" id="Environment_jb8ic"]
+background_mode = 2
+sky = SubResource("Sky_i6g12")
+ambient_light_color = Color(0.31998, 0.67797, 1, 1)
+tonemap_mode = 2
+glow_blend_mode = 0
+adjustment_enabled = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cm3l6"]
+size = Vector3(5, 2, 5)
+
+[node name="StageGrids" type="Node3D"]
+script = ExtResource("1_rfmj4")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_jb8ic")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+light_energy = 0.2
+light_angular_distance = 1.0
+light_bake_mode = 1
+shadow_enabled = true
+
+[node name="VoxelGI" type="VoxelGI" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -54.1814, 11.5937, 49.2225)
+size = Vector3(119.922, 40.5257, 151.808)
+data = ExtResource("2_jitx1")
+
+[node name="FpsController" parent="." instance=ExtResource("2_caqq3")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.218613, 0.0230401, -0.00765228)
+floor_constant_speed = true
+floor_max_angle = 0.872665
+floor_snap_length = 0.3
+look_sensitivity = 0.003
+
+[node name="enemies" type="Node3D" parent="."]
+
+[node name="TestEnemy1" parent="enemies" instance=ExtResource("7_ogwxe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 0, 51)
+
+[node name="TestEnemy2" parent="enemies" instance=ExtResource("7_ogwxe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 0, 56)
+
+[node name="TestEnemy3" parent="enemies" instance=ExtResource("7_ogwxe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 0, 58)
+
+[node name="objects" type="Node3D" parent="."]
+
+[node name="GrappleSpot" parent="objects" instance=ExtResource("6_ynkgb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -76.5, 6, 119)
+
+[node name="GrappleSpot2" parent="objects" instance=ExtResource("6_ynkgb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -98.5, 12, 110)
+grapple_speed = 16.0
+
+[node name="GrappleSpot3" parent="objects" instance=ExtResource("6_ynkgb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -76.5, 18, 91)
+
+[node name="FinishStageArea" parent="objects" instance=ExtResource("7_go8i4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -84, 19, 105)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="objects/FinishStageArea"]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0.353554, 1.5, -0.353554)
+shape = SubResource("BoxShape3D_cm3l6")
+
+[node name="scenario" parent="." instance=ExtResource("5_nuw3w")]
+
+[node name="lights" type="Node3D" parent="."]
+
+[node name="OmniLight1" type="OmniLight3D" parent="lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 5, 0)
+light_color = Color(0, 0.576002, 0.983204, 1)
+light_energy = 8.0
+light_bake_mode = 1
+shadow_enabled = true
+omni_range = 20.0

@@ -50,5 +50,5 @@ func update(delta:float) -> void:
 func get_frames_in_seconds() -> float:
 	return float(ticks) / float(Engine.physics_ticks_per_second)
 
-func as_string() -> String:
+func timer_as_string() -> String:
 	return string_from_ticks(ticks)
