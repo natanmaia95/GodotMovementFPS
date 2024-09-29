@@ -1,0 +1,60 @@
+[gd_scene load_steps=3 format=3 uid="uid://c6xrqo7i5jqrn"]
+
+[ext_resource type="Script" path="res://scenes/player/hud/death_screen.gd" id="1_br60y"]
+[ext_resource type="FontFile" uid="uid://d10mtdh2rphki" path="res://resources/fonts/Rubik-MediumItalic.ttf" id="2_7w2yb"]
+
+[node name="DeathScreen" type="MarginContainer"]
+process_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_br60y")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 2
+color = Color(0, 0, 0, 0.141176)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_7w2yb")
+theme_override_font_sizes/font_size = 50
+text = "YOU DIED"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+text = "Press R to Restart"
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -81.0
+offset_top = -269.0
+offset_right = 81.0
+offset_bottom = -203.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BtnRestart" type="Button" parent="Control/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Restart"
+
+[node name="BtnExit" type="Button" parent="Control/VBoxContainer"]
+layout_mode = 2
+text = "Back to Stage Select"
+
+[connection signal="pressed" from="Control/VBoxContainer/BtnRestart" to="." method="_on_btn_restart_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/BtnExit" to="." method="_on_btn_exit_pressed"]

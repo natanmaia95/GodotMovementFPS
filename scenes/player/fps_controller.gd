@@ -89,6 +89,7 @@ func _ready():
 	
 	ScoreManager.player = self
 	StageManager.stage_finished.connect(_on_stage_finished)
+	$HealthComponent.health_depleted.connect(_on_health_depleted)
 	pass
 
 
@@ -672,3 +673,7 @@ func is_wall_to_the_left():
 
 func _on_stage_finished() -> void:
 	%HUD.visible = false
+
+func _on_health_depleted() -> void:
+	%HUD.visible = false
+	died.emit()

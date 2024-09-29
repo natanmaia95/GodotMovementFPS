@@ -180,16 +180,17 @@ animation = "alerted"
 
 [node name="AimingAtPlayer" type="Node" parent="TestHFSM1/Alive/PlayerFound"]
 script = ExtResource("10_evald")
-tracking_speed = 180
-wait_before_shooting = 0.9
+tracking_speed = 720
+wait_before_shooting = 1.0
 
 [node name="Shoot" type="Node" parent="TestHFSM1/Alive/PlayerFound"]
 script = ExtResource("11_2ctnp")
 packed_bullet = ExtResource("12_gtijk")
 move_name = "shoot"
 
-[node name="Dead" type="Node" parent="TestHFSM1"]
+[node name="Dead" type="Node" parent="TestHFSM1" node_paths=PackedStringArray("hurtbox_component")]
 script = ExtResource("7_o74c3")
+hurtbox_component = NodePath("../../HurtboxComponent")
 animation = "dead"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

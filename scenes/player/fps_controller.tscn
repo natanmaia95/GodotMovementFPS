@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://c4ix1c7yuyl4f"]
+[gd_scene load_steps=20 format=3 uid="uid://c4ix1c7yuyl4f"]
 
 [ext_resource type="Script" path="res://scenes/player/fps_controller.gd" id="1_fxojq"]
 [ext_resource type="Script" path="res://scripts/fps_system/hitscan_component.gd" id="2_i8bdy"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://cwnvubwish8ly" path="res://scenes/player/hud/hud_health.tscn" id="9_o567h"]
 [ext_resource type="PackedScene" uid="uid://dc2rvkgxsj2nx" path="res://scenes/player/hud/hud_score_system.tscn" id="10_6dnyk"]
 [ext_resource type="PackedScene" uid="uid://bkh1p4o0uvnqo" path="res://scenes/player/hud/debug/debug_hud_speed.tscn" id="12_mxd7m"]
+[ext_resource type="PackedScene" uid="uid://c6xrqo7i5jqrn" path="res://scenes/player/hud/death_screen.tscn" id="13_xqyep"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s0ugf"]
 
@@ -107,6 +108,7 @@ model_root = NodePath("../HeadRoot/Head/HeadCamera/WeaponRoot")
 
 [node name="HealthComponent" type="Node3D" parent="."]
 script = ExtResource("4_d61p4")
+max_health = 10.0
 
 [node name="HurtboxComponent" type="Area3D" parent="."]
 collision_layer = 4352
@@ -191,5 +193,7 @@ layout_mode = 1
 layout_mode = 1
 mouse_filter = 2
 character = NodePath("../..")
+
+[node name="DeathScreen" parent="." instance=ExtResource("13_xqyep")]
 
 [connection signal="damage_taken" from="HurtboxComponent" to="HealthComponent" method="damage"]

@@ -1,5 +1,7 @@
 extends EntityHFSM
 
+@export var hurtbox_component : HurtboxComponent
+
 func check_transition(_delta) -> HFSMTransitionData:
 	return HFSMTransitionData.empty()
 
@@ -15,4 +17,6 @@ func on_enter():
 	#print_debug("deado")
 	character.collision_layer = 0
 	character.collision_mask = 0
+	if hurtbox_component:
+		hurtbox_component.disabled = true
 	ScoreManager.on_enemy_defeated(character)
