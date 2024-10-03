@@ -94,6 +94,8 @@ func load_from_file(encrypted:bool=false) -> Error:
 	else:
 		file_access = FileAccess.open("user://save_game.dat", FileAccess.READ)
 	
+	if file_access == null:
+		return FileAccess.get_open_error()
 	var file_contents : String = file_access.get_as_text()
 	if file_contents == "" or file_contents == null :
 		return FileAccess.get_open_error()
