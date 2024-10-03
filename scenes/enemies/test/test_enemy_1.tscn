@@ -1,9 +1,9 @@
-[gd_scene load_steps=24 format=3 uid="uid://bitq6h8ytmopn"]
+[gd_scene load_steps=30 format=3 uid="uid://bitq6h8ytmopn"]
 
 [ext_resource type="Script" path="res://scenes/enemies/test/test_enemy_1.gd" id="1_64ejp"]
 [ext_resource type="Script" path="res://scenes/enemies/test/test_hfsm_1_root.gd" id="1_78t2l"]
 [ext_resource type="Script" path="res://scripts/fps_system/hurtbox_component.gd" id="1_4185d"]
-[ext_resource type="Texture2D" uid="uid://btvvba2wg8j5n" path="res://images/enemies/enemy_placeholder_1.png" id="2_f4bqo"]
+[ext_resource type="Texture2D" uid="uid://chuhyi0bad60r" path="res://images/enemies/test_enemy_idle.png" id="2_ntrsw"]
 [ext_resource type="Script" path="res://scripts/fps_system/health_component.gd" id="3_hlrg6"]
 [ext_resource type="Script" path="res://scenes/enemies/test/test_hfsm_idle.gd" id="5_w2nhl"]
 [ext_resource type="Script" path="res://scripts/hfsm/enemy/alive.gd" id="6_t7gg1"]
@@ -14,6 +14,9 @@
 [ext_resource type="Script" path="res://scripts/hfsm/enemy/aiming_at_player.gd" id="10_evald"]
 [ext_resource type="Script" path="res://scenes/enemies/test/test_state_shoot.gd" id="11_2ctnp"]
 [ext_resource type="PackedScene" uid="uid://dgrbv53ylmw4g" path="res://scenes/enemies/test/test_bullet.tscn" id="12_gtijk"]
+[ext_resource type="Texture2D" uid="uid://cdw75tcbqn5ct" path="res://images/enemies/test_enemy_search.png" id="15_aygrl"]
+[ext_resource type="Texture2D" uid="uid://dnfy6oravh5yc" path="res://images/enemies/test_enemy_defeated.png" id="15_iqgv8"]
+[ext_resource type="Texture2D" uid="uid://bomevudk20koj" path="res://images/enemies/test_enemy_shoot.png" id="17_nm7we"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_eerrg"]
 radius = 0.7
@@ -56,6 +59,30 @@ tracks/1/keys = {
 "update": 0,
 "values": [Vector3(0, 0, 0)]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Model/Sprite3D:texture")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_ntrsw")]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Model/Sprite3D:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.2, 0.2, 0.2)]
+}
 
 [sub_resource type="Animation" id="Animation_8r1hr"]
 resource_name = "alerted"
@@ -71,6 +98,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Vector3(0, 0, 0), Vector3(0, 0.5, 0), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Model/Sprite3D:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("15_aygrl")]
 }
 
 [sub_resource type="Animation" id="Animation_y2ot5"]
@@ -88,17 +127,91 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector3(0, 0, 0), Vector3(0, 0, 1.5708)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Model/Sprite3D:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("15_iqgv8")]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Model/Sprite3D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.333333, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0.2, 0.2, 0.2), Vector3(0.2, 0.2, 0.2), Vector3(0.2, 0, 0.2)]
+}
+
+[sub_resource type="Animation" id="Animation_ls338"]
+resource_name = "idle"
+length = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Model/Sprite3D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_ntrsw")]
+}
+
+[sub_resource type="Animation" id="Animation_045p5"]
+resource_name = "shoot"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Model/Sprite3D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("17_nm7we"), ExtResource("15_aygrl")]
+}
+
+[sub_resource type="Animation" id="Animation_f880r"]
+resource_name = "aiming"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Model/Sprite3D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("15_aygrl")]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_iu6wj"]
 _data = {
 "RESET": SubResource("Animation_b4pni"),
+"aiming": SubResource("Animation_f880r"),
 "alerted": SubResource("Animation_8r1hr"),
-"dead": SubResource("Animation_y2ot5")
+"dead": SubResource("Animation_y2ot5"),
+"idle": SubResource("Animation_ls338"),
+"shoot": SubResource("Animation_045p5")
 }
 
-[node name="TestEnemy1" type="CharacterBody3D" node_paths=PackedStringArray("state_machine")]
+[node name="TestEnemy1" type="CharacterBody3D" node_paths=PackedStringArray("state_machine", "sprite")]
 script = ExtResource("1_64ejp")
 state_machine = NodePath("TestHFSM1")
+sprite = NodePath("Model/Sprite3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -123,7 +236,7 @@ offset = Vector2(0, 512)
 billboard = 2
 shaded = true
 double_sided = false
-texture = ExtResource("2_f4bqo")
+texture = ExtResource("2_ntrsw")
 
 [node name="DebugInfo" type="Node3D" parent="."]
 unique_name_in_owner = true
@@ -169,6 +282,7 @@ starting_move_name = "idle"
 [node name="Idle" type="Node" parent="TestHFSM1/Alive/PlayerNotFound"]
 script = ExtResource("5_w2nhl")
 move_name = "idle"
+animation = "idle"
 
 [node name="PlayerFound" type="Node" parent="TestHFSM1/Alive"]
 script = ExtResource("8_85cey")
@@ -182,11 +296,14 @@ animation = "alerted"
 script = ExtResource("10_evald")
 tracking_speed = 720
 wait_before_shooting = 1.0
+animation = "aiming"
 
 [node name="Shoot" type="Node" parent="TestHFSM1/Alive/PlayerFound"]
 script = ExtResource("11_2ctnp")
 packed_bullet = ExtResource("12_gtijk")
+shoot_delay = 0.3
 move_name = "shoot"
+animation = "shoot"
 
 [node name="Dead" type="Node" parent="TestHFSM1" node_paths=PackedStringArray("hurtbox_component")]
 script = ExtResource("7_o74c3")

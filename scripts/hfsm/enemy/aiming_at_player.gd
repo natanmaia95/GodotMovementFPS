@@ -4,18 +4,23 @@ extends EntityHFSM
 ## [degrees per second] How fast the enemy aligns towards the player.
 @export var tracking_speed := 120
 @export var wait_before_shooting := 2.0
+var actual_wait_before_shooting := 2.0
 
 func choose_internal_move() -> HFSMTransitionData:
 	return HFSMTransitionData.empty()
 
 func check_transition(_delta) -> HFSMTransitionData:
-	if get_progress() >= wait_before_shooting:
+	if get_progress() >= actual_wait_before_shooting:
 		# needs aim to at least be kinda close
 		var direction = direction_to_player()
 		direction = Vector3(direction.x, 0, direction.z).normalized()
 		if direction.dot(-character.global_basis.z) > 0.9: # 20° or less towards player
 			return HFSMTransitionData.new(true, "shoot")
 	return HFSMTransitionData.empty()
+
+func on_enter():
+	actual_wait_before_shooting = wait_before_shooting * randf_range(1.0, 1.5)
+	pass
 
 func update(delta):
 	update_tracking(delta)
