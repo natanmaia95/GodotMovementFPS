@@ -375,7 +375,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 83.1103, 11.2301, 57.9325)
 vertical_offset = 2.0
 
 [node name="GrappleSpot5" parent="objects" instance=ExtResource("5_t32gq")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 131.223, 19.843, 80.1707)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 132.223, 20.843, 80.1707)
 vertical_offset = -4.0
 
 [node name="GrappleSpot6" parent="objects" instance=ExtResource("5_t32gq")]

@@ -84,6 +84,21 @@ tracks/3/keys = {
 "values": [Vector3(0.2, 0.2, 0.2)]
 }
 
+[sub_resource type="Animation" id="Animation_f880r"]
+resource_name = "aiming"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Model/Sprite3D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("15_aygrl")]
+}
+
 [sub_resource type="Animation" id="Animation_8r1hr"]
 resource_name = "alerted"
 length = 0.3
@@ -183,21 +198,6 @@ tracks/0/keys = {
 "values": [ExtResource("17_nm7we"), ExtResource("15_aygrl")]
 }
 
-[sub_resource type="Animation" id="Animation_f880r"]
-resource_name = "aiming"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Model/Sprite3D:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [ExtResource("15_aygrl")]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_iu6wj"]
 _data = {
 "RESET": SubResource("Animation_b4pni"),
@@ -209,6 +209,7 @@ _data = {
 }
 
 [node name="TestEnemy1" type="CharacterBody3D" node_paths=PackedStringArray("state_machine", "sprite")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0903862, 0)
 script = ExtResource("1_64ejp")
 state_machine = NodePath("TestHFSM1")
 sprite = NodePath("Model/Sprite3D")

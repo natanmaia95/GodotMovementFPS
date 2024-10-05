@@ -65,6 +65,7 @@ material = ExtResource("4_1y31g")
 
 [node name="teto" type="CSGBox3D" parent="CGS"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -65.8289, 8, 32.5617)
+visible = false
 cast_shadow = 0
 use_collision = true
 size = Vector3(189, 1, 109)

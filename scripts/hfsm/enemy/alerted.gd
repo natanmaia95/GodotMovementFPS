@@ -30,4 +30,3 @@ func on_enter():
 
 func on_exit():
 	if animator: animator.play("RESET")
-

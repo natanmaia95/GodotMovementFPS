@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/stage/stage_3d.gd" id="1_kuafa"]
 [ext_resource type="PackedScene" uid="uid://c4ix1c7yuyl4f" path="res://scenes/player/fps_controller.tscn" id="2_alqbi"]
-[ext_resource type="Texture2D" uid="uid://bplqfdo32w0qi" path="res://lvl 2.png" id="6_mdrkn"]
+[ext_resource type="Texture2D" uid="uid://blqr8qkxjw1w5" path="res://scenes/maps/Parte 1.png" id="3_vlcb0"]
 [ext_resource type="Script" path="res://scenes/objects/stage/reset_stage_area.gd" id="7_byyui"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_40e1a"]
@@ -36,19 +36,50 @@ script = ExtResource("1_kuafa")
 environment = SubResource("Environment_mvkqy")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.866025, -0.433013, 0.250001, -0.0476188, 0.569156, 0.82085, -0.497728, 0.698972, -0.513523, 0, 0.48705, 0)
+transform = Transform3D(-0.866025, -0.433013, 0.250001, -0.0476188, 0.569156, 0.82085, -0.497728, 0.698972, -0.513523, 109.097, 0.48705, 62.9295)
 shadow_enabled = true
 
 [node name="FpsController" parent="." instance=ExtResource("2_alqbi")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.37583, 0.284369, 106.58)
-wallrun_sidejump_velocity = 3.0
+transform = Transform3D(-0.0222162, 0, 0.999753, 0, 1, 0, -0.999753, 0, -0.0222162, 140.747, 0.649496, 81.7928)
+wallrun_sidejump_velocity = 9.0
 
 [node name="CGS" type="Node3D" parent="."]
 
+[node name="section1" type="Node3D" parent="CGS"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CGS/section1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0.000663221, 0, -0.000663221, 1, 128.123, 0.0372196, 81.272)
+use_collision = true
+size = Vector3(37, 1, 15)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="CGS/section1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 99.3335, 3.5, 87.2222)
+use_collision = true
+size = Vector3(11.7661, 6, 1)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="CGS/section1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 85.7554, 3.5, 79.1595)
+use_collision = true
+size = Vector3(13.459, 6, 1)
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="CGS/section1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 57.9656, 3.5, 79.1595)
+use_collision = true
+size = Vector3(13.459, 6, 1)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="CGS/section1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 72.0788, 3.5, 87.375)
+use_collision = true
+size = Vector3(13.459, 6, 1)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="CGS/section1"]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 40.9885, 3.5, 83.1246)
+use_collision = true
+size = Vector3(18, 6, 1)
+
 [node name="Sprite3D" type="Sprite3D" parent="."]
-transform = Transform3D(2.01069, 0, 0, 0, -1.34892e-07, 0.483571, 0, -3.08596, -2.11376e-08, 0, 0, 42.6347)
-visible = false
-texture = ExtResource("6_mdrkn")
+transform = Transform3D(-8.28191e-07, -29.0782, -1.99305e-07, 0, -1.27105e-06, 4.55956, -18.9468, 1.27105e-06, 8.71189e-15, 0, 0, 0)
+texture = ExtResource("3_vlcb0")
 metadata/_edit_lock_ = true
 
 [node name="ResetStageArea" type="Area3D" parent="."]

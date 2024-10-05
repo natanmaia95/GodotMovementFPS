@@ -39,5 +39,3 @@ func can_see_player() -> bool:
 		if angle_degrees <= sight_cone_angle_degrees*0.5:
 			return true
 	return false
-
-

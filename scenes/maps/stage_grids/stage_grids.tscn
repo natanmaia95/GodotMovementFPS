@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dhgsbasoy1lnf"]
+[gd_scene load_steps=18 format=3 uid="uid://dhgsbasoy1lnf"]
 
 [ext_resource type="Script" path="res://scripts/stage/stage_3d.gd" id="1_rfmj4"]
 [ext_resource type="PackedScene" uid="uid://c4ix1c7yuyl4f" path="res://scenes/player/fps_controller.tscn" id="2_caqq3"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://scenes/objects/stage/player_death_area.gd" id="7_2bn8k"]
 [ext_resource type="PackedScene" uid="uid://f1lsjnvxfx" path="res://scenes/objects/stage/finish_stage_area.tscn" id="7_go8i4"]
 [ext_resource type="PackedScene" uid="uid://bitq6h8ytmopn" path="res://scenes/enemies/test/test_enemy_1.tscn" id="7_ogwxe"]
+[ext_resource type="Script" path="res://scripts/combo_system/score_area_3d.gd" id="9_83r5d"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_nhwis"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -29,6 +30,15 @@ size = Vector3(5, 2, 5)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8cox4"]
 size = Vector3(28, 2, 82)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1henn"]
+size = Vector3(44.1617, 19.552, 84.1555)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yg8mq"]
+size = Vector3(74.9845, 9.80257, 63.8256)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_klcoi"]
+size = Vector3(40.0071, 36.8161, 39.7565)
 
 [node name="StageGrids" type="Node3D"]
 script = ExtResource("1_rfmj4")
@@ -104,3 +114,28 @@ light_energy = 8.0
 light_bake_mode = 1
 shadow_enabled = true
 omni_range = 20.0
+
+[node name="score_zones" type="Node3D" parent="."]
+
+[node name="ScoreArea3D" type="Area3D" parent="score_zones"]
+script = ExtResource("9_83r5d")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="score_zones/ScoreArea3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.0275, 0.555542, 17.308)
+shape = SubResource("BoxShape3D_1henn")
+
+[node name="ScoreArea3D2" type="Area3D" parent="score_zones"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.5946, 0, 48.242)
+script = ExtResource("9_83r5d")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="score_zones/ScoreArea3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.4866, 3.02091, 5.92743)
+shape = SubResource("BoxShape3D_yg8mq")
+
+[node name="ScoreArea3D3" type="Area3D" parent="score_zones"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -84.1414, 0, 105.177)
+script = ExtResource("9_83r5d")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="score_zones/ScoreArea3D3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.113159, 13.276, 0.620636)
+shape = SubResource("BoxShape3D_klcoi")
