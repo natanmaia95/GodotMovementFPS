@@ -52,6 +52,10 @@ script/templates_search_path="res://scripts/templates"
 
 enabled=PackedStringArray("res://addons/fmod/plugin.cfg")
 
+[filesystem]
+
+import/blender/enabled=false
+
 [input]
 
 move_forward={
