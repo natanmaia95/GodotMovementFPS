@@ -40,6 +40,8 @@ func _set_data(key:String, value, dict=data) -> void:
 			dict[key] = value
 		return
 	else:
+		if not dict.has(split_key[0]):
+			dict[split_key[0]] = {}
 		if not dict[split_key[0]] is Dictionary:
 			dict[split_key[0]] = {}
 		_set_data(split_key[1], value, dict[split_key[0]])
