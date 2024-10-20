@@ -53,7 +53,7 @@ transform = Transform3D(-0.866025, -0.433013, 0.25, -0.0476188, 0.569156, 0.8208
 shadow_enabled = true
 
 [node name="FpsController" parent="." instance=ExtResource("1_t2gh3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.78139, 1.02304, 0.492347)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.78139, 1.02304, -45.5077)
 floor_constant_speed = true
 floor_max_angle = 0.872665
 floor_snap_length = 0.3
@@ -72,6 +72,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 66.8423, -1, -30.0522)
 material_override = ExtResource("1_art4b")
 use_collision = true
 size = Vector3(233.685, 1, 160.104)
+
+[node name="CSGBox3D18" type="CSGBox3D" parent="CSGs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 154, -1, 356.396)
+material_override = ExtResource("1_art4b")
+use_collision = true
+size = Vector3(408, 1, 519)
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="CSGs"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1.5, 0)
@@ -103,6 +109,13 @@ material = SubResource("StandardMaterial3D_hny61")
 
 [node name="CSGBox3D5" type="CSGBox3D" parent="CSGs/CSGBox3D2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.7774, 0.5, -40.826)
+material_override = ExtResource("3_skyb5")
+use_collision = true
+size = Vector3(2, 4, 2)
+material = SubResource("StandardMaterial3D_hny61")
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="CSGs/CSGBox3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.7774, 9.5, 231.174)
 material_override = ExtResource("3_skyb5")
 use_collision = true
 size = Vector3(2, 4, 2)
@@ -247,6 +260,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 122.608, -3.14818, -11.9304)
 material_override = ExtResource("1_art4b")
 use_collision = true
 size = Vector3(30.6766, 8.46497, 34.1392)
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="CSGs/CSGCombiner3D/CSGBox3D9"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.392, -3.14818, 217.5)
+material_override = ExtResource("1_art4b")
+use_collision = true
+size = Vector3(30.6766, 8.46497, 85)
 
 [node name="CSGBox3D10" type="CSGBox3D" parent="CSGs/CSGCombiner3D/CSGBox3D9"]
 transform = Transform3D(0.812918, 0, -0.582378, 0, 1, 0, 0.582378, 0, 0.812918, 122.608, -3.14818, -62.3227)

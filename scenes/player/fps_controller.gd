@@ -12,7 +12,7 @@ signal died
 @export var toggle_crouch_enabled := false
 #@export var toggle_sprint_enabled := false
 
-@export var gravity := 16.0
+@export var gravity := 13.0
 @export var mass := 80.0 # for colliions with rbs
 
 # "tried and tested" values
