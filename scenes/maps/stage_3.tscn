@@ -45,7 +45,7 @@ transform = Transform3D(-0.866025, -0.433013, 0.250001, -0.0476188, 0.569156, 0.
 shadow_enabled = true
 
 [node name="FpsController" parent="." instance=ExtResource("2_alqbi")]
-transform = Transform3D(0.999592, 0.00808753, -0.0273834, 0, 0.959046, 0.283249, 0.0285527, -0.283133, 0.958655, 40.4624, 4.64711, 10.843)
+transform = Transform3D(0.0104985, -0.0418333, 0.999069, 0, 0.999124, 0.0418356, -0.999945, -0.000439212, 0.0104893, 139.244, 0.756353, 81.0032)
 wallrun_fall_friction = 20.0
 wallrun_sidejump_velocity = 9.0
 
