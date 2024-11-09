@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bnfasmt3heq55"]
+[gd_scene load_steps=24 format=3 uid="uid://bnfasmt3heq55"]
 
 [ext_resource type="PackedScene" uid="uid://c4ix1c7yuyl4f" path="res://scenes/player/fps_controller.tscn" id="1_1ps57"]
 [ext_resource type="Script" path="res://scripts/stage/stage_3d.gd" id="1_an57n"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://f1lsjnvxfx" path="res://scenes/objects/stage/finish_stage_area.tscn" id="10_y7g4q"]
 [ext_resource type="PackedScene" uid="uid://bitq6h8ytmopn" path="res://scenes/enemies/test/test_enemy_1.tscn" id="12_8l57k"]
 [ext_resource type="PackedScene" uid="uid://c4e6sjaksta2h" path="res://scenes/objects/interactables/grapple/grapple_spot.tscn" id="13_gsjcw"]
+[ext_resource type="Script" path="res://scripts/combo_system/score_area_3d.gd" id="13_toacu"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_40e1a"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -40,7 +41,13 @@ shading_mode = 0
 albedo_color = Color(1, 0, 0, 0.196078)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_qt306"]
-size = Vector3(20, 1, 20)
+size = Vector3(188, 1, 118)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_m1cva"]
+size = Vector3(17, 20, 61)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wjtk8"]
+size = Vector3(24.5684, 20, 91)
 
 [node name="Draft level" type="Node3D"]
 script = ExtResource("1_an57n")
@@ -56,6 +63,7 @@ shadow_enabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.29029, 0.284369, 84.5799)
 
 [node name="CGS" type="Node3D" parent="."]
+metadata/_edit_lock_ = true
 
 [node name="CSGBox3D" type="CSGBox3D" parent="CGS"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.32894, 0, 76.5617)
@@ -398,13 +406,15 @@ shape = SubResource("BoxShape3D_k58v8")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.89364, 0, 0)
 shape = SubResource("BoxShape3D_k58v8")
 
-[node name="ResetStageArea" type="Area3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(7.85192, 0, 0, 0, 1, 0, 0, 0, 5.61016, -63.5066, -2.77903, 30.824)
-script = ExtResource("10_nn5gt")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="ResetStageArea"]
 mesh = SubResource("BoxMesh_3vm8l")
+skeleton = NodePath("../ResetStageArea")
 surface_material_override/0 = SubResource("StandardMaterial3D_riaxp")
+
+[node name="ResetStageArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -63.5066, -2.77903, 30.824)
+script = ExtResource("10_nn5gt")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ResetStageArea"]
 shape = SubResource("BoxShape3D_qt306")
@@ -414,3 +424,35 @@ transform = Transform3D(0.490539, 0, 0.871419, 0, 1, 0, -0.871419, 0, 0.490539, 
 
 [node name="GrappleSpot" parent="." instance=ExtResource("13_gsjcw")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -138.376, 5.5, 2.09895)
+
+[node name="ScoreArea3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 59)
+script = ExtResource("13_toacu")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ScoreArea3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.5, -1)
+shape = SubResource("BoxShape3D_m1cva")
+
+[node name="ScoreArea3D2" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 19)
+script = ExtResource("13_toacu")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ScoreArea3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.95394, 9.5, -1)
+shape = SubResource("BoxShape3D_m1cva")
+
+[node name="ScoreArea3D3" type="Area3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21, 0, -1)
+script = ExtResource("13_toacu")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ScoreArea3D3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.95394, 9.5, -16)
+shape = SubResource("BoxShape3D_wjtk8")
+
+[node name="ScoreArea3D4" type="Area3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -112.248, 0, -1)
+script = ExtResource("13_toacu")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ScoreArea3D4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.95394, 9.5, -16)
+shape = SubResource("BoxShape3D_wjtk8")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://d3sxl45gaa1yu"]
+[gd_scene load_steps=22 format=3 uid="uid://d3sxl45gaa1yu"]
 
 [ext_resource type="Script" path="res://scripts/stage/stage_3d.gd" id="1_kuafa"]
 [ext_resource type="PackedScene" uid="uid://c4ix1c7yuyl4f" path="res://scenes/player/fps_controller.tscn" id="2_alqbi"]
@@ -9,6 +9,8 @@
 [ext_resource type="Texture2D" uid="uid://dsyghnp05rydf" path="res://scenes/maps/Parte 2.png" id="6_bkrcm"]
 [ext_resource type="Script" path="res://scenes/objects/stage/reset_stage_area.gd" id="7_byyui"]
 [ext_resource type="Texture2D" uid="uid://bh7r1k1fv0k5b" path="res://scenes/maps/parte 4.png" id="7_sv4yw"]
+[ext_resource type="Script" path="res://scenes/objects/stage/finish_stage_area.gd" id="10_p40nv"]
+[ext_resource type="Script" path="res://scripts/combo_system/score_area_3d.gd" id="11_ykryr"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_40e1a"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -23,16 +25,26 @@ sky = SubResource("Sky_6aq6q")
 tonemap_mode = 2
 tonemap_white = 16.0
 
-[sub_resource type="BoxMesh" id="BoxMesh_y21eh"]
-size = Vector3(20, 1, 20)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_txmso"]
-transparency = 1
-shading_mode = 0
-albedo_color = Color(1, 0, 0, 0.196078)
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_5hiaw"]
-size = Vector3(20, 1, 20)
+size = Vector3(879.646, 1, 749.58)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qxnha"]
+size = Vector3(49.3906, 31.7756, 11.3584)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rn3cs"]
+size = Vector3(159, 41, 39.7266)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cw4x0"]
+size = Vector3(182.894, 60, 73.0276)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ot5bg"]
+size = Vector3(82.1179, 33, 146.273)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g7otu"]
+size = Vector3(264.588, 60, 64)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ywb30"]
+size = Vector3(271, 60, 205)
 
 [node name="Draft level" type="Node3D"]
 script = ExtResource("1_kuafa")
@@ -360,10 +372,10 @@ use_collision = true
 size = Vector3(66, 1, 10)
 
 [node name="CSGBox3D34" type="CSGBox3D" parent="CGS/section 2 (hard)"]
-transform = Transform3D(-4.37114e-08, -0.000663221, 1, 0, 1, 0.000663221, -1, 2.89903e-11, -4.37114e-08, -297.39, 0.0481627, -104.928)
+transform = Transform3D(-4.37114e-08, -0.000663221, 1, 0, 1, 0.000663221, -1, 2.89903e-11, -4.37114e-08, -297.39, 0.0481627, -109.428)
 material_override = ExtResource("3_8epcj")
 use_collision = true
-size = Vector3(60, 1, 10)
+size = Vector3(51, 1, 10)
 
 [node name="CSGBox3D33" type="CSGBox3D" parent="CGS/section 2 (hard)"]
 transform = Transform3D(-4.37114e-08, -0.000663221, 1, 0, 1, 0.000663221, -1, 2.89903e-11, -4.37114e-08, -297.397, 11.0482, -138.928)
@@ -473,14 +485,98 @@ texture = ExtResource("7_sv4yw")
 metadata/_edit_lock_ = true
 
 [node name="ResetStageArea" type="Area3D" parent="."]
-transform = Transform3D(34.894, 0, 0, 0, 3.62678, 0, 0, 0, 35.6057, 0.659019, -12.1884, -131.632)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.659019, -12.1884, -131.632)
 script = ExtResource("7_byyui")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="ResetStageArea"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.131666, 0)
-visible = false
-mesh = SubResource("BoxMesh_y21eh")
-surface_material_override/0 = SubResource("StandardMaterial3D_txmso")
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ResetStageArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.2682, 0, 68.6785)
 shape = SubResource("BoxShape3D_5hiaw")
+
+[node name="FinishStageArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 86.791, 7.31605, -278.847)
+script = ExtResource("10_p40nv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FinishStageArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 3, 0)
+shape = SubResource("BoxShape3D_qxnha")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="FinishStageArea"]
+transparency = 0.55
+size = Vector3(33.3142, 30.6638, 14.3066)
+
+[node name="FinishStageArea2" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -301.209, 7.31605, -89.8467)
+script = ExtResource("10_p40nv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FinishStageArea2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 3, 0)
+shape = SubResource("BoxShape3D_qxnha")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="FinishStageArea2"]
+transparency = 0.55
+size = Vector3(33.3142, 30.6638, 14.3066)
+
+[node name="Lights" type="Node3D" parent="."]
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(-0.973982, -0.0641918, 0.217345, 0, 0.959046, 0.28325, -0.226626, 0.27588, -0.934094, -128.084, 7.54991, -34.3364)
+light_energy = 15.626
+omni_range = 10.0
+
+[node name="OmniLight3D6" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(-0.973982, -0.0641918, 0.217345, 0, 0.959046, 0.28325, -0.226626, 0.27588, -0.934094, -128.084, 7.54991, -37.3364)
+light_energy = 15.626
+omni_range = 10.0
+
+[node name="OmniLight3D3" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(-0.973982, -0.0641918, 0.217345, 0, 0.959046, 0.28325, -0.226626, 0.27588, -0.934094, -128.084, 7.54991, -27.3364)
+light_energy = 15.626
+omni_range = 10.0
+
+[node name="OmniLight3D4" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(-0.973982, -0.0641918, 0.217345, 0, 0.959046, 0.28325, -0.226626, 0.27588, -0.934094, -128.084, 7.54991, -51.3364)
+light_energy = 15.626
+omni_range = 10.0
+
+[node name="OmniLight3D5" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(-0.973982, -0.0641918, 0.217345, 0, 0.959046, 0.28325, -0.226626, 0.27588, -0.934094, -128.084, 7.54991, -57.3364)
+light_energy = 15.626
+omni_range = 10.0
+
+[node name="ScoreAreas" type="Node3D" parent="."]
+
+[node name="ScoreArea3D" type="Area3D" parent="ScoreAreas"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 92, 0, 81)
+script = ExtResource("11_ykryr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ScoreAreas/ScoreArea3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17.5, -9.36328)
+shape = SubResource("BoxShape3D_rn3cs")
+
+[node name="ScoreArea3D2" type="Area3D" parent="ScoreAreas"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 0, 37)
+script = ExtResource("11_ykryr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ScoreAreas/ScoreArea3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44.053, 15.5, -26.0138)
+shape = SubResource("BoxShape3D_cw4x0")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="ScoreAreas/ScoreArea3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -87.0739, 13.6177, -58.6318)
+shape = SubResource("BoxShape3D_ot5bg")
+
+[node name="ScoreArea3D3" type="Area3D" parent="ScoreAreas"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 55, 0, -82)
+script = ExtResource("11_ykryr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ScoreAreas/ScoreArea3D3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -75.4259, 11.5, -21.5)
+shape = SubResource("BoxShape3D_g7otu")
+
+[node name="ScoreArea3D4" type="Area3D" parent="ScoreAreas"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -177, 0, -173)
+script = ExtResource("11_ykryr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ScoreAreas/ScoreArea3D4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -56, 11.5, 49.0001)
+shape = SubResource("BoxShape3D_ywb30")
