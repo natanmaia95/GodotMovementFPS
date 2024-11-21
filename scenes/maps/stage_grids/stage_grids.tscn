@@ -20,7 +20,7 @@ sky_material = SubResource("ProceduralSkyMaterial_nhwis")
 [sub_resource type="Environment" id="Environment_jb8ic"]
 background_mode = 2
 sky = SubResource("Sky_i6g12")
-ambient_light_color = Color(0.31998, 0.67797, 1, 1)
+ambient_light_color = Color(0.31321, 0.522067, 1, 1)
 tonemap_mode = 2
 glow_blend_mode = 0
 adjustment_enabled = true
@@ -43,6 +43,11 @@ size = Vector3(40.0071, 36.8161, 39.7565)
 [node name="StageGrids" type="Node3D"]
 script = ExtResource("1_rfmj4")
 
+[node name="VoxelGI" type="VoxelGI" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -54.1814, 11.5937, 49.2225)
+size = Vector3(119.922, 40.5257, 151.808)
+data = ExtResource("2_jitx1")
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_jb8ic")
 
@@ -52,11 +57,6 @@ light_energy = 0.2
 light_angular_distance = 1.0
 light_bake_mode = 1
 shadow_enabled = true
-
-[node name="VoxelGI" type="VoxelGI" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -54.1814, 11.5937, 49.2225)
-size = Vector3(119.922, 40.5257, 151.808)
-data = ExtResource("2_jitx1")
 
 [node name="FpsController" parent="." instance=ExtResource("2_caqq3")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.218613, 0.0230401, -0.00765228)
@@ -75,6 +75,36 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 0, 56)
 
 [node name="TestEnemy3" parent="enemies" instance=ExtResource("7_ogwxe")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 0, 58)
+
+[node name="TestEnemy4" parent="enemies" instance=ExtResource("7_ogwxe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44.7816, -1.38356, 41.5829)
+
+[node name="TestEnemy13" parent="enemies" instance=ExtResource("7_ogwxe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -53.3427, -1.38356, 42.4654)
+
+[node name="TestEnemy5" parent="enemies" instance=ExtResource("7_ogwxe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.3445, -1.38356, 43.3123)
+
+[node name="TestEnemy6" parent="enemies" instance=ExtResource("7_ogwxe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -57.676, -1.38356, 70.7156)
+
+[node name="TestEnemy7" parent="enemies" instance=ExtResource("7_ogwxe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -57.676, -1.38356, 73.0352)
+
+[node name="TestEnemy8" parent="enemies" instance=ExtResource("7_ogwxe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -84.0458, -1.38356, 73.0352)
+
+[node name="TestEnemy9" parent="enemies" instance=ExtResource("7_ogwxe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -82.723, -1.38356, 70.9767)
+
+[node name="TestEnemy10" parent="enemies" instance=ExtResource("7_ogwxe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -84.0584, -1.38356, 76.8291)
+
+[node name="TestEnemy11" parent="enemies" instance=ExtResource("7_ogwxe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -84.0584, 12.6168, 88.8378)
+
+[node name="TestEnemy12" parent="enemies" instance=ExtResource("7_ogwxe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -70.447, 3.11733, 109.931)
 
 [node name="objects" type="Node3D" parent="."]
 

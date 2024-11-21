@@ -7,6 +7,6 @@
 [resource]
 script = ExtResource("2_cds72")
 key = "stage_grids"
-name = "Grids"
+name = "The Lab"
 image = ExtResource("1_qb57t")
 stage_packed_scene = ExtResource("3_hdoyy")

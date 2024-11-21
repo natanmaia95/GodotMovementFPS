@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://cyu5lpnpgpvso" path="res://lvl 1.png" id="5_lfwin"]
 [ext_resource type="Material" uid="uid://dqoa3v5djgqkv" path="res://textures/prototype/_mat_red.tres" id="5_vf23f"]
 [ext_resource type="Texture2D" uid="uid://bplqfdo32w0qi" path="res://lvl 2.png" id="9_j7u7l"]
-[ext_resource type="Script" path="res://scenes/objects/stage/reset_stage_area.gd" id="10_nn5gt"]
+[ext_resource type="Script" path="res://scenes/objects/stage/player_death_area.gd" id="10_ptbpl"]
 [ext_resource type="PackedScene" uid="uid://f1lsjnvxfx" path="res://scenes/objects/stage/finish_stage_area.tscn" id="10_y7g4q"]
 [ext_resource type="PackedScene" uid="uid://bitq6h8ytmopn" path="res://scenes/enemies/test/test_enemy_1.tscn" id="12_8l57k"]
 [ext_resource type="PackedScene" uid="uid://c4e6sjaksta2h" path="res://scenes/objects/interactables/grapple/grapple_spot.tscn" id="13_gsjcw"]
@@ -409,14 +409,14 @@ shape = SubResource("BoxShape3D_k58v8")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(7.85192, 0, 0, 0, 1, 0, 0, 0, 5.61016, -63.5066, -2.77903, 30.824)
 mesh = SubResource("BoxMesh_3vm8l")
-skeleton = NodePath("../ResetStageArea")
+skeleton = NodePath("../PlayerDeathArea")
 surface_material_override/0 = SubResource("StandardMaterial3D_riaxp")
 
-[node name="ResetStageArea" type="Area3D" parent="."]
+[node name="PlayerDeathArea" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -63.5066, -2.77903, 30.824)
-script = ExtResource("10_nn5gt")
+script = ExtResource("10_ptbpl")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ResetStageArea"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerDeathArea"]
 shape = SubResource("BoxShape3D_qt306")
 
 [node name="TestEnemy1" parent="." instance=ExtResource("12_8l57k")]

@@ -7,12 +7,81 @@ script = ExtResource("1_5buxs")
 
 [node name="StageListContainer" type="VBoxContainer" parent="."]
 unique_name_in_owner = true
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
 offset_left = 75.0
-offset_top = 68.0
+offset_top = -259.0
 offset_right = 282.0
-offset_bottom = 586.0
+offset_bottom = 259.0
+grow_vertical = 2
 
 [node name="Button" type="Button" parent="StageListContainer"]
 visible = false
 layout_mode = 2
 text = "aaaa"
+
+[node name="ControlsTip" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -235.0
+offset_top = -78.5
+offset_bottom = 78.5
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="Controls" type="ColorRect" parent="ControlsTip"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.196078)
+
+[node name="MarginContainer" type="MarginContainer" parent="ControlsTip"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Label" type="Label" parent="ControlsTip/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 12
+text = "WASD to move, Space to jump
+LEFT CLICK to shoot
+RIGHT CLICK to use grapple (green)
+CTRL to Slide!!!
+
+ESC to pause, R to restart
+V to no-clip
+"
+clip_text = true
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -150.0
+offset_top = -73.0
+offset_right = 152.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 16
+text = "Game and Level Design by Daniel \"LoboGuarah\" Feitosa
+Programming by Natan Maia"
+horizontal_alignment = 1

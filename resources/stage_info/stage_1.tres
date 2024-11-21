@@ -7,6 +7,6 @@
 [resource]
 script = ExtResource("1_qdp0b")
 key = "stage_1"
-name = "Test Stage (guarah)"
+name = "Corridor"
 image = ExtResource("1_b45d5")
 stage_packed_scene = ExtResource("3_3px4f")
