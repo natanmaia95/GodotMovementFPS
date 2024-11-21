@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dx4jrd8w5j5uq"]
+
+[ext_resource type="PackedScene" uid="uid://d2p8rdrawbppw" path="res://models/kenney_blasters/blasterH.glb" id="1_5e7mp"]
+
+[node name="blasterH2" instance=ExtResource("1_5e7mp")]
+
+[node name="blasterH" parent="." index="0"]
+gi_mode = 2

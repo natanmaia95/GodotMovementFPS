@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://dfk7my1v2ygdr"]
 
 [ext_resource type="Script" path="res://scenes/player/weapons/weapon_model.gd" id="1_6mfim"]
-[ext_resource type="PackedScene" uid="uid://ds3lbtkfro7vk" path="res://models/kenney_blasters/blasterB.glb" id="2_x3dg6"]
+[ext_resource type="PackedScene" uid="uid://dwdrb0hudo5cg" path="res://models/kenney_blasters/blaster_b_2.tscn" id="2_jah1o"]
 
 [sub_resource type="Animation" id="Animation_5m7mn"]
 length = 0.001
@@ -97,8 +97,8 @@ _data = {
 [node name="ModelPistol" type="Node3D"]
 script = ExtResource("1_6mfim")
 
-[node name="blasterB2" parent="." instance=ExtResource("2_x3dg6")]
-transform = Transform3D(-1, 0, -2.53518e-06, 0, 0.999999, 0, 2.53518e-06, 0, -0.999999, 0.4, -0.3, -0.6)
+[node name="blasterB2" parent="." instance=ExtResource("2_jah1o")]
+transform = Transform3D(-1, 0, -2.53518e-06, 0, 1, 0, 2.53518e-06, 0, -1, 0.4, -0.3, -0.6)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
