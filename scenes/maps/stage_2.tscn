@@ -54,24 +54,55 @@ material_override = ExtResource("4_u0i47")
 use_collision = true
 size = Vector3(10, 1, 19)
 
-[node name="CSGBox3D2" type="CSGBox3D" parent="CGS"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43, 21.7793, 23)
+[node name="CSGBox3D6" type="CSGBox3D" parent="CGS"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39, 0, 4.5)
 material_override = ExtResource("4_u0i47")
 use_collision = true
-size = Vector3(1, 19, 19)
+size = Vector3(11, 1, 30)
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="CGS"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39, 0, -32.5)
+material_override = ExtResource("4_u0i47")
+use_collision = true
+size = Vector3(11, 1, 20)
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="CGS"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39, 0, -66.5)
+material_override = ExtResource("4_u0i47")
+use_collision = true
+size = Vector3(11, 1, 20)
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="CGS"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.0809, -0.0467758, -112)
+material_override = ExtResource("4_u0i47")
+use_collision = true
+size = Vector3(11, 1, 19)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="CGS"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 41.9059, 11.7793, 46.3807)
+material_override = ExtResource("4_u0i47")
+use_collision = true
+size = Vector3(1, 19, 12)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="CGS"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.9059, 11.7793, 29.3807)
+material_override = ExtResource("4_u0i47")
+use_collision = true
+size = Vector3(1, 19, 12)
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="CGS"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38, 22.2793, 11)
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 38.0353, 12.2793, 37.1363)
 material_override = ExtResource("4_u0i47")
 use_collision = true
-size = Vector3(1, 20, 19)
+size = Vector3(1, 20, 11)
 
 [node name="Teto" type="CSGBox3D" parent="CGS"]
+transform = Transform3D(1.01154, 0, 0, 0, 1.01154, 0, 0, 0, 1.01154, 0, 0, -69.502)
 visible = false
 material_override = ExtResource("4_er72j")
 use_collision = true
 flip_faces = true
-size = Vector3(236, 125.898, 211.996)
+size = Vector3(236, 125.898, 351)
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="CGS"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0232086, 3.8147e-06, -0.982681)
@@ -96,8 +127,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_txmso")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ResetStageArea"]
 shape = SubResource("BoxShape3D_5hiaw")
 
-[node name="GrappleSpot" parent="." instance=ExtResource("6_0l0ig")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.9977, 12, 45.2772)
-
 [node name="GrappleSpot2" parent="." instance=ExtResource("6_0l0ig")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.9977, 19, 37.2772)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.9977, 4, -92.7228)
+vertical_offset = 1.0
+grapple_speed = 16.0

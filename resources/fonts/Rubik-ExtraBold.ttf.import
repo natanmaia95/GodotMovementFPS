@@ -15,6 +15,7 @@ dest_files=["res://.godot/imported/Rubik-ExtraBold.ttf-f96c61c599fa475babc602caf
 Rendering=null
 antialiasing=1
 generate_mipmaps=false
+disable_embedded_bitmaps=true
 multichannel_signed_distance_field=false
 msdf_pixel_range=8
 msdf_size=48
