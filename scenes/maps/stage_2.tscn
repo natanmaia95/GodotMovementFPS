@@ -30,7 +30,7 @@ shading_mode = 0
 albedo_color = Color(1, 0, 0, 0.196078)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5hiaw"]
-size = Vector3(20, 1, 20)
+size = Vector3(266, 1, 488)
 
 [node name="Draft level" type="Node3D"]
 script = ExtResource("1_pljkl")
@@ -43,7 +43,7 @@ transform = Transform3D(-0.866025, -0.433013, 0.250001, -0.0476188, 0.569156, 0.
 shadow_enabled = true
 
 [node name="FpsController" parent="." instance=ExtResource("3_al5sj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.6242, 0.284369, -107.676)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.6242, 0.284369, 75.324)
 wallrun_sidejump_velocity = 3.0
 
 [node name="CGS" type="Node3D" parent="."]
@@ -109,22 +109,22 @@ use_collision = true
 size = Vector3(11, 1, 19)
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="CGS"]
-transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 41.9059, 11.7793, 46.3807)
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 41.9059, 10.7793, 46.3807)
 material_override = ExtResource("4_u0i47")
 use_collision = true
-size = Vector3(1, 19, 12)
+size = Vector3(1, 21, 12)
 
 [node name="CSGBox3D5" type="CSGBox3D" parent="CGS"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.9059, 11.7793, 29.3807)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.9059, 10.7793, 29.3807)
 material_override = ExtResource("4_u0i47")
 use_collision = true
-size = Vector3(1, 19, 12)
+size = Vector3(1, 21, 12)
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="CGS"]
-transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 38.0353, 12.2793, 37.1363)
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 38.0353, 11.2793, 37.1363)
 material_override = ExtResource("4_u0i47")
 use_collision = true
-size = Vector3(1, 20, 11)
+size = Vector3(1, 22, 11)
 
 [node name="CSGBox3D11" type="CSGBox3D" parent="CGS"]
 transform = Transform3D(0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, 0.5, -22.2861, 11.7793, -185.094)
@@ -153,18 +153,19 @@ flip_faces = true
 size = Vector3(383, 125.898, 640)
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="CGS"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0232086, 3.8147e-06, -0.982681)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -74.9768, 3.8147e-06, -212.9)
 visible = false
 operation = 2
-size = Vector3(236, 119.985, 204.166)
+size = Vector3(386, 119.985, 628)
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(10.633, 0, 0, 0, -7.13239e-07, 2.559, 0, -16.317, -1.11857e-07, 0, 0, 0)
+visible = false
 texture = ExtResource("4_fjerh")
 metadata/_edit_lock_ = true
 
 [node name="ResetStageArea" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.1807, -0.188356, -20.176)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.1807, -37.4419, -20.176)
 script = ExtResource("7_24d0r")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="ResetStageArea"]
@@ -173,6 +174,7 @@ mesh = SubResource("BoxMesh_y21eh")
 surface_material_override/0 = SubResource("StandardMaterial3D_txmso")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ResetStageArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, -131)
 shape = SubResource("BoxShape3D_5hiaw")
 
 [node name="GrappleSpot2" parent="." instance=ExtResource("6_0l0ig")]
