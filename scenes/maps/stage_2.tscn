@@ -43,7 +43,7 @@ transform = Transform3D(-0.866025, -0.433013, 0.250001, -0.0476188, 0.569156, 0.
 shadow_enabled = true
 
 [node name="FpsController" parent="." instance=ExtResource("3_al5sj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.6242, 0.284369, 72.58)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.6242, 0.284369, -107.676)
 wallrun_sidejump_velocity = 3.0
 
 [node name="CGS" type="Node3D" parent="."]
@@ -72,6 +72,30 @@ material_override = ExtResource("4_u0i47")
 use_collision = true
 size = Vector3(11, 1, 20)
 
+[node name="CSGBox3D14" type="CSGBox3D" parent="CGS"]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -73, 0, -231.5)
+material_override = ExtResource("4_u0i47")
+use_collision = true
+size = Vector3(11, 1, 20)
+
+[node name="CSGBox3D16" type="CSGBox3D" parent="CGS"]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -111.172, 0, -272.672)
+material_override = ExtResource("4_u0i47")
+use_collision = true
+size = Vector3(11, 1, 28)
+
+[node name="CSGBox3D15" type="CSGBox3D" parent="CGS"]
+transform = Transform3D(0.707107, -0.707107, -7.8227e-10, -2.98023e-08, -3.09086e-08, 1, -0.707107, -0.707107, -4.29291e-08, -87, 5.5, -245.5)
+material_override = ExtResource("4_u0i47")
+use_collision = true
+size = Vector3(11, 1, 31)
+
+[node name="CSGBox3D16" type="CSGBox3D" parent="CGS/CSGBox3D15"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 9.76996e-13, 9.76996e-13, 1, 0, 0, -1.26746)
+material_override = ExtResource("4_u0i47")
+operation = 2
+size = Vector3(3, 8.46582, 3)
+
 [node name="CSGBox3D9" type="CSGBox3D" parent="CGS"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.0809, -0.0467758, -112)
 material_override = ExtResource("4_u0i47")
@@ -98,6 +122,24 @@ size = Vector3(1, 19, 12)
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="CGS"]
 transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 38.0353, 12.2793, 37.1363)
+material_override = ExtResource("4_u0i47")
+use_collision = true
+size = Vector3(1, 20, 11)
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="CGS"]
+transform = Transform3D(0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, 0.5, -22.2861, 11.7793, -185.094)
+material_override = ExtResource("4_u0i47")
+use_collision = true
+size = Vector3(1, 19, 12)
+
+[node name="CSGBox3D12" type="CSGBox3D" parent="CGS"]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -34.307, 11.7793, -198.115)
+material_override = ExtResource("4_u0i47")
+use_collision = true
+size = Vector3(1, 19, 12)
+
+[node name="CSGBox3D13" type="CSGBox3D" parent="CGS"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -31.5599, 12.2793, -188.894)
 material_override = ExtResource("4_u0i47")
 use_collision = true
 size = Vector3(1, 20, 11)
@@ -139,16 +181,16 @@ vertical_offset = 1.0
 grapple_speed = 16.0
 
 [node name="GrappleSpot3" parent="." instance=ExtResource("6_0l0ig")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.9977, 4, -132.723)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.9977, 4, -134.723)
 vertical_offset = 1.0
 grapple_speed = 16.0
 
 [node name="GrappleSpot4" parent="." instance=ExtResource("6_0l0ig")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0023, 4, -163.723)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0023, 4, -162.723)
 vertical_offset = 1.0
 grapple_speed = 16.0
 
 [node name="GrappleSpot5" parent="." instance=ExtResource("6_0l0ig")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.0023, 4, -176.723)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.0023, 8, -173.723)
 vertical_offset = 1.0
 grapple_speed = 20.0
