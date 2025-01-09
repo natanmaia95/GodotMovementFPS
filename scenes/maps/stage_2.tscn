@@ -78,6 +78,12 @@ material_override = ExtResource("4_u0i47")
 use_collision = true
 size = Vector3(11, 1, 19)
 
+[node name="CSGBox3D10" type="CSGBox3D" parent="CGS"]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 12.0809, -0.0467758, -149)
+material_override = ExtResource("4_u0i47")
+use_collision = true
+size = Vector3(11, 1, 19)
+
 [node name="CSGBox3D2" type="CSGBox3D" parent="CGS"]
 transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 41.9059, 11.7793, 46.3807)
 material_override = ExtResource("4_u0i47")
@@ -97,12 +103,12 @@ use_collision = true
 size = Vector3(1, 20, 11)
 
 [node name="Teto" type="CSGBox3D" parent="CGS"]
-transform = Transform3D(1.01154, 0, 0, 0, 1.01154, 0, 0, 0, 1.01154, 0, 0, -69.502)
+transform = Transform3D(1.01154, 0, 0, 0, 1.01154, 0, 0, 0, 1.01154, -74.3481, 0, -215.669)
 visible = false
 material_override = ExtResource("4_er72j")
 use_collision = true
 flip_faces = true
-size = Vector3(236, 125.898, 351)
+size = Vector3(383, 125.898, 640)
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="CGS"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0232086, 3.8147e-06, -0.982681)
@@ -131,3 +137,18 @@ shape = SubResource("BoxShape3D_5hiaw")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.9977, 4, -92.7228)
 vertical_offset = 1.0
 grapple_speed = 16.0
+
+[node name="GrappleSpot3" parent="." instance=ExtResource("6_0l0ig")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.9977, 4, -132.723)
+vertical_offset = 1.0
+grapple_speed = 16.0
+
+[node name="GrappleSpot4" parent="." instance=ExtResource("6_0l0ig")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0023, 4, -163.723)
+vertical_offset = 1.0
+grapple_speed = 16.0
+
+[node name="GrappleSpot5" parent="." instance=ExtResource("6_0l0ig")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.0023, 4, -176.723)
+vertical_offset = 1.0
+grapple_speed = 20.0
