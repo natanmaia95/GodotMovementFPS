@@ -1,7 +1,6 @@
-[gd_scene load_steps=22 format=3 uid="uid://dyagtaud1n1fa"]
+[gd_scene load_steps=21 format=3 uid="uid://dyagtaud1n1fa"]
 
 [ext_resource type="Script" path="res://scripts/stage/stage_3d.gd" id="1_hpqit"]
-[ext_resource type="PackedScene" uid="uid://t3epxkyt7ld2" path="res://scenes/screens/pause/level_pause_screen.tscn" id="2_clvhg"]
 [ext_resource type="PackedScene" uid="uid://c4ix1c7yuyl4f" path="res://scenes/player/fps_controller.tscn" id="3_a0um8"]
 [ext_resource type="Material" uid="uid://brfh3gbut8wdo" path="res://textures/prototype/_mat_black.tres" id="4_xxnkd"]
 [ext_resource type="Material" uid="uid://dqoa3v5djgqkv" path="res://textures/prototype/_mat_red.tres" id="5_j2ir3"]
@@ -54,8 +53,6 @@ size = Vector3(68.3537, 47.739, 41.2153)
 
 [node name="StageNat" type="Node3D"]
 script = ExtResource("1_hpqit")
-
-[node name="LevelPauseScreen" parent="." instance=ExtResource("2_clvhg")]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_4d8kg")

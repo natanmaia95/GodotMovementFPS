@@ -9,13 +9,14 @@ func _ready():
 	process_mode = PROCESS_MODE_ALWAYS
 
 
-func _input(event:InputEvent):
+func _unhandled_input(event:InputEvent) -> void:
 	if not is_busy and event.is_action("pause") and event.is_pressed():
 		if is_open:
 			_close()
 		else:
 			_open()
 		get_viewport().set_input_as_handled()
+		# this makes it so other screens don't capture the pause event as well.
 
 @warning_ignore("redundant_await")
 func _open() -> void:

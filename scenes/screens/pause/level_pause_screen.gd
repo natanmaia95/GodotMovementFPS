@@ -13,7 +13,7 @@ func _open():
 	super._open()
 
 
-func _input(event:InputEvent):
+func _unhandled_input(event:InputEvent) -> void:
 	super(event)
 	if event.is_action_pressed("restart") and can_restart_with_key:
 		try_restart_level()
