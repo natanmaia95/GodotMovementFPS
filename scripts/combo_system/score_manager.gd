@@ -5,7 +5,8 @@ signal action_added_to_history(score_action:ScoreAction)
 signal multiplier_changed
 
 const MAX_COMBO_MULTIPLIER : float = 100.0
-const COMBO_TIMER_REFRESH_AMOUNT = 4.0
+const COMBO_TIMER_REFRESH_AMOUNT = 3.0
+const COMBO_TIMER_DECREASE_SPEED = 1.0
 
 var action_dict : Dictionary = {}
 
@@ -91,7 +92,7 @@ func decrease_multiplier() -> bool:
 		combo_multiplier = 1.0
 		return false
 	# if multiplier >= 10.0: return false # no increase
-	combo_timer = 0.5
+	combo_timer = COMBO_TIMER_REFRESH_AMOUNT * 0.8
 	combo_multiplier -= 1.0
 	combo_multiplier = round(combo_multiplier * 10) / 10.0 # fix rounding errors?
 	combo_multiplier = max(combo_multiplier, 1.0)
@@ -110,9 +111,14 @@ func get_score_area_multiplier() -> float:
 func _physics_process(delta):
 	if combo_timer > 0:
 		#combo_timer -= delta
-		combo_timer -= delta * (1 + combo_multiplier*0.1) # lose combo faster with higher mult
+		#combo_timer -= delta * (1 + combo_multiplier*0.1) # lose combo faster with higher mult
+		combo_timer -= delta * (COMBO_TIMER_DECREASE_SPEED) # lose same amount regardless of mult
+		
 		if combo_timer <= 0:
-			decrease_multiplier()
+			#decrease_multiplier()
+			combo_timer = 0.0
+			player.find_child("HealthComponent").damage(100000) #kill
+			pass
 
 
 

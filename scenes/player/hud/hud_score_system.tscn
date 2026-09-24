@@ -1,9 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://dc2rvkgxsj2nx"]
+[gd_scene format=3 uid="uid://dc2rvkgxsj2nx"]
 
-[ext_resource type="Script" path="res://scenes/player/hud/hud_score_system.gd" id="1_vpgox"]
+[ext_resource type="Script" uid="uid://niergemrkgc5" path="res://scenes/player/hud/hud_score_system.gd" id="1_vpgox"]
 [ext_resource type="Texture2D" uid="uid://dwhcr5a7xeqm8" path="res://textures/crosshairs/crosshair117.png" id="2_vdmr7"]
+[ext_resource type="Shader" uid="uid://kopsrdlaa4d2" path="res://scripts/shaders/vignette_spiky.gdshader" id="3_6yfdo"]
 
-[node name="HudScoreSystem" type="MarginContainer"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_t2vw5"]
+shader = ExtResource("3_6yfdo")
+shader_parameter/intensity = 1.17
+shader_parameter/vignette_opacity = 0.38000001805
+shader_parameter/vignette_rgb = Color(1, 0, 0, 1)
+shader_parameter/vignette_noise = 0.6230000295925
+
+[node name="HudScoreSystem" type="MarginContainer" unique_id=724686430]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -16,19 +24,35 @@ theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 100
 script = ExtResource("1_vpgox")
 
-[node name="ScoreLbl" type="Label" parent="."]
+[node name="Control2" type="Control" parent="." unique_id=1098209341]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Vignette" type="ColorRect" parent="Control2" unique_id=1761159903]
+unique_name_in_owner = true
+top_level = true
+material = SubResource("ShaderMaterial_t2vw5")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ScoreLbl" type="Label" parent="." unique_id=571995256]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 text = "SCORE:         0"
 
-[node name="Control" type="Control" parent="."]
+[node name="Control" type="Control" parent="." unique_id=481287191]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control" unique_id=1300708077]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -39,14 +63,14 @@ offset_right = 576.0
 offset_bottom = 703.0
 grow_horizontal = 2
 
-[node name="ActionsListLbl" type="RichTextLabel" parent="Control/VBoxContainer"]
+[node name="ActionsListLbl" type="RichTextLabel" parent="Control/VBoxContainer" unique_id=1232399625]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 0
 bbcode_enabled = true
 fit_content = true
 
-[node name="MultiplierLbl" type="RichTextLabel" parent="Control"]
+[node name="MultiplierLbl" type="RichTextLabel" parent="Control" unique_id=1991340564]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 5
@@ -59,7 +83,7 @@ offset_bottom = 47.0
 grow_horizontal = 2
 bbcode_enabled = true
 
-[node name="ComboTimerBar" type="TextureProgressBar" parent="Control"]
+[node name="ComboTimerBar" type="TextureProgressBar" parent="Control" unique_id=1289560940]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 8

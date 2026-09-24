@@ -1,9 +1,12 @@
 extends MarginContainer
 
+var vignete_material : ShaderMaterial
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	ScoreManager.action_added_to_history.connect(on_score_action_added)
 	ScoreManager.multiplier_changed.connect(on_multiplier_changed)
+	vignete_material = %Vignette.material
 	pass # Replace with function body.
 
 func get_last_x_actions(amount:int) -> Array[ScoreAction]:
@@ -12,7 +15,18 @@ func get_last_x_actions(amount:int) -> Array[ScoreAction]:
 	return slice
 
 func _process(_delta):
-	%ComboTimerBar.value = 100.0 * ScoreManager.combo_timer / ScoreManager.COMBO_TIMER_REFRESH_AMOUNT
+	var max_timer = ScoreManager.COMBO_TIMER_REFRESH_AMOUNT
+	%ComboTimerBar.value = 100.0 * ScoreManager.combo_timer / max_timer
+	
+	var intensity = -0.2 + (max_timer - ScoreManager.combo_timer) / max_timer
+	#%ComboTimerBar.modulate.r = 1.0
+	%ComboTimerBar.modulate.g = (1.0 - intensity)
+	%ComboTimerBar.modulate.b = (1.0 - intensity)
+	if ScoreManager.combo_timer > 0:
+		vignete_material.set_shader_parameter("intensity", intensity * 4.0)
+	else:
+		vignete_material.set_shader_parameter("intensity", 0.0)
+
 
 func on_multiplier_changed():
 	%MultiplierLbl.text = "[center]"

@@ -1,13 +1,13 @@
-[gd_scene load_steps=20 format=3 uid="uid://c4ix1c7yuyl4f"]
+[gd_scene format=3 uid="uid://c4ix1c7yuyl4f"]
 
-[ext_resource type="Script" path="res://scenes/player/fps_controller.gd" id="1_fxojq"]
-[ext_resource type="Script" path="res://scripts/fps_system/hitscan_component.gd" id="2_i8bdy"]
-[ext_resource type="Script" path="res://scripts/fps_system/inventory_component.gd" id="3_cunqb"]
+[ext_resource type="Script" uid="uid://d0txm6uh3gagr" path="res://scenes/player/fps_controller.gd" id="1_fxojq"]
+[ext_resource type="Script" uid="uid://cm1p47ich7w25" path="res://scripts/fps_system/hitscan_component.gd" id="2_i8bdy"]
+[ext_resource type="Script" uid="uid://ttc353kaibs2" path="res://scripts/fps_system/inventory_component.gd" id="3_cunqb"]
 [ext_resource type="Texture2D" uid="uid://7nyawba0wqk7" path="res://textures/crosshairs/crosshair007.png" id="4_045fx"]
-[ext_resource type="Script" path="res://scenes/player/regenerating_health_component.gd" id="4_d61p4"]
-[ext_resource type="Script" path="res://scripts/fps_system/hurtbox_component.gd" id="5_8k43g"]
+[ext_resource type="Script" uid="uid://bhkwinldg4v5f" path="res://scenes/player/regenerating_health_component.gd" id="4_d61p4"]
+[ext_resource type="Script" uid="uid://b2hxdw8wdnktt" path="res://scripts/fps_system/hurtbox_component.gd" id="5_8k43g"]
 [ext_resource type="PackedScene" uid="uid://rduj8831egfn" path="res://scenes/player/hud/hud_weapons.tscn" id="5_c80yy"]
-[ext_resource type="Script" path="res://scripts/combo_system/score_area_detector_component.gd" id="6_4yq42"]
+[ext_resource type="Script" uid="uid://cmh253sed7w17" path="res://scripts/combo_system/score_area_detector_component.gd" id="6_4yq42"]
 [ext_resource type="PackedScene" uid="uid://vjmvcpbc8fv8" path="res://scenes/player/hud/hud_timer.tscn" id="6_ge7bl"]
 [ext_resource type="PackedScene" uid="uid://cwnvubwish8ly" path="res://scenes/player/hud/hud_health.tscn" id="9_o567h"]
 [ext_resource type="PackedScene" uid="uid://dc2rvkgxsj2nx" path="res://scenes/player/hud/hud_score_system.tscn" id="10_6dnyk"]
@@ -35,38 +35,38 @@ RichTextLabel/constants/shadow_offset_x = 0
 RichTextLabel/constants/shadow_offset_y = 0
 RichTextLabel/constants/shadow_outline_size = 8
 
-[node name="FpsController" type="CharacterBody3D" groups=["PLAYER"]]
+[node name="FpsController" type="CharacterBody3D" unique_id=2133594875 groups=["PLAYER"]]
 script = ExtResource("1_fxojq")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=93951810]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_s0ugf")
 
-[node name="Model" type="Node3D" parent="."]
+[node name="Model" type="Node3D" parent="." unique_id=1263816680]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Model"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Model" unique_id=1421961081]
 mesh = SubResource("CapsuleMesh_r1kcl")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Model"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Model" unique_id=163870119]
 transform = Transform3D(0.748831, 0, 0, 0, 0.327752, 0, 0, 0, 0.255814, 0, 0.608011, -0.428929)
 visible = false
 mesh = SubResource("BoxMesh_a35jc")
 
-[node name="HeadRoot" type="Node3D" parent="."]
+[node name="HeadRoot" type="Node3D" parent="." unique_id=1963878934]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
 
-[node name="Head" type="Node3D" parent="HeadRoot"]
+[node name="Head" type="Node3D" parent="HeadRoot" unique_id=50986760]
 unique_name_in_owner = true
 
-[node name="HeadCamera" type="Camera3D" parent="HeadRoot/Head"]
+[node name="HeadCamera" type="Camera3D" parent="HeadRoot/Head" unique_id=1021983495]
 unique_name_in_owner = true
 rotation_edit_mode = 1
 cull_mask = 1048573
 
-[node name="InteractShapeCast" type="ShapeCast3D" parent="HeadRoot/Head/HeadCamera"]
+[node name="InteractShapeCast" type="ShapeCast3D" parent="HeadRoot/Head/HeadCamera" unique_id=2097715734]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 visible = false
@@ -76,7 +76,7 @@ max_results = 2
 collision_mask = 512
 collide_with_areas = true
 
-[node name="GrappleShapeCast" type="ShapeCast3D" parent="HeadRoot/Head/HeadCamera"]
+[node name="GrappleShapeCast" type="ShapeCast3D" parent="HeadRoot/Head/HeadCamera" unique_id=1642859105]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 visible = false
@@ -86,51 +86,51 @@ max_results = 1
 collision_mask = 1024
 collide_with_areas = true
 
-[node name="HitscanComponent" type="Node3D" parent="HeadRoot/Head/HeadCamera"]
+[node name="HitscanComponent" type="Node3D" parent="HeadRoot/Head/HeadCamera" unique_id=303161904]
 unique_name_in_owner = true
 visible = false
 script = ExtResource("2_i8bdy")
 
-[node name="WeaponRoot" type="Node3D" parent="HeadRoot/Head/HeadCamera"]
+[node name="WeaponRoot" type="Node3D" parent="HeadRoot/Head/HeadCamera" unique_id=1593998070]
 
-[node name="VaultRayCast" type="RayCast3D" parent="."]
+[node name="VaultRayCast" type="RayCast3D" parent="." unique_id=345794597]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
 target_position = Vector3(0, 0, -1)
 collision_mask = 16
 
-[node name="InventoryComponent" type="Node3D" parent="." node_paths=PackedStringArray("hitscan_component", "model_root")]
+[node name="InventoryComponent" type="Node3D" parent="." unique_id=1794209562 node_paths=PackedStringArray("hitscan_component", "model_root")]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 script = ExtResource("3_cunqb")
 hitscan_component = NodePath("../HeadRoot/Head/HeadCamera/HitscanComponent")
 model_root = NodePath("../HeadRoot/Head/HeadCamera/WeaponRoot")
 
-[node name="HealthComponent" type="Node3D" parent="."]
+[node name="HealthComponent" type="Node3D" parent="." unique_id=2010832403]
 script = ExtResource("4_d61p4")
 max_health = 10.0
 
-[node name="HurtboxComponent" type="Area3D" parent="."]
+[node name="HurtboxComponent" type="Area3D" parent="." unique_id=1774790173]
 collision_layer = 4352
 collision_mask = 0
 script = ExtResource("5_8k43g")
 is_player_hurtbox = true
 
-[node name="HurtboxColShape3D" type="CollisionShape3D" parent="HurtboxComponent"]
+[node name="HurtboxColShape3D" type="CollisionShape3D" parent="HurtboxComponent" unique_id=1017332861]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_s0ugf")
 
-[node name="ScoreAreaDetectorComponent" type="Area3D" parent="."]
+[node name="ScoreAreaDetectorComponent" type="Area3D" parent="." unique_id=807530582]
 script = ExtResource("6_4yq42")
 metadata/_edit_lock_ = true
 metadata/_edit_group_ = true
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ScoreAreaDetectorComponent"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ScoreAreaDetectorComponent" unique_id=384533776]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("SphereShape3D_gcfir")
 
-[node name="HUD" type="Control" parent="."]
+[node name="HUD" type="Control" parent="." unique_id=1094720220]
 unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 15
@@ -142,7 +142,7 @@ size_flags_vertical = 3
 mouse_filter = 2
 theme = SubResource("Theme_p811b")
 
-[node name="ReticleCenterContainer" type="CenterContainer" parent="HUD"]
+[node name="ReticleCenterContainer" type="CenterContainer" parent="HUD" unique_id=737566091]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -150,10 +150,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Control" type="Control" parent="HUD/ReticleCenterContainer"]
+[node name="Control" type="Control" parent="HUD/ReticleCenterContainer" unique_id=1908627485]
 layout_mode = 2
 
-[node name="ReticleTextureRect" type="TextureRect" parent="HUD/ReticleCenterContainer/Control"]
+[node name="ReticleTextureRect" type="TextureRect" parent="HUD/ReticleCenterContainer/Control" unique_id=783721765]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -170,11 +170,11 @@ scale = Vector2(0.25, 0.25)
 pivot_offset = Vector2(64, 64)
 texture = ExtResource("4_045fx")
 
-[node name="HudWeapons" parent="HUD" node_paths=PackedStringArray("inventory_component") instance=ExtResource("5_c80yy")]
+[node name="HudWeapons" parent="HUD" unique_id=2017841813 node_paths=PackedStringArray("inventory_component") instance=ExtResource("5_c80yy")]
 layout_mode = 1
 inventory_component = NodePath("../../InventoryComponent")
 
-[node name="HudTimer" parent="HUD" instance=ExtResource("6_ge7bl")]
+[node name="HudTimer" parent="HUD" unique_id=313443561 instance=ExtResource("6_ge7bl")]
 layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
@@ -182,19 +182,19 @@ anchor_bottom = 0.0
 grow_horizontal = 1
 grow_vertical = 1
 
-[node name="HudHealth" parent="HUD" node_paths=PackedStringArray("health_component") instance=ExtResource("9_o567h")]
+[node name="HudHealth" parent="HUD" unique_id=1410925051 node_paths=PackedStringArray("health_component") instance=ExtResource("9_o567h")]
 layout_mode = 1
 health_component = NodePath("../../HealthComponent")
 
-[node name="HudScoreSystem" parent="HUD" instance=ExtResource("10_6dnyk")]
+[node name="HudScoreSystem" parent="HUD" unique_id=714902973 instance=ExtResource("10_6dnyk")]
 layout_mode = 1
 
-[node name="DebugHudSpeed" parent="HUD" node_paths=PackedStringArray("character") instance=ExtResource("12_mxd7m")]
+[node name="DebugHudSpeed" parent="HUD" unique_id=664843549 node_paths=PackedStringArray("character") instance=ExtResource("12_mxd7m")]
 layout_mode = 1
 mouse_filter = 2
 character = NodePath("../..")
 
-[node name="ControlsTip" type="Control" parent="HUD"]
+[node name="ControlsTip" type="Control" parent="HUD" unique_id=1444102940]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -204,7 +204,7 @@ offset_right = 235.0
 offset_bottom = 78.5
 grow_vertical = 2
 
-[node name="Controls" type="ColorRect" parent="HUD/ControlsTip"]
+[node name="Controls" type="ColorRect" parent="HUD/ControlsTip" unique_id=1704542546]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -213,7 +213,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.196078)
 
-[node name="MarginContainer" type="MarginContainer" parent="HUD/ControlsTip"]
+[node name="MarginContainer" type="MarginContainer" parent="HUD/ControlsTip" unique_id=1513680799]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -225,7 +225,7 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="Label" type="Label" parent="HUD/ControlsTip/MarginContainer"]
+[node name="Label" type="Label" parent="HUD/ControlsTip/MarginContainer" unique_id=565006223]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 12
@@ -238,7 +238,7 @@ ESC to pause, R to restart
 V to no-clip"
 clip_text = true
 
-[node name="DeathScreen" parent="." instance=ExtResource("13_xqyep")]
+[node name="DeathScreen" parent="." unique_id=1234248432 instance=ExtResource("13_xqyep")]
 visible = false
 
 [connection signal="damage_taken" from="HurtboxComponent" to="HealthComponent" method="damage"]
