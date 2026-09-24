@@ -102,7 +102,10 @@ func _ready_hide_model_for_camera():
 
 
 func _unhandled_input(event):
+	if event is InputEventMouse:
+		print(event)
 	if Utils.is_mouse_captured():
+		
 		# camera
 		if event is InputEventMouseMotion:
 			last_mouse_move = Vector2(event.relative)
@@ -246,10 +249,10 @@ func _handle_ground_physics(delta) -> void:
 	
 	var current_speed = get_horizontal_velocity().length()
 	var speed_direction = get_horizontal_velocity().normalized()
-	var vel_dot = wish_direction.dot(speed_direction)
-	var facing_dot = wish_direction.dot(get_facing_direction())
+	var _vel_dot = wish_direction.dot(speed_direction)
+	var _facing_dot = wish_direction.dot(get_facing_direction())
 	var vel_facing_dot = get_facing_direction().dot(speed_direction)
-	var forwardsy_coeff = max(0, vel_facing_dot)
+	var _forwardsy_coeff = max(0, vel_facing_dot)
 	
 	var drag = ground_friction
 	if is_sliding and slide_timer > 0.0:

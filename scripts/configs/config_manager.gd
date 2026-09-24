@@ -43,6 +43,9 @@ func _on_config_changed(entry:ConfigEntry, new_value) -> void:
 func load_entries() -> void:
 	var files = Utils.get_all_file_paths("res://scripts/configs/entries")
 	for file_name in files:
+		# 4.7: ignore .uid files
+		if file_name.ends_with(".uid"): continue
+		
 		var resource = ResourceLoader.load(file_name)
 		if not resource is Script: continue
 		

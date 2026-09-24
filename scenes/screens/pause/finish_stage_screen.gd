@@ -6,8 +6,8 @@ func _ready():
 	StageManager.stage_finished.connect(_on_stage_finished)
 
 # removes the base functionality of pressing pause to open it.
-func _unhandled_input(event:InputEvent) -> void:
-	get_viewport().set_input_as_handled()
+func _unhandled_input(_event:InputEvent) -> void:
+	#get_viewport().set_input_as_handled()
 	pass
 
 

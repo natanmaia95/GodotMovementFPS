@@ -26,11 +26,15 @@ DSP/dsp_buffer_count=4
 "3D Settings/distance_factor"=1.0
 "3D Settings/rolloff_scale"=1.0
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="MovementFPS"
 run/main_scene="res://scenes/screens/stage_select/stage_select_debug.tscn"
-config/features=PackedStringArray("4.3", "GL Compatibility")
+config/features=PackedStringArray("4.7", "GL Compatibility")
 run/max_fps=60
 config/icon="res://icon.svg"
 

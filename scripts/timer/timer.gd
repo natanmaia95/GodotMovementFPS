@@ -26,7 +26,7 @@ static func string_from_ticks(ticks_in:int) -> String:
 static func string_from_seconds(seconds_in:float) -> String:
 	
 	var int_seconds : int = int(seconds_in)
-	var int_minutes : int = int(int_seconds / 60)
+	var int_minutes : int = int(int_seconds / 60.0)
 	var int_millis : int = int((seconds_in - int_seconds)*1000)
 	int_seconds = int_seconds % 60
 	

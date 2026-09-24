@@ -1,11 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://t3epxkyt7ld2"]
+[gd_scene format=3 uid="uid://t3epxkyt7ld2"]
 
-[ext_resource type="Script" path="res://scenes/screens/pause/level_pause_screen.gd" id="1_4cgfe"]
+[ext_resource type="Script" uid="uid://0dg5xe3oewdv" path="res://scenes/screens/pause/level_pause_screen.gd" id="1_4cgfe"]
 
-[node name="LevelPauseScreen" type="CanvasLayer"]
+[node name="LevelPauseScreen" type="CanvasLayer" unique_id=1194092655]
 script = ExtResource("1_4cgfe")
 
-[node name="Control" type="Control" parent="."]
+[node name="Control" type="Control" parent="." unique_id=1321865074]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,7 +13,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="Control"]
+[node name="MarginContainer" type="MarginContainer" parent="Control" unique_id=169255622]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -21,21 +21,21 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer" unique_id=1562260530]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 alignment = 1
 
-[node name="BtnContinue" type="Button" parent="Control/MarginContainer/VBoxContainer"]
+[node name="BtnContinue" type="Button" parent="Control/MarginContainer/VBoxContainer" unique_id=180673220]
 layout_mode = 2
 text = "Continue"
 
-[node name="BtnRestart" type="Button" parent="Control/MarginContainer/VBoxContainer"]
+[node name="BtnRestart" type="Button" parent="Control/MarginContainer/VBoxContainer" unique_id=454235133]
 layout_mode = 2
 text = "Restart"
 
-[node name="BtnQuit" type="Button" parent="Control/MarginContainer/VBoxContainer"]
+[node name="BtnQuit" type="Button" parent="Control/MarginContainer/VBoxContainer" unique_id=1922452775]
 layout_mode = 2
 text = "Exit to Stage Select"
 
