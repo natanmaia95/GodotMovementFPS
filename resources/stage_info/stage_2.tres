@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StageInfo" format=3 uid="uid://b3ct0oisx5waf"]
+
+[ext_resource type="Script" uid="uid://darbyaknnuwxf" path="res://scripts/stage/stage_info.gd" id="1_a4jxr"]
+[ext_resource type="PackedScene" uid="uid://bcgeqrdqlrdq5" path="res://scenes/maps/stage_2.tscn" id="2_ohk33"]
+
+[resource]
+script = ExtResource("1_a4jxr")
+key = "stage_2"
+name = "Tight Walls"
+stage_packed_scene = ExtResource("2_ohk33")
