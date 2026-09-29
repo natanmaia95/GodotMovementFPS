@@ -1,11 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://bpwk5ww1dmgk6"]
+[gd_scene format=3 uid="uid://bpwk5ww1dmgk6"]
 
-[ext_resource type="Script" path="res://scenes/screens/stage_select/stage_select_debug.gd" id="1_5buxs"]
+[ext_resource type="Script" uid="uid://dvlwgiylqu3xt" path="res://scenes/screens/stage_select/stage_select_debug.gd" id="1_5buxs"]
 
-[node name="StageSelectDebug" type="Node"]
+[node name="StageSelectDebug" type="Node" unique_id=837778370]
 script = ExtResource("1_5buxs")
 
-[node name="StageListContainer" type="VBoxContainer" parent="."]
+[node name="StageListContainer" type="VBoxContainer" parent="." unique_id=1489213454]
 unique_name_in_owner = true
 anchors_preset = 4
 anchor_top = 0.5
@@ -16,12 +16,31 @@ offset_right = 282.0
 offset_bottom = 259.0
 grow_vertical = 2
 
-[node name="Button" type="Button" parent="StageListContainer"]
+[node name="Button" type="Button" parent="StageListContainer" unique_id=1804942660]
 visible = false
 layout_mode = 2
-text = "aaaa"
+text = "Stage 1
+"
 
-[node name="ControlsTip" type="Control" parent="."]
+[node name="Button2" type="Button" parent="StageListContainer" unique_id=285215485]
+visible = false
+layout_mode = 2
+text = "Stage 2
+"
+
+[node name="Button3" type="Button" parent="StageListContainer" unique_id=1199777921]
+visible = false
+layout_mode = 2
+text = "Stage 3
+"
+
+[node name="Button4" type="Button" parent="StageListContainer" unique_id=558918345]
+visible = false
+layout_mode = 2
+text = "Stage 4
+"
+
+[node name="ControlsTip" type="Control" parent="." unique_id=1749894106]
 layout_mode = 3
 anchors_preset = 6
 anchor_left = 1.0
@@ -34,7 +53,7 @@ offset_bottom = 78.5
 grow_horizontal = 0
 grow_vertical = 2
 
-[node name="Controls" type="ColorRect" parent="ControlsTip"]
+[node name="Controls" type="ColorRect" parent="ControlsTip" unique_id=359793160]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -43,7 +62,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.196078)
 
-[node name="MarginContainer" type="MarginContainer" parent="ControlsTip"]
+[node name="MarginContainer" type="MarginContainer" parent="ControlsTip" unique_id=554156522]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -55,7 +74,7 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="Label" type="Label" parent="ControlsTip/MarginContainer"]
+[node name="Label" type="Label" parent="ControlsTip/MarginContainer" unique_id=1948314665]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 12
@@ -69,7 +88,7 @@ V to no-clip
 "
 clip_text = true
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=1554587561]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
