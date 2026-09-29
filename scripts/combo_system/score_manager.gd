@@ -8,7 +8,18 @@ const MAX_COMBO_MULTIPLIER : float = 100.0
 const COMBO_TIMER_REFRESH_AMOUNT = 3.0
 const COMBO_TIMER_DECREASE_SPEED = 1.0
 
-var action_dict : Dictionary = {}
+var action_dict : Dictionary = {
+	 "enemy_headshot": preload("uid://c2o01mf4coywt"),
+	 "enemy_kill": preload("uid://chblu680e0x3i"),
+	 "enemy_slide_kill": preload("uid://l0pd2x05ca7a"),
+	 "enemy_turnaround_kill": preload("uid://b0xeotfgis1do"),
+	 "enemy_vault_kill": preload("uid://dyow513xtml41"),
+	 "enemy_wallrun_kill": preload("uid://c4v7yglmsb8v8"),
+	 "player_grapple": preload("uid://8oowjiu8nj77"),
+	 "player_slide": preload("uid://jun1eoqeipd4"),
+	 "player_vault": preload("uid://rjii7wdrosgu"),
+	 "player_wallrun": preload("uid://dt34vl48rpmye"),
+}
 
 var action_history : Array[ScoreAction] = []
 var total_score : int = 0
