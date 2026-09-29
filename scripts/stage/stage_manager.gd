@@ -5,7 +5,12 @@ signal stage_info_loaded()
 signal stage_finished()
 
 ## String -> StageInfo
-var stages_list : Dictionary = {}
+var stages_list : Dictionary = {
+	"stage_1": load("res://resources/stage_info/stage_1.tres"),
+	"stage_3": load("res://resources/stage_info/stage_3.tres"),
+	"stage_grids": load("res://resources/stage_info/stage_grids.tres"),
+	"stage_nat": load("res://resources/stage_info/stage_nat.tres")
+}
 
 ## Use this to get the stage key for whatever purpose
 ## Also useful to select which stage comes next!
