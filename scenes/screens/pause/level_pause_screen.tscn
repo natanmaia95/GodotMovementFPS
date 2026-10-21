@@ -39,6 +39,15 @@ text = "Restart"
 layout_mode = 2
 text = "Exit to Stage Select"
 
+[node name="Text" type="RichTextLabel" parent="Control/MarginContainer/VBoxContainer" unique_id=117687329]
+layout_mode = 2
+text = "Mouse Sensitivity"
+fit_content = true
+horizontal_alignment = 1
+
+[node name="SensSlider" type="HSlider" parent="Control/MarginContainer/VBoxContainer" unique_id=741310335]
+layout_mode = 2
+
 [connection signal="pressed" from="Control/MarginContainer/VBoxContainer/BtnContinue" to="." method="_on_btn_continue_pressed"]
 [connection signal="pressed" from="Control/MarginContainer/VBoxContainer/BtnRestart" to="." method="_on_btn_restart_pressed"]
 [connection signal="pressed" from="Control/MarginContainer/VBoxContainer/BtnQuit" to="." method="_on_btn_quit_pressed"]

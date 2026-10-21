@@ -6,6 +6,7 @@ signal detached_from_wall
 signal died
 
 @export var look_sensitivity : float = 0.006
+static var mouse_sensitivity_multiplier : float = 1.0
 @export var auto_bhop_enabled := false
 @export var tilt_enabled := true
 @export var headbob_enabled := true
@@ -42,11 +43,16 @@ signal died
 #@export var air_move_speed := 500.0
 @export var max_fall_height_immune := 5.0
 
+@onready var capture_label = $CaptureLabel
+
 @onready var _original_capsule_height = $CollisionShape3D.shape.height
 
 var input_direction := Vector2.ZERO
 var wish_direction := Vector3.ZERO # input direction but in worldspace
 var last_mouse_move := Vector2.ZERO
+var mouse_motion := Vector2.ZERO
+var capture_mouse = false
+
 
 const HEADBOB_MOVE_AMOUNT = 0.02
 const HEADBOB_FREQUENCY = 2.4
@@ -102,8 +108,17 @@ func _ready_hide_model_for_camera():
 
 
 func _unhandled_input(event):
+	
+	
+	#Checar se tem movimento do mouse no jogo.
+	if event is InputEventMouseMotion:
+		if capture_mouse:
+			mouse_motion = -event.relative * 0.011
+		
+	
 	if event is InputEventMouse:
-		print(event)
+		#print(event)
+		pass
 	if Utils.is_mouse_captured():
 		
 		# camera
@@ -118,7 +133,20 @@ func _unhandled_input(event):
 				noclip_speed_mult = min(1000.0, noclip_speed_mult * 1.2)
 			if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 				noclip_speed_mult = max(.1, noclip_speed_mult * 1/1.2)
-	
+			#Recapturar o mouse após um reset na versão Web.
+		#Desligar isto quando for fazer versão PC
+		if event is InputEventMouseButton:
+			if not capture_mouse:
+				Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+				capture_mouse = true
+				capture_label.hide()
+				Engine. time_scale = 1.0
+		if event.is_action_pressed("u1_cancel"):
+			if capture_mouse:
+				Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+				capture_mouse = false
+				capture_label.show()
+				Engine.time_scale = 0.0
 	
 	# UI elements capture the mouse themselves to handle their input, which does not trigger this unhandled input call
 	# If there's a click not handled by any UI this controller captures it, and if captured it controls fine
@@ -563,9 +591,9 @@ func _process_headbob_effect(delta):
 
 
 func _process_look_tilt(delta):
-	# look
-	rotate_y(-last_mouse_move.x * look_sensitivity)
-	%HeadCamera.rotate_x(-last_mouse_move.y * look_sensitivity)
+	var sens := look_sensitivity * mouse_sensitivity_multiplier
+	rotate_y(-last_mouse_move.x * sens)
+	%HeadCamera.rotate_x(-last_mouse_move.y * sens)
 	%HeadCamera.rotation.x = clamp(%HeadCamera.rotation.x, -PI*0.3, PI*0.3)
 	
 	# tilt

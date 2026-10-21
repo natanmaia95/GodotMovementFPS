@@ -232,13 +232,28 @@ theme_override_font_sizes/font_size = 12
 text = "WASD to move, Space to jump
 LEFT CLICK to shoot
 RIGHT CLICK to use grapple (green)
-CTRL to Slide!!!
+CTRL to crouch
+CTRL while running to Slide!!!
 
-ESC to pause, R to restart
+F to pause, R to restart
 V to no-clip"
 clip_text = true
 
 [node name="DeathScreen" parent="." unique_id=1234248432 instance=ExtResource("13_xqyep")]
 visible = false
+
+[node name="CaptureLabel" type="Label" parent="." unique_id=1166654526]
+custom_minimum_size = Vector2(1, 1)
+propagate_maximum_size = true
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -398.0
+offset_bottom = 75.0
+grow_horizontal = 0
+text = "If mouse not captured:
+Hover Over the screen and hit Esc then right click."
+horizontal_alignment = 1
+autowrap_mode = 2
 
 [connection signal="damage_taken" from="HurtboxComponent" to="HealthComponent" method="damage"]

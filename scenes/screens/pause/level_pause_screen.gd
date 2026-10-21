@@ -2,9 +2,14 @@ extends BasePauseScreen
 
 @export var can_restart_with_key := true
 
+@onready var sens_slider: HSlider = $Control/MarginContainer/VBoxContainer/SensSlider
+
+
+
 func _ready():
 	super._ready()
 	visible = false
+	_setup_sensitivity_slider()
 
 func _open():
 	if not Utils.is_mouse_captured(): return
@@ -45,3 +50,14 @@ func try_restart_level():
 	if not StageManager.has_seen_intro: return
 	get_tree().paused = false
 	StageManager.reset_stage()
+
+func _setup_sensitivity_slider() -> void:
+	sens_slider.min_value = 0.1
+	sens_slider.max_value = 3.0
+	sens_slider.step = 0.05
+	sens_slider.set_value_no_signal(FPSController.mouse_sensitivity_multiplier)
+	sens_slider.value_changed.connect(_on_sens_slider_value_changed)
+
+func _on_sens_slider_value_changed(new_value: float) -> void:
+	FPSController.mouse_sensitivity_multiplier = new_value
+	
